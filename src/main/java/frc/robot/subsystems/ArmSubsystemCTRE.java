@@ -14,7 +14,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.DeviceIdentifier;
+import com.ctre.phoenix6.controls.Follower;
 
 
 
@@ -37,6 +39,8 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     canInfo.withFusedCANcoder(cancoder);
     motorConfig.apply(canInfo);
+
+    m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
 
   public void setArmPosition(double armPosition){
