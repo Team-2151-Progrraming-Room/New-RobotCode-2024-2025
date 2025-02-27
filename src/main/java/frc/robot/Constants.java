@@ -37,7 +37,7 @@ public final class Constants {
 
 public static class CoralConstants {
   public static final int kCoralMotor = 35;
- 
+
   public static final double kCoralMotorSpeed = 0.5;
 }
 public static class OperatorConstants {
