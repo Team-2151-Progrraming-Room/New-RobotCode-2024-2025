@@ -34,4 +34,13 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+public static class CoralConstants {
+  public static final int kCoralMotor = 35;
+ 
+  public static final double kCoralMotorSpeed = 0.5;
+}
+public static class OperatorConstants {
+  public static final int kDriverControllerPort = 0;
+}
 }
