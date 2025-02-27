@@ -34,4 +34,42 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static final class ArmConstants{
+    public static final int kArmMotor = 20;
+    public static final int kArmMotor2 = 21;
+    public static final int kLockMotor = 22;
+    public static final int kArmCANcoder = 23;
+
+    public static final double kArmSpeedUp = 0.5;
+    public static final double kArmSpeedDown = -0.5;
+
+    public static final int kArmMotorCurrentLimit = 40;
+    public static final int kLockMotorCurrentLimit = 40;
+
+    public static final int kArmPIDControllerP = 0;
+    public static final int kArmPIDControllerI = 0;
+    public static final int kArmPIDControllerD = 0;
+    public static final int kArmPIDControllerFF = 0;
+    public static final int kArmPIDControllerIZone = 0;
+    public static final int kArmPIDControllerOutputRange = 5;
+    public static final int kArmPIDControllerOutputMin = 5;
+    public static final int kArmPIDControllerOutputMax = 5;
+
+    public static final double kArmCANCoderConversionFactor = 45.5111111;//assuming cancoder has 16384 positions, will need to double check
+
+    //arm positions in degrees
+    public static final int kArmPositionGroundAlgae = 110;
+    public static final int kArmPositionLowAlgae = 15;
+    public static final int kArmPositionProcessor = 110;
+    public static final int kArmPositionHighAlgae= 45;
+    public static final int kArmPositionShoot = 110;
+    public static final int kArmPositionClimb = 110;
+
+
+  }
+
+  public static class CanbusName{
+    public static final String armCANBus = "rio";
+  }
 }
