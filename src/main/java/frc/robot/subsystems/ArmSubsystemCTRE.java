@@ -74,4 +74,10 @@ public class ArmSubsystemCTRE extends SubsystemBase{
       () -> {armManualDown();}
     );
   }
+
+  public Command armStopCommand(){
+    return runOnce(
+      () -> {stopArmMotor();}
+    );
+  }
 }
