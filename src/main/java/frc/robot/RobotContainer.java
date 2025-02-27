@@ -167,8 +167,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    button1.onTrue(arm.armManualUpCommand().withTimeout(0.5));
-    button2.onTrue(arm.armManualDownCommand().withTimeout(0.5));
+    button1.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
+    button2.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
