@@ -56,7 +56,7 @@ public final class Constants {
     public static final int kArmPIDControllerOutputMin = 5;
     public static final int kArmPIDControllerOutputMax = 5;
 
-    public static final double kArmCANCoderConversionFactor = 45.5111111;//assuming cancoder has 16384 positions, will need to double check
+    public static final double kArmCANCoderConversionFactor = 1.0/180;//assuming cancoder has 16384 positions, will need to double check
 
     //arm positions in degrees
     public static final int kArmPositionGroundAlgae = 110;

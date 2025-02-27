@@ -12,6 +12,7 @@
 // GNU General Public License for more details.
 
 package frc.robot;
+import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -169,6 +170,7 @@ public class RobotContainer {
 
     button1.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     button2.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
+    button3.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

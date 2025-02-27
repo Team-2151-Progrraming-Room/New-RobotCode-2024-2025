@@ -16,29 +16,23 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.hardware.DeviceIdentifier;
-import com.ctre.phoenix6.controls.Follower;
 
 
 
 public class ArmSubsystemCTRE extends SubsystemBase{
     private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
-    private final DeviceIdentifier armID= new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFXS",CanbusName.armCANBus);
     private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
     private final CANcoder cancoder;
 
-  private final CANcoderConfiguration canConfig;
-  private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(armID);
-  private final FeedbackConfigs canInfo = new FeedbackConfigs();
+  private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFX", CanbusName.armCANBus));
 
   double armAbsolutePosition;
 
   public ArmSubsystemCTRE(){
     m_arm.stopMotor();
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
-    canConfig = new CANcoderConfiguration();
 
-    canInfo.withFusedCANcoder(cancoder);
-    motorConfig.apply(canInfo);
+    motorConfig.apply(new FeedbackConfigs().withFusedCANcoder(cancoder));
 
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
@@ -82,6 +76,12 @@ public class ArmSubsystemCTRE extends SubsystemBase{
   public Command armStopCommand(){
     return runOnce(
       () -> {stopArmMotor();}
+    );
+  }
+
+  public Command setArmPositionCommand(double degree){
+    return runOnce(
+      () -> {setArmPosition(degree);}
     );
   }
 }
