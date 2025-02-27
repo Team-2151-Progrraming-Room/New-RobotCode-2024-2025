@@ -24,13 +24,17 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -41,15 +45,21 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final Coral coralSubsystem = new Coral();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
-
+  private final Joystick buttonBoard = new Joystick(1);
+  private final JoystickButton Corsola;
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
+  //Commands
+  //private final Command coralMotorOnCommand = new Command(coral.coralMotorOnCommand());
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    Corsola = new JoystickButton(buttonBoard, 1);
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -135,6 +145,7 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    controller.y().whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
     // Reset gyro to 0° when B button is pressed
     controller
@@ -146,6 +157,7 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
   }
 
   /**
