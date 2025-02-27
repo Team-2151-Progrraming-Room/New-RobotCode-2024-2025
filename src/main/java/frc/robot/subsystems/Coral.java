@@ -11,6 +11,10 @@ import frc.robot.util.*;
 
 //CTRE Imports
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+//import com.ctre.phoenix6.hardware.TalonFXS;
+
 
 
 // our robot constants
@@ -23,9 +27,14 @@ import frc.robot.Constants.CoralConstants;
 public class Coral extends SubsystemBase{
 
     private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor, CoralConstants.canbusName);
+    private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
 
     public Coral(){
         m_CoralMotor.stopMotor();
+        configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        //configs.MotorOutput.ConnectedMotorValue = ConnectedMotorValue.Minion_JST;
+
+        m_CoralMotor.getConfigurator().apply(configs);
     }
 
     //methods to turn motor on/off
