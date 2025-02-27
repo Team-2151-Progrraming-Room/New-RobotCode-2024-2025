@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.ArmSubsystemCTRE;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -41,15 +44,30 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 public class RobotContainer {
   // Subsystems
   private final Drive drive;
+  private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
+
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
+  private final Joystick buttonBoard = new Joystick(1);
+
+  public final JoystickButton button1;
+  public final JoystickButton button2;
+  public final JoystickButton button3;
+  public final JoystickButton button4;
+  public final JoystickButton button5;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    button1 = new JoystickButton(buttonBoard, 1);
+    button2 = new JoystickButton(buttonBoard, 2);
+    button3 = new JoystickButton(buttonBoard, 3);
+    button4 = new JoystickButton(buttonBoard, 4);
+    button5 = new JoystickButton(buttonBoard, 5);
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -146,6 +164,9 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+
+    button1.whileTrue(arm.armManualUpCommand());
+    button2.whileTrue(arm.armManualDownCommand());
   }
 
   /**

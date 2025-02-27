@@ -9,37 +9,34 @@ import frc.robot.Constants.CanbusName;
 import frc.robot.util.*;
 
 //CTRE Imports
-import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
-import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.hardware.DeviceIdentifier;
 
 
 
 public class ArmSubsystemCTRE extends SubsystemBase{
     private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
+    private final DeviceIdentifier armID= new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFXS",CanbusName.armCANBus);
     private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
     private final CANcoder cancoder;
 
-  /* Be able to switch which control request to use based on a button press */
-  /* Start at position 0, use slot 0 */
-  private final PositionVoltage m_positionVoltage;
-  /* Start at position 0, use slot 1 */
-  private final PositionTorqueCurrentFOC m_positionTorque;
-
   private final CANcoderConfiguration canConfig;
+  private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(armID);
+  private final FeedbackConfigs canInfo = new FeedbackConfigs();
 
   double armAbsolutePosition;
 
   public ArmSubsystemCTRE(){
     m_arm.stopMotor();
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
-    m_positionVoltage = new PositionVoltage(0).withSlot(0);
-    m_positionTorque = new PositionTorqueCurrentFOC(0).withSlot(1);
-    armAbsolutePosition = cancoder.getAbsolutePosition(true).getValueAsDouble();
-
     canConfig = new CANcoderConfiguration();
+
+    canInfo.withFusedCANcoder(cancoder);
+    motorConfig.apply(canInfo);
   }
 
   public void setArmPosition(double armPosition){
@@ -61,6 +58,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public double getPosition(){
 
+    armAbsolutePosition = cancoder.getAbsolutePosition().getValueAsDouble();
     return armAbsolutePosition;
   }
   //commands
