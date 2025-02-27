@@ -22,7 +22,7 @@ import frc.robot.Constants.CoralConstants;
 
 public class Coral extends SubsystemBase{
 
-    private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor);
+    private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor,"rio");
 
     public Coral(){
         m_CoralMotor.stopMotor();
