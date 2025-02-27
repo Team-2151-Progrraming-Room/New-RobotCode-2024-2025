@@ -13,9 +13,15 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
+
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -32,6 +38,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
     
     Slot0Configs slot0;
+    Slot1Configs slot1;
     
     // Sub Class
     public AlgaeSubsystemCTRE (){
@@ -42,6 +49,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         slot0.kI = AlgaeConstants.kAlgaePIDControllerI;
         slot0.kD = AlgaeConstants.kAlgaePIDControllerD;
 
+        //slot1 = configs.Slot1;'
+        '
 
         m_Rev.getConfigurator().apply(configs);
         m_Rev.setInverted(true);
