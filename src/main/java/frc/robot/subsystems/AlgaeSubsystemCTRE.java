@@ -36,10 +36,11 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID);
 
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
+    TalonFXSConfiguration kickConfigs = new TalonFXSConfiguration();
     
     Slot0Configs slot0;
-    Slot1Configs slot1;
     
+
     // Sub Class
     public AlgaeSubsystemCTRE (){
         slot0 = configs.Slot0;
@@ -49,12 +50,12 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         slot0.kI = AlgaeConstants.kAlgaePIDControllerI;
         slot0.kD = AlgaeConstants.kAlgaePIDControllerD;
 
-        //slot1 = configs.Slot1;'
-        '
-
         m_Rev.getConfigurator().apply(configs);
         m_Rev.setInverted(true);
         m_Rev2.getConfigurator().apply(configs);
+
+        kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        m_Kick.getConfigurator().apply(kickConfigs);
 
         m_request = new VelocityVoltage(AlgaeConstants.kAlgaeVoltage).withSlot(0);
     }
