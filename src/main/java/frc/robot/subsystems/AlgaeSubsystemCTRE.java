@@ -20,12 +20,13 @@ import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import frc.robot.Constants.AlgaeConstants;
+import frc.robot.Constants.CanbusName;
 
 // Main Class
 public class AlgaeSubsystemCTRE extends SubsystemBase{
-    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID);
-    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID);
-    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID);
+    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
+    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
+    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
 
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
     TalonFXSConfiguration kickConfigs = new TalonFXSConfiguration();
