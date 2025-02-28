@@ -37,7 +37,7 @@ public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, BooleanSupplier spee
 
     m_algaeSubsystem = AlgaeSystem;
     m_atSpeedCheck = speedCheck;
-    
+
     addRequirements(AlgaeSystem);
 }
 
@@ -45,15 +45,15 @@ public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, BooleanSupplier spee
 public Command getShootCommand(){
 
     return Commands.sequence(
-        
+
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
             Commands.waitSeconds(AlgaeConstants.kShortShooterWaitTime),
-           
+
             m_algaeSubsystem.KickMotorONCommand(),
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
             m_algaeSubsystem.allMotorsOFFCommand()
     );
-    
+
 }
 
 // Dumping Command
@@ -61,7 +61,7 @@ public Command getShootCommand(){
 public Command getDumpCommand(){
 
     return Commands.sequence(
-        
+
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
             m_algaeSubsystem.KickMotorONCommand(),
 
@@ -69,7 +69,7 @@ public Command getDumpCommand(){
 
             m_algaeSubsystem.allMotorsOFFCommand()
     );
-    
+
 }
 // Ground Intake Command
 
@@ -80,12 +80,12 @@ public Command getIntakeCommand(){
 
             ,m_algaeSubsystem.RevMotorsSHOOTCommand(),
             Commands.waitSeconds(AlgaeConstants.kShortShooterWaitTime),
-           
+
             m_algaeSubsystem.KickMotorONCommand(),
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
             m_algaeSubsystem.allMotorsOFFCommand()
     );
-    
+
 
 
 
@@ -103,14 +103,6 @@ public Command getDepositCommand(){
         m_algaeSubsystem.KickMotorONCommand(),
         Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
         m_algaeSubsystem.allMotorsOFFCommand()
-
-
-
-
-
-
-
-
     );
 
 }

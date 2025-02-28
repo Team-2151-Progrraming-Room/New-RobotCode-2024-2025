@@ -78,16 +78,16 @@ public final class Constants {
 
     public static final double kArmCANCoderConversionFactor = 45.5111111;
 
-    //arm positions in degrees 
+    //arm positions in degrees
     public static final int kArmPositionGroundAlgae = 110;
     public static final int kArmPositionLowAlgae = 15;
     public static final int kArmPositionProcessor = 110;
     public static final int kArmPositionHighAlgae = 45;
     public static final int kPositionShoot = 110;
     public static final int kArmPositionClimb = 110;
-    
+
   }
-  
+
   public static final class AlgaeConstants {
 
     public static final int kAlgaeRevMotorID = 31;
@@ -105,7 +105,7 @@ public final class Constants {
     public static final int kAlgaePIDControllerI = 0;
     public static final int kAlgaePIDControllerD = 0;
     public static final int kAlgaeFeed = 0;//force to overcome gravity
-    
+
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
@@ -113,11 +113,11 @@ public final class Constants {
     public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
-    
+
     //actions that don't require pid control
     public static final double kAlgaeKickMotorON = .75;
     public static final double kAlgaeIntake = 0.5;
-    
+
     public static final int kAlgaeVoltage = 0;
 
     public static final double kShortShooterWaitTime = 0.25;

@@ -5,28 +5,20 @@ import edu.wpi.first.math.MathUtil;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.io.ObjectInputFilter.Config;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.util.sendable.SendableBuilder;
 
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.FeedbackConfigs;
 
-import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
-import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
-import frc.robot.Robot;
 import frc.robot.Constants.AlgaeConstants;
 
 // Main Class
@@ -37,9 +29,9 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
     TalonFXSConfiguration kickConfigs = new TalonFXSConfiguration();
-    
+
     Slot0Configs slot0;
-    
+
 
     // Sub Class
     public AlgaeSubsystemCTRE (){
@@ -65,7 +57,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     public void algaeIntake(){
         m_Rev.set(AlgaeConstants.kAlgaeIntake);
         m_Rev2.set(AlgaeConstants.kAlgaeIntake);
-        
+
     }
 
     // For the Motors to turn OFF!
@@ -89,7 +81,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         m_Rev.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRevVelocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
         m_Rev2.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRev2Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
     }
-    
+
     public void KickMotorON(){
         m_Kick.set(AlgaeConstants.kAlgaeKickMotorON);
     }
@@ -115,7 +107,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
       }
 
     //Commands
-    
+
     public Command RevMotorOFFCommand(){
         return runOnce(
             () -> {RevMotorsOFF();}
