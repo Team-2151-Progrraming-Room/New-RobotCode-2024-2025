@@ -18,6 +18,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.Follower;
 
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.CanbusName;
@@ -44,8 +45,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         slot0.kD = AlgaeConstants.kAlgaePIDControllerD;
 
         m_Rev.getConfigurator().apply(configs);
-        m_Rev.setInverted(true);
-        m_Rev2.getConfigurator().apply(configs);
+        m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
 
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         m_Kick.getConfigurator().apply(kickConfigs);
@@ -57,14 +57,15 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void algaeIntake(){
         m_Rev.set(AlgaeConstants.kAlgaeIntake);
-        m_Rev2.set(AlgaeConstants.kAlgaeIntake);
+    }
 
+    public void algaeDump(){
+        m_Rev.set(AlgaeConstants.kAlgaeDump);
     }
 
     // For the Motors to turn OFF!
     public void RevMotorsOFF(){
         m_Rev.stopMotor();
-        m_Rev2.stopMotor();
     }
 
     public void KickMotorOFF(){
@@ -73,14 +74,12 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void allMotorsOFF(){
         m_Rev.stopMotor();
-        m_Rev2.stopMotor();
         m_Kick.stopMotor();
     }
 
     // For the Motors to turn ON!
     public void RevMotorsSHOOT(){
         m_Rev.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRevVelocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
-        m_Rev2.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRev2Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
     }
 
     public void KickMotorON(){
@@ -101,7 +100,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public boolean atShooterSpeed() {
 
-        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) && MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)) {
+        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) /*&& MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)*/) {
           return true;
         }
         return false;
@@ -136,6 +135,18 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     public Command KickMotorONCommand(){
         return runOnce(
             () -> {KickMotorON();}
+        );
+    }
+
+    public Command algaeIntakeCommand(){
+        return runOnce(
+            () -> {algaeIntake();}
+        );
+    }
+
+    public Command algaeDumpCommand(){
+        return runOnce(
+            () -> {algaeDump();}
         );
     }
 }

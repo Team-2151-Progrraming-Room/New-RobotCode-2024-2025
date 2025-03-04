@@ -101,22 +101,23 @@ public final class Constants {
     //PID Constants
     public static final int kAlgaePIDControllerS = 0;
     public static final int kAlgaePIDControllerV = 0;
-    public static final int kAlgaePIDControllerP = 0;
-    public static final int kAlgaePIDControllerI = 0;
-    public static final int kAlgaePIDControllerD = 0;
+    public static final double kAlgaePIDControllerP = .7;
+    public static final double kAlgaePIDControllerI = 0.01;
+    public static final double kAlgaePIDControllerD = 2;
     public static final int kAlgaeFeed = 0;//force to overcome gravity
 
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
     public static final int kAlgaeRevVelocity = 10;
-    public static final int kAlgaeRev2Velocity = 10;
+    //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
     public static final double kAlgaeKickMotorON = .75;
     public static final double kAlgaeIntake = 0.5;
+    public static final double kAlgaeDump = -0.25;
 
     public static final int kAlgaeVoltage = 0;
 
