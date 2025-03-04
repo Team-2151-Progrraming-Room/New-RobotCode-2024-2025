@@ -50,11 +50,10 @@ public final class Constants {
     public static final int kArmPIDControllerP = 0;
     public static final int kArmPIDControllerI = 0;
     public static final int kArmPIDControllerD = 0;
-    public static final int kArmPIDControllerFF = 0;
-    public static final int kArmPIDControllerIZone = 0;
-    public static final int kArmPIDControllerOutputRange = 5;
-    public static final int kArmPIDControllerOutputMin = 5;
-    public static final int kArmPIDControllerOutputMax = 5;
+    public static final int kArmPIDControllerS = 0;
+    public static final int kArmPIDControllerA = 0;
+    public static final int kArmPIDControllerV = 0;
+    
 
     public static final double kArmCANCoderConversionFactor = 1.0/180;//assuming cancoder has 16384 positions, will need to double check
 

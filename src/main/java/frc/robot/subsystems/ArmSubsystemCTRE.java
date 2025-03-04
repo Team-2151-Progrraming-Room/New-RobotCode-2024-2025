@@ -13,7 +13,10 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.hardware.DeviceIdentifier;
 
 
@@ -23,13 +26,24 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
     private final CANcoder cancoder;
 
+    private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
+
   private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFX", CanbusName.armCANBus));
+  private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
 
   double armAbsolutePosition;
 
   public ArmSubsystemCTRE(){
     m_arm.stopMotor();
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
+
+    armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
+        armConfig.Slot0.kI = ArmConstants.kArmPIDControllerI;
+        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerD;
+        armConfig.Slot0.kS = ArmConstants.kArmPIDControllerS;
+        armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
+        armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
+
 
     motorConfig.apply(new FeedbackConfigs().withFusedCANcoder(cancoder));
 
