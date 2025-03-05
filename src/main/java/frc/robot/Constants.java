@@ -67,9 +67,9 @@ public final class Constants {
     public static final int kArmMotorCurrentLimit = 40;
     public static final int kLockMotorCurrentLimit = 40;
 
-    public static final int kArmPIDControllerP = 0;
-    public static final int kArmPIDControllerI = 0;
-    public static final int kArmPIDControllerD = 0;
+    public static final double kArmPIDControllerP = 0.23;
+    public static final double kArmPIDControllerI = 0;
+    public static final double kArmPIDControllerD = 0;
     public static final int kArmPIDControllerFF = 0;
     public static final int kArmPIDControllerIZone = 0;
     public static final int kArmPIDControllerOutputRange = 5;
