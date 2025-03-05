@@ -39,6 +39,9 @@ public static class CoralConstants {
   public static final int kCoralMotor = 35;
 
   public static final double kCoralMotorSpeed = 0.5;
+  public static final double kControllerP = 0.23;
+  public static final double kControllerI = 0.0;
+  public static final double kControllerD = 0.0;
 
   public static final String canbusName = "rio";
 }
