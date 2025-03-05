@@ -47,13 +47,13 @@ public final class Constants {
     public static final int kArmMotorCurrentLimit = 40;
     public static final int kLockMotorCurrentLimit = 40;
 
-    public static final int kArmPIDControllerP = 0;
-    public static final int kArmPIDControllerI = 0;
-    public static final int kArmPIDControllerD = 0;
+    public static final int kArmPIDControllerP = 100;
+    public static final double kArmPIDControllerI = 0;
+    public static final double kArmPIDControllerD = 0.5;
     public static final int kArmPIDControllerS = 0;
     public static final int kArmPIDControllerA = 0;
     public static final int kArmPIDControllerV = 0;
-    
+
 
     public static final double kArmCANCoderConversionFactor = 1.0/180;//assuming cancoder has 16384 positions, will need to double check
 

@@ -9,15 +9,12 @@ import frc.robot.Constants.CanbusName;
 import frc.robot.util.*;
 
 //CTRE Imports
-import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.hardware.DeviceIdentifier;
+import com.ctre.phoenix6.configs.FeedbackConfigs;
 
 
 
@@ -28,7 +25,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
 
-  private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFX", CanbusName.armCANBus));
+  //private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFX", CanbusName.armCANBus));
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
 
   double armAbsolutePosition;
@@ -44,15 +41,19 @@ public class ArmSubsystemCTRE extends SubsystemBase{
         armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
         armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
 
+    armConfig.MotionMagic.MotionMagicCruiseVelocity = 80; // Units: rotations/sec
+    armConfig.MotionMagic.MotionMagicAcceleration = 160; // Units: rotations/sec^2
+    armConfig.MotionMagic.MotionMagicJerk = 1600;
 
-    motorConfig.apply(new FeedbackConfigs().withFusedCANcoder(cancoder));
+    m_arm.getConfigurator().apply(new FeedbackConfigs().withFusedCANcoder(cancoder));
+    m_arm.getConfigurator().apply(armConfig);
 
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
 
   public void setArmPosition(double armPosition){
     double position = armPosition * ArmConstants.kArmCANCoderConversionFactor;
-    m_arm.setPosition(position);
+    m_arm.setControl(motionMagicControl.withPosition(position));
   }
 
   public void stopArmMotor(){
