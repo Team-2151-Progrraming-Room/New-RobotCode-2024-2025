@@ -70,21 +70,4 @@ public Command getDumpCommand(){
     );
 
 }
-
-
-// Processor Deposit Command
-
-public Command getDepositCommand(){
-
-    return Commands.sequence(
-        m_algaeSubsystem.RevMotorsSHOOTCommand(),
-        Commands.waitSeconds(AlgaeConstants.kShortShooterWaitTime),
-
-        m_algaeSubsystem.KickMotorONCommand(),
-        Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
-        m_algaeSubsystem.allMotorsOFFCommand()
-    );
-
-}
-
 }

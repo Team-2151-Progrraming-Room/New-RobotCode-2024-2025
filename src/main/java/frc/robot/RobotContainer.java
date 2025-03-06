@@ -61,8 +61,6 @@ public class RobotContainer {
   //commands
   private final Command m_algaeShootCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getShootCommand();
   private final Command m_algaeDumpCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getDumpCommand();
-  //private final Command m_algaeIntakeCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getIntakeCommand();
-  private final Command m_algaeDepositCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getDepositCommand();
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
@@ -169,7 +167,6 @@ public class RobotContainer {
     controller.y().onTrue(m_algaeShootCommand);
     button3.onTrue(m_algaeDumpCommand);
     button4.whileTrue(algae.algaeIntakeCommand()).whileFalse(algae.allMotorsOFFCommand());
-    button5.onTrue(m_algaeDepositCommand);
 
   }
   /**
