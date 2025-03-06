@@ -166,7 +166,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    button2.onTrue(m_algaeShootCommand);
+    controller.y().onTrue(m_algaeShootCommand);
     button3.onTrue(m_algaeDumpCommand);
     button4.whileTrue(algae.algaeIntakeCommand()).whileFalse(algae.allMotorsOFFCommand());
     button5.onTrue(m_algaeDepositCommand);

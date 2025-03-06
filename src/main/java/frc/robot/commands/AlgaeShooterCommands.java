@@ -47,7 +47,7 @@ public Command getShootCommand(){
     return Commands.sequence(
 
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
-            Commands.waitSeconds(AlgaeConstants.kShortShooterWaitTime),
+            Commands.waitUntil(m_atSpeedCheck),
 
             m_algaeSubsystem.KickMotorONCommand(),
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
