@@ -164,7 +164,8 @@ Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsyste
                     drive)
                 .ignoringDisable(true));
 
-    Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    //Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    controller.y().whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
   }
 
