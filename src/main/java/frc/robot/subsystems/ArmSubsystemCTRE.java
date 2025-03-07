@@ -32,6 +32,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public ArmSubsystemCTRE(){
     m_arm.stopMotor();
+
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
 
     armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
@@ -45,7 +46,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     armConfig.MotionMagic.MotionMagicAcceleration = 160; // Units: rotations/sec^2
     armConfig.MotionMagic.MotionMagicJerk = 1600;
 
-    m_arm.getConfigurator().apply(new FeedbackConfigs().withFusedCANcoder(cancoder));
+    m_arm.getConfigurator().apply(new FeedbackConfigs().withRemoteCANcoder(cancoder));
     m_arm.getConfigurator().apply(armConfig);
 
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
@@ -53,6 +54,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public void setArmPosition(double armPosition){
     double position = armPosition * ArmConstants.kArmCANCoderConversionFactor;
+    System.out.println("Processed armPos: " + position);
     m_arm.setControl(motionMagicControl.withPosition(position));
   }
 

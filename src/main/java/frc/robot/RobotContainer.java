@@ -170,7 +170,7 @@ public class RobotContainer {
 
     button1.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     button2.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-    button3.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    controller.y().onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
