@@ -121,16 +121,15 @@ public final class Constants {
     public static final double kShortShooterWaitTime = 0.25;
     public static final double kLongShooterWaitTime = 0.5;
 
-    //Current Limits
-    //Currently random values, will not be applied yet
-    public static final int kAlgaeRevMotorStatorCurrentLimit = 40;
-    public static final int kAlgaeRevMotorSupplyCurrentLimit = 5;
+    //Current Limits 
+    public static final int kAlgaeRevMotorStatorCurrentLimit = 40;//40 amps for kraken motor stator current is good
+    public static final int kAlgaeRevMotorSupplyCurrentLimit = 40;//Temp value for supply, although should be close to stator.
 
     public static final int kAlgaeRev2MotorStatorCurrentLimit = 40;
-    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 5;
+    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 40;
 
     public static final int kAlgaeKickMotorStatorCurrentLimit = 40;
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 5;
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 40;
 
   }
 
