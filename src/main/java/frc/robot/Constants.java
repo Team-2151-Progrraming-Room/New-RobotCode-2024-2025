@@ -52,7 +52,7 @@ public final class Constants {
     public static final int kArmPIDControllerA = 0;
     public static final int kArmPIDControllerV = 0;
 
-    public static final double kArmCANCoderConversionFactor = 1.0/360;//assuming cancoder has 16384 positions, will need to double check
+    public static final double kArmCANCoderConversionFactor = 1.0/360;//cancoder absolute position uses a range of -0.5 to 0.5
 
     public static final double kMotionMagicCruiseVelocity = 80; // Units: rotations/sec
     public static final double kMotionMagicAcceleration = 160; // Units: rotations/sec^2
