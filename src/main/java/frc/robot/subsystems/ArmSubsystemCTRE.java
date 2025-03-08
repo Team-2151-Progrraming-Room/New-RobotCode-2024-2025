@@ -17,45 +17,70 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
 public class ArmSubsystemCTRE extends SubsystemBase{
   //physical devices
   private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
-  private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
+  private final TalonFX m_armFollower = new TalonFX(ArmConstants.kFollowerMotor);
   private final CANcoder cancoder;
 
   //configurations
-  private final FeedbackConfigs feedback = new FeedbackConfigs();
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
+  private final TalonFXConfiguration followerConfig = new TalonFXConfiguration();
+
+  private final FeedbackConfigs feedback = new FeedbackConfigs();
+
+  private final CurrentLimitsConfigs m_armCurrentConfig = new CurrentLimitsConfigs();
+  private final CurrentLimitsConfigs m_armFollowerCurrentConfigs = new CurrentLimitsConfigs();
+  //Might want a different current limit on the armFollower.
 
   //motion magic
   private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
 
 
   public ArmSubsystemCTRE(){
+
     m_arm.stopMotor();
 
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
 
+    //PID values for the motors
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
         armConfig.Slot0.kI = ArmConstants.kArmPIDControllerI;
         armConfig.Slot0.kD = ArmConstants.kArmPIDControllerD;
         armConfig.Slot0.kS = ArmConstants.kArmPIDControllerS;
         armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
         armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
-
+    
+    //Motion Magic Config
     armConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kMotionMagicCruiseVelocity;
     armConfig.MotionMagic.MotionMagicAcceleration = ArmConstants.kMotionMagicAcceleration;
     armConfig.MotionMagic.MotionMagicJerk = ArmConstants.kMotionMagicJerk;
 
-
+    //CanCoder Config
     feedback.FeedbackRemoteSensorID = ArmConstants.kArmCANcoder;
     feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+    
+    //Current Limit Config
+    m_armCurrentConfig.withStatorCurrentLimit(ArmConstants.kArmMotorCurrentStatorLimit);
+    m_armCurrentConfig.withSupplyCurrentLimit(ArmConstants.kArmMotorCurrentSupplyLimit);
 
+    m_armFollowerCurrentConfigs.withStatorCurrentLimit(ArmConstants.kFollowerMotorCurrentStatorLimit);
+    m_armFollowerCurrentConfigs.withSupplyCurrentLimit(ArmConstants.kFollowerMotorCurrentSupplyLimit);
+    
+
+    //Config Application
+
+    //Commented out current configuration for now, since the constants are random values.
+    
     armConfig.withFeedback(feedback);
+    //armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);
 
+    //followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
+    //m_armFollower.getConfigurator().apply(followerConfig);
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
 
@@ -82,8 +107,8 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     double armAbsolutePosition = cancoder.getAbsolutePosition().getValueAsDouble();
     return armAbsolutePosition;
   }
-  //commands
 
+  //commands
   public Command armManualUpCommand(){
     return runOnce(
       () -> {armManualUp();}

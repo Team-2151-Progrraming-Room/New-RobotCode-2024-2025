@@ -77,7 +77,7 @@ public class RobotContainer {
     climbPositionButton = new JoystickButton(buttonBoard, 6);
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 8);
-    
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -177,13 +177,15 @@ public class RobotContainer {
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-    
+
     L2AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionLowAlgae));
     L3AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
     groundPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     processorPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionProcessor));
     climbPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionClimb));
+
+    controller.y().onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

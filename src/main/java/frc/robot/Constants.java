@@ -37,15 +37,12 @@ public final class Constants {
 
   public static final class ArmConstants{
     public static final int kArmMotor = 20;
-    public static final int kArmMotor2 = 21;
-    public static final int kLockMotor = 22;
+    public static final int kFollowerMotor = 21;
+    //public static final int kLockMotor = 22;
     public static final int kArmCANcoder = 23;
 
     public static final double kArmSpeedUp = 0.5;
     public static final double kArmSpeedDown = -0.5;
-
-    public static final int kArmMotorCurrentLimit = 40;
-    public static final int kLockMotorCurrentLimit = 40;
 
     //pid configurations
     public static final double kArmPIDControllerP = 10;
@@ -69,6 +66,11 @@ public final class Constants {
     public static final int kArmPositionShoot = 110;
     public static final int kArmPositionClimb = 110;
 
+    //Current Limits
+    public static final int kArmMotorCurrentStatorLimit = 40;//Temporary values
+    public static final int kFollowerMotorCurrentStatorLimit = 40;
+    public static final int kArmMotorCurrentSupplyLimit = 5;
+    public static final int kFollowerMotorCurrentSupplyLimit = 5;
 
   }
 
