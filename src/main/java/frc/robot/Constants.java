@@ -34,4 +34,21 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
+
+  public static class ClimbLockConstants {
+    public static final int kClimbLockCanRioId      = 50;
+
+    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
+    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
+    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
+    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
+                                                                        (double) kClimbLockGearRatio *
+                                                                        (double) kClimbLockEncoderPpr);
+
+    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
+    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
+
+    public static final int kClimbLockCloseCurrentLimit  = 10; // amps - while moving - it's a 775 style motor - don't want to go crazy
+    public static final int kClimbLockStallCurrentLimit  = 5;  // amps - when we've closed and trying to stay locked
+  }
 }
