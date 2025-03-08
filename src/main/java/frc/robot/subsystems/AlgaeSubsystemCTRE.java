@@ -2,41 +2,46 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.units.measure.Current;
 
 import static edu.wpi.first.units.Units.*;
-
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
-import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+//CTRE Imports
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
-
-import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
-import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.Follower;
 
+//Constants imports
 import frc.robot.Constants.AlgaeConstants;
 import frc.robot.Constants.CanbusName;
 
-// Main Class
+
 public class AlgaeSubsystemCTRE extends SubsystemBase{
+    //Physical Devices
     TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
     TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
     TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
 
+    //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
     TalonFXSConfiguration kickConfigs = new TalonFXSConfiguration();
 
+    CurrentLimitsConfigs revCurrentLimitConfigs = new CurrentLimitsConfigs();
+    CurrentLimitsConfigs rev2CurrentLimitConfigs = new CurrentLimitsConfigs();
+    CurrentLimitsConfigs kickCurrentLimitsConfigs = new CurrentLimitsConfigs();
     Slot0Configs slot0;
+    
+    final VelocityVoltage m_request;
 
-
-    // Sub Class
     public AlgaeSubsystemCTRE (){
+        //PID Values
         slot0 = configs.Slot0;
         slot0.kS = AlgaeConstants.kAlgaePIDControllerS;
         slot0.kV = AlgaeConstants.kAlgaePIDControllerV;
@@ -44,16 +49,33 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         slot0.kI = AlgaeConstants.kAlgaePIDControllerI;
         slot0.kD = AlgaeConstants.kAlgaePIDControllerD;
 
+        //Config applications below
+
+        //Current Limits
+        revCurrentLimitConfigs.withStatorCurrentLimit(AlgaeConstants.kAlgaeRevMotorStatorCurrentLimit);
+        revCurrentLimitConfigs.withSupplyCurrentLimit(AlgaeConstants.kAlgaeRevMotorSupplyCurrentLimit);
+        
+        m_request = new VelocityVoltage(AlgaeConstants.kAlgaeVoltage).withSlot(0);
+
+        //Not in use yet as follower might use the lead motor's configuration for the follower, but in
+        //case it doesn't, this is already setup
+        rev2CurrentLimitConfigs.withStatorCurrentLimit(AlgaeConstants.kAlgaeRev2MotorStatorCurrentLimit);
+        rev2CurrentLimitConfigs.withSupplyCurrentLimit(AlgaeConstants.kAlgaeRev2MotorSupplyCurrentLimit);
+
+        kickCurrentLimitsConfigs.withStatorCurrentLimit(AlgaeConstants.kAlgaeKickMotorStatorCurrentLimit);
+        kickCurrentLimitsConfigs.withSupplyCurrentLimit(AlgaeConstants.kAlgaeKickMotorSupplyCurrentLimit);
+
+        //Not applying currentLimits yet as the constants are random
+        //configs.withCurrentLimits(revCurrentLimitConfigs);
         m_Rev.getConfigurator().apply(configs);
         m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
 
+        //kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs);
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         m_Kick.getConfigurator().apply(kickConfigs);
 
-        m_request = new VelocityVoltage(AlgaeConstants.kAlgaeVoltage).withSlot(0);
     }
 
-    final VelocityVoltage m_request;
 
     public void algaeIntake(){
         m_Rev.set(AlgaeConstants.kAlgaeIntake);
