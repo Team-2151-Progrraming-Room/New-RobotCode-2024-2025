@@ -89,28 +89,24 @@ public final class Constants {
   }
 
   public static final class AlgaeConstants {
-
+    //Id Values
     public static final int kAlgaeRevMotorID = 31;
     public static final int kAlgaeRev2MotorID = 32;
     public static final int kAlgaeKickMotorID = 33;
 
-    public static final int kAlgaeRevMotorCurrentLimit = 40;
-    public static final int kAlgaeRev2MotorCurrentLimit = 40;
-    public static final int kAlgaeKickMotorCurrentLimit = 40;
 
-    //PID Constants
-    public static final int kAlgaePIDControllerS = 0;
-    public static final int kAlgaePIDControllerV = 0;
+    //PID and FF Constants
     public static final double kAlgaePIDControllerP = .5;
     public static final double kAlgaePIDControllerI = 0;
     public static final double kAlgaePIDControllerD = 0;
+    public static final int kAlgaePIDControllerS = 0;
+    public static final int kAlgaePIDControllerV = 0;
     public static final int kAlgaeFeed = 0;//force to overcome gravity
 
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
     public static final int kAlgaeRevVelocity = 60;
-    ;
     //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
@@ -124,6 +120,18 @@ public final class Constants {
 
     public static final double kShortShooterWaitTime = 0.25;
     public static final double kLongShooterWaitTime = 0.5;
+
+    //Current Limits
+    //Currently random values, will not be applied yet
+    public static final int kAlgaeRevMotorStatorCurrentLimit = 40;
+    public static final int kAlgaeRevMotorSupplyCurrentLimit = 5;
+
+    public static final int kAlgaeRev2MotorStatorCurrentLimit = 40;
+    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 5;
+
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 40;
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 5;
+
   }
 
   public static class CanbusName{
