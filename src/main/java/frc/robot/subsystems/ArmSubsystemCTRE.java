@@ -15,38 +15,45 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 
 
 
 public class ArmSubsystemCTRE extends SubsystemBase{
-    private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
-    private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
-    private final CANcoder cancoder;
+  //physical devices
+  private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
+  private final TalonFX m_armFollower = new TalonFX(ArmConstants.kArmMotor2);
+  private final CANcoder cancoder;
 
-    private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
-
-  //private final TalonFXConfigurator motorConfig = new TalonFXConfigurator(new DeviceIdentifier(ArmConstants.kArmMotor, "TalonFX", CanbusName.armCANBus));
+  //configurations
+  private final FeedbackConfigs feedback = new FeedbackConfigs();
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
 
-  double armAbsolutePosition;
+  //motion magic
+  private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
+
 
   public ArmSubsystemCTRE(){
     m_arm.stopMotor();
 
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
 
-    armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
+        armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
         armConfig.Slot0.kI = ArmConstants.kArmPIDControllerI;
         armConfig.Slot0.kD = ArmConstants.kArmPIDControllerD;
         armConfig.Slot0.kS = ArmConstants.kArmPIDControllerS;
         armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
         armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
 
-    armConfig.MotionMagic.MotionMagicCruiseVelocity = 80; // Units: rotations/sec
-    armConfig.MotionMagic.MotionMagicAcceleration = 160; // Units: rotations/sec^2
-    armConfig.MotionMagic.MotionMagicJerk = 1600;
+    armConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kMotionMagicCruiseVelocity;
+    armConfig.MotionMagic.MotionMagicAcceleration = ArmConstants.kMotionMagicAcceleration;
+    armConfig.MotionMagic.MotionMagicJerk = ArmConstants.kMotionMagicJerk;
 
-    m_arm.getConfigurator().apply(new FeedbackConfigs().withRemoteCANcoder(cancoder));
+
+    feedback.FeedbackRemoteSensorID = ArmConstants.kArmCANcoder;
+    feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
+
+    armConfig.withFeedback(feedback);
     m_arm.getConfigurator().apply(armConfig);
 
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
@@ -72,7 +79,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public double getPosition(){
 
-    armAbsolutePosition = cancoder.getAbsolutePosition().getValueAsDouble();
+    double armAbsolutePosition = cancoder.getAbsolutePosition().getValueAsDouble();
     return armAbsolutePosition;
   }
   //commands

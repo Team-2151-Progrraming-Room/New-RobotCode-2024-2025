@@ -47,6 +47,7 @@ public final class Constants {
     public static final int kArmMotorCurrentLimit = 40;
     public static final int kLockMotorCurrentLimit = 40;
 
+    //pid configurations
     public static final double kArmPIDControllerP = 10;
     public static final double kArmPIDControllerI = 0;
     public static final double kArmPIDControllerD = 0;
@@ -54,8 +55,11 @@ public final class Constants {
     public static final int kArmPIDControllerA = 0;
     public static final int kArmPIDControllerV = 0;
 
-
     public static final double kArmCANCoderConversionFactor = 1.0/360;//assuming cancoder has 16384 positions, will need to double check
+
+    public static final double kMotionMagicCruiseVelocity = 80; // Units: rotations/sec
+    public static final double kMotionMagicAcceleration = 160; // Units: rotations/sec^2
+    public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
     public static final int kArmPositionGroundAlgae = 110;
