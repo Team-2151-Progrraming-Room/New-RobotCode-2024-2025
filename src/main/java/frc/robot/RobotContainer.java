@@ -54,11 +54,14 @@ public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
 
-  private final JoystickButton button1;
-  private final JoystickButton button2;
-  private final JoystickButton button3;
-  private final JoystickButton button4;
-  private final JoystickButton button5;
+  private final JoystickButton groundPositionButton;
+  private final JoystickButton L2AlgaePositionButton;
+  private final JoystickButton L3AlgaePositionButton;
+  private final JoystickButton shootPositionButton;
+  private final JoystickButton processorPositionButton;
+  private final JoystickButton climbPositionButton;
+  private final JoystickButton manualUpButton;
+  private final JoystickButton manualDownButton;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -66,11 +69,15 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    button1 = new JoystickButton(buttonBoard, 1);
-    button2 = new JoystickButton(buttonBoard, 2);
-    button3 = new JoystickButton(buttonBoard, 3);
-    button4 = new JoystickButton(buttonBoard, 4);
-    button5 = new JoystickButton(buttonBoard, 5);
+    groundPositionButton = new JoystickButton(buttonBoard, 1);
+    L2AlgaePositionButton = new JoystickButton(buttonBoard, 2);
+    L3AlgaePositionButton = new JoystickButton(buttonBoard, 3);
+    shootPositionButton = new JoystickButton(buttonBoard, 4);
+    processorPositionButton = new JoystickButton(buttonBoard, 5);
+    climbPositionButton = new JoystickButton(buttonBoard, 6);
+    manualUpButton = new JoystickButton(buttonBoard, 7);
+    manualDownButton = new JoystickButton(buttonBoard, 8);
+    
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -168,9 +175,15 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    button1.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
-    button2.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-    controller.y().onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
+    manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
+    manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
+    
+    L2AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionLowAlgae));
+    L3AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
+    groundPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
+    shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    processorPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionProcessor));
+    climbPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionClimb));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
