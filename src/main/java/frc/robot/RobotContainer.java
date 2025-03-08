@@ -65,11 +65,9 @@ public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
 
-  public final JoystickButton button1;
-  public final JoystickButton button2;
-  public final JoystickButton button3;
-  public final JoystickButton button4;
-  public final JoystickButton button5;
+  public final JoystickButton shootButton;
+  public final JoystickButton depositButton;
+  public final JoystickButton intakeButton;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -77,11 +75,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    button1 = new JoystickButton(buttonBoard, 1);
-    button2 = new JoystickButton(buttonBoard, 2);
-    button3 = new JoystickButton(buttonBoard, 3);
-    button4 = new JoystickButton(buttonBoard, 4);
-    button5 = new JoystickButton(buttonBoard, 5);
+    shootButton = new JoystickButton(buttonBoard, 1);
+    depositButton = new JoystickButton(buttonBoard, 2);
+    intakeButton = new JoystickButton(buttonBoard, 3);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -164,10 +160,9 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().onTrue(m_algaeShootCommand);
-    button3.onTrue(m_algaeDumpCommand);
-    button4.whileTrue(algae.algaeIntakeCommand()).whileFalse(algae.allMotorsOFFCommand());
-
+    shootButton.onTrue(m_algaeShootCommand);
+    depositButton.onTrue(m_algaeDumpCommand);
+    intakeButton.whileTrue(algae.algaeIntakeCommand()).whileFalse(algae.allMotorsOFFCommand());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
