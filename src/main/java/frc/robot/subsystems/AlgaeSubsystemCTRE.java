@@ -70,7 +70,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         m_Rev.getConfigurator().apply(configs);
         m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
 
-        //kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs);
+        //kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs); Current Limit application, commented out for now.
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         m_Kick.getConfigurator().apply(kickConfigs);
 
