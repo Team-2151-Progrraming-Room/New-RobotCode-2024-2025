@@ -67,10 +67,10 @@ public final class Constants {
     public static final int kArmPositionClimb = 110;
 
     //Current Limits
-    public static final int kArmMotorCurrentStatorLimit = 40;//Temporary values
+    public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
+    public static final int kArmMotorCurrentSupplyLimit = 40;//Temp value, but supply limit should be atleast the value of the stator.
     public static final int kFollowerMotorCurrentStatorLimit = 40;
-    public static final int kArmMotorCurrentSupplyLimit = 5;
-    public static final int kFollowerMotorCurrentSupplyLimit = 5;
+    public static final int kFollowerMotorCurrentSupplyLimit = 40;
 
   }
 
