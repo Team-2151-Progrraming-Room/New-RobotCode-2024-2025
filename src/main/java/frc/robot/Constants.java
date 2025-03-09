@@ -122,14 +122,15 @@ public final class Constants {
     public static final double kLongShooterWaitTime = 0.5;
 
     //Current Limits 
-    public static final int kAlgaeRevMotorStatorCurrentLimit = 40;//40 amps for kraken motor stator current is good
-    public static final int kAlgaeRevMotorSupplyCurrentLimit = 40;//Temp value for supply, although should be close to stator.
+    public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
+    public static final int kAlgaeRevMotorSupplyCurrentLimit = 35;//so setting it to 35 seems to be a good temporary value.
 
-    public static final int kAlgaeRev2MotorStatorCurrentLimit = 40;
-    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 40;
-
-    public static final int kAlgaeKickMotorStatorCurrentLimit = 40;
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 40;
+    public static final int kAlgaeRev2MotorStatorCurrentLimit = 35;
+    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
+                                                                  //as supply determines how many amps can be drawn from the battery.
+    
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 35;
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 35;
 
   }
 
