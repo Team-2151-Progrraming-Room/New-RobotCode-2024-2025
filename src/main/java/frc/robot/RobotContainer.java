@@ -15,6 +15,7 @@ package frc.robot;
 import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -22,19 +23,29 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
-import frc.robot.generated.TunerConstants;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import java.util.function.BooleanSupplier;
+
+//our subsystems
+import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.AlgaeSubsystemCTRE;
+
+//out commands
+import frc.robot.commands.AlgaeShooterCommands;
+import frc.robot.commands.DriveCommands;
+import frc.robot.generated.TunerConstants;
+
 import frc.robot.subsystems.ArmSubsystemCTRE;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -46,13 +57,24 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drive drive;
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
+  private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
+   private final Drive drive;
 
+  //boolean supplier
+  BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
 
+  //commands
+  private final Command m_algaeShootCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getShootCommand();
+  private final Command m_algaeDumpCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getDumpCommand();
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
+
+  
+  public final JoystickButton shootButton;
+  public final JoystickButton depositButton;
+  public final JoystickButton intakeButton;
 
   private final JoystickButton groundPositionButton;
   private final JoystickButton L2AlgaePositionButton;
@@ -66,8 +88,13 @@ public class RobotContainer {
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    shootButton = new JoystickButton(buttonBoard, 1);
+    depositButton = new JoystickButton(buttonBoard, 2);
+    intakeButton = new JoystickButton(buttonBoard, 3);
+
 
     groundPositionButton = new JoystickButton(buttonBoard, 1);
     L2AlgaePositionButton = new JoystickButton(buttonBoard, 2);
@@ -113,24 +140,9 @@ public class RobotContainer {
         break;
     }
 
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
-    // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -143,7 +155,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,

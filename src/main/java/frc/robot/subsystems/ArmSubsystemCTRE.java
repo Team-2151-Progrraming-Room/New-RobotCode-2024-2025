@@ -50,10 +50,10 @@ public class ArmSubsystemCTRE extends SubsystemBase{
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
         armConfig.Slot0.kI = ArmConstants.kArmPIDControllerI;
         armConfig.Slot0.kD = ArmConstants.kArmPIDControllerD;
-        armConfig.Slot0.kS = ArmConstants.kArmPIDControllerS;
-        armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
-        armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
-    
+        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerV;
+        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerA;
+        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerS;
+
     //Motion Magic Config
     armConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kMotionMagicCruiseVelocity;
     armConfig.MotionMagic.MotionMagicAcceleration = ArmConstants.kMotionMagicAcceleration;
