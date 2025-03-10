@@ -14,7 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 //import com.ctre.phoenix6.hardware.TalonFXS;
-
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
 // our robot constants
@@ -28,11 +28,19 @@ public class Coral extends SubsystemBase{
 
     private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor, CoralConstants.canbusName);
     private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
+    private final CurrentLimitsConfigs coralLimitConfigs = new CurrentLimitsConfigs();
 
     public Coral(){
         m_CoralMotor.stopMotor();
-        configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        
+        //Current Limit Configs
+        coralLimitConfigs.withStatorCurrentLimit(CoralConstants.kCoralStatorCurrentLimit);
+        coralLimitConfigs.withSupplyCurrentLimit(CoralConstants.kCoralSupplyCurrentLimit);
+        
+        //Config applications
         //configs.MotorOutput.ConnectedMotorValue = ConnectedMotorValue.Minion_JST;
+        configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
+        //configs.withCurrentLimits(coralLimitConfigs); //Current have this commented out so that the temp current limits don't get applied
 
         m_CoralMotor.getConfigurator().apply(configs);
     }
