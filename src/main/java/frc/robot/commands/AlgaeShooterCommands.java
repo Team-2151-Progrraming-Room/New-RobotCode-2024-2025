@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
+import frc.robot.subsystems.ArmSubsystemCTRE;
 
 
 import frc.robot.Constants.*;
@@ -28,17 +29,26 @@ import static edu.wpi.first.units.Units.*;
 public class AlgaeShooterCommands extends Command{
 
 AlgaeSubsystemCTRE m_algaeSubsystem;
+ArmSubsystemCTRE m_armSubsystem;
 
 BooleanSupplier m_atSpeedCheck;
 
+int armPositionProcessor;
+int armPositionGround;
+
 //Shooting Command (maybe not be needed)
 
-public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, BooleanSupplier speedCheck){
+public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier speedCheck, int processorPosition, int groundPosition){
 
     m_algaeSubsystem = AlgaeSystem;
+    m_armSubsystem = armSubsystem;
     m_atSpeedCheck = speedCheck;
 
+    armPositionProcessor = processorPosition;
+    armPositionGround = groundPosition;
+
     addRequirements(AlgaeSystem);
+    addRequirements(armSubsystem);
 }
 
 
@@ -69,5 +79,30 @@ public Command getDumpCommand(){
             m_algaeSubsystem.allMotorsOFFCommand()
     );
 
+}
+
+public Command getDepositCommand(){
+    return Commands.sequence(
+        m_armSubsystem.setArmPositionCommand(armPositionProcessor),
+        getDumpCommand()
+    );
+}
+
+public Command getAlgaeIntakeCommand(){
+    return Commands.parallel(
+        m_armSubsystem.setArmPositionCommand(armPositionGround),
+        m_algaeSubsystem.algaeIntakeCommand(),
+        Commands.waitSeconds(5),
+        m_algaeSubsystem.allMotorsOFFCommand()
+    );
+}
+
+public Command getReefIntakeCommand(int armPosition){
+    return Commands.sequence(
+        m_armSubsystem.setArmPositionCommand(armPosition),
+        m_algaeSubsystem.algaeIntakeCommand(),
+        Commands.waitSeconds(2.5),
+        m_algaeSubsystem.allMotorsOFFCommand()
+    );
 }
 }

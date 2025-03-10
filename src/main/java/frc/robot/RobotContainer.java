@@ -16,6 +16,7 @@ import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -24,9 +25,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj.Joystick;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
@@ -65,8 +63,13 @@ public class RobotContainer {
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
 
   //commands
-  private final Command m_algaeShootCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getShootCommand();
-  private final Command m_algaeDumpCommand = new AlgaeShooterCommands(algae, m_dynamicAtShootSpeed).getDumpCommand();
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, ArmConstants.kArmPositionProcessor, ArmConstants.kArmPositionGroundAlgae);
+  private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
+  private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
+  private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand();
+  private final Command m_algaeIntakeCommand = algaeCommands.getAlgaeIntakeCommand();
+  private final Command m_L2Command = algaeCommands.getReefIntakeCommand(ArmConstants.kArmPositionLowAlgae);
+  private final Command m_L3Command = algaeCommands.getReefIntakeCommand(ArmConstants.kArmPositionHighAlgae);
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
@@ -74,16 +77,17 @@ public class RobotContainer {
   
   public final JoystickButton shootButton;
   public final JoystickButton depositButton;
-  public final JoystickButton intakeButton;
+  public final JoystickButton algaeIntakeButton;
+  private final JoystickButton dumpButton;
 
-  private final JoystickButton groundPositionButton;
+  private final JoystickButton climbPositionDownButton;
   private final JoystickButton L2AlgaePositionButton;
   private final JoystickButton L3AlgaePositionButton;
   private final JoystickButton shootPositionButton;
-  private final JoystickButton processorPositionButton;
-  private final JoystickButton climbPositionButton;
+  private final JoystickButton climbPositionUpButton;
   private final JoystickButton manualUpButton;
   private final JoystickButton manualDownButton;
+
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -91,19 +95,19 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    shootButton = new JoystickButton(buttonBoard, 1);
-    depositButton = new JoystickButton(buttonBoard, 2);
-    intakeButton = new JoystickButton(buttonBoard, 3);
+    shootButton = new JoystickButton(buttonBoard, 4);//done+linked
+    depositButton = new JoystickButton(buttonBoard, 2);//done+linked
+    dumpButton = new JoystickButton(buttonBoard, 1);//done+linked
+    algaeIntakeButton = new JoystickButton(buttonBoard, 3);//done+linked
 
 
-    groundPositionButton = new JoystickButton(buttonBoard, 1);
-    L2AlgaePositionButton = new JoystickButton(buttonBoard, 2);
-    L3AlgaePositionButton = new JoystickButton(buttonBoard, 3);
-    shootPositionButton = new JoystickButton(buttonBoard, 4);
-    processorPositionButton = new JoystickButton(buttonBoard, 5);
-    climbPositionButton = new JoystickButton(buttonBoard, 6);
-    manualUpButton = new JoystickButton(buttonBoard, 7);
-    manualDownButton = new JoystickButton(buttonBoard, 8);
+    climbPositionDownButton = new JoystickButton(buttonBoard, 11);//done
+    L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//done+linked
+    L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//done+linked
+    shootPositionButton = new JoystickButton(buttonBoard, 5);//done+linked
+    climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
+    manualUpButton = new JoystickButton(buttonBoard, 7);//done+linked
+    manualDownButton = new JoystickButton(buttonBoard, 6);//done+linked
 
     switch (Constants.currentMode) {
       case REAL:
@@ -189,14 +193,15 @@ public class RobotContainer {
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
-    L2AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionLowAlgae));
-    L3AlgaePositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
-    groundPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
-    shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
-    processorPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionProcessor));
-    climbPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionClimb));
+    shootButton.onTrue(m_algaeShootCommand);
+    algaeIntakeButton.onTrue(m_algaeIntakeCommand);
+    depositButton.onTrue(m_algaeProcessorDepositCommand);
+    dumpButton.whileTrue(m_algaeDumpCommand);
 
-    controller.y().onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae));
+    L2AlgaePositionButton.onTrue(m_L2Command);
+    L3AlgaePositionButton.onTrue(m_L3Command);
+    shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

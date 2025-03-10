@@ -112,7 +112,6 @@ public final class Constants {
   public static final class ArmConstants{
     public static final int kArmMotor = 20;
     public static final int kFollowerMotor = 21;
-    //public static final int kLockMotor = 22;
     public static final int kArmCANcoder = 23;
 
     public static final double kArmSpeedUp = 0.5;
