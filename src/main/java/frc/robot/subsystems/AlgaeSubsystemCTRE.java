@@ -2,7 +2,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.units.measure.Current;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -37,7 +36,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     CurrentLimitsConfigs rev2CurrentLimitConfigs = new CurrentLimitsConfigs();
     CurrentLimitsConfigs kickCurrentLimitsConfigs = new CurrentLimitsConfigs();
     Slot0Configs slot0;
-    
+
     final VelocityVoltage m_request;
 
     public AlgaeSubsystemCTRE (){
@@ -54,7 +53,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         //Current Limits
         revCurrentLimitConfigs.withStatorCurrentLimit(AlgaeConstants.kAlgaeRevMotorStatorCurrentLimit);
         revCurrentLimitConfigs.withSupplyCurrentLimit(AlgaeConstants.kAlgaeRevMotorSupplyCurrentLimit);
-        
+
         m_request = new VelocityVoltage(AlgaeConstants.kAlgaeVoltage).withSlot(0);
 
         //Not in use yet as follower might use the lead motor's configuration for the follower, but in

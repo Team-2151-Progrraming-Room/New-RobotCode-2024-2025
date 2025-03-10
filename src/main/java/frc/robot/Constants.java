@@ -81,21 +81,21 @@ public final class Constants {
     //actions that don't require pid control
     public static final double kAlgaeKickMotorON = .5;
     public static final double kAlgaeIntake = 0.5;
-    public static final double kAlgaeDump = -0.25;
+    public static final double kAlgaeDump = -0.5;
 
     public static final int kAlgaeVoltage = 0;
 
     public static final double kShortShooterWaitTime = 0.25;
-    public static final double kLongShooterWaitTime = 0.5;
+    public static final double kLongShooterWaitTime = 1;
 
-    //Current Limits 
+    //Current Limits
     public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
     public static final int kAlgaeRevMotorSupplyCurrentLimit = 35;//so setting it to 35 seems to be a good temporary value.
 
     public static final int kAlgaeRev2MotorStatorCurrentLimit = 35;
     public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
                                                                   //as supply determines how many amps can be drawn from the battery.
-    
+
     public static final int kAlgaeKickMotorStatorCurrentLimit = 10;//10 should be a good value for a minion.
     public static final int kAlgaeKickMotorSupplyCurrentLimit = 10;
 
@@ -132,12 +132,12 @@ public final class Constants {
     public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
-    public static final int kArmPositionGroundAlgae = 110;
-    public static final int kArmPositionLowAlgae = 15;
-    public static final int kArmPositionProcessor = 110;
+    public static final int kArmPositionGroundAlgae = 0;
+    public static final int kArmPositionLowAlgae = 60;
+    public static final int kArmPositionProcessor = 25;
     public static final int kArmPositionHighAlgae= 45;
-    public static final int kArmPositionShoot = 110;
-    public static final int kArmPositionClimb = 110;
+    public static final int kArmPositionShoot = 90;
+    public static final int kArmPositionClimb = 45;
 
     //Current Limits
     public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)

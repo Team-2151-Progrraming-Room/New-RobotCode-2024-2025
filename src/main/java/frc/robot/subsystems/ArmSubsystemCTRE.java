@@ -62,19 +62,19 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     //CanCoder Config
     feedback.FeedbackRemoteSensorID = ArmConstants.kArmCANcoder;
     feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
-    
+
     //Current Limit Config
     m_armCurrentConfig.withStatorCurrentLimit(ArmConstants.kArmMotorCurrentStatorLimit);
     m_armCurrentConfig.withSupplyCurrentLimit(ArmConstants.kArmMotorCurrentSupplyLimit);
 
     m_armFollowerCurrentConfigs.withStatorCurrentLimit(ArmConstants.kFollowerMotorCurrentStatorLimit);
     m_armFollowerCurrentConfigs.withSupplyCurrentLimit(ArmConstants.kFollowerMotorCurrentSupplyLimit);
-    
+
 
     //Config Application
 
     //Commented out current configuration for now, since the constants are random values.
-    
+
     armConfig.withFeedback(feedback);
     //armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);

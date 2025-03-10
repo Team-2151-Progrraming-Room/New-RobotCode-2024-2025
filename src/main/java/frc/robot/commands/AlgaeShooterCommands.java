@@ -89,7 +89,7 @@ public Command getDepositCommand(){
 }
 
 public Command getAlgaeIntakeCommand(){
-    return Commands.parallel(
+    return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPositionGround),
         m_algaeSubsystem.algaeIntakeCommand(),
         Commands.waitSeconds(5),

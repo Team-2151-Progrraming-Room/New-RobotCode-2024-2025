@@ -16,7 +16,6 @@ import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
-import edu.wpi.first.apriltag.AprilTagPoseEstimate;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -74,7 +73,7 @@ public class RobotContainer {
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
 
-  
+
   public final JoystickButton shootButton;
   public final JoystickButton depositButton;
   public final JoystickButton algaeIntakeButton;
@@ -95,19 +94,19 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    shootButton = new JoystickButton(buttonBoard, 4);//done+linked
-    depositButton = new JoystickButton(buttonBoard, 2);//done+linked
-    dumpButton = new JoystickButton(buttonBoard, 1);//done+linked
-    algaeIntakeButton = new JoystickButton(buttonBoard, 3);//done+linked
+    shootButton = new JoystickButton(buttonBoard, 4);
+    depositButton = new JoystickButton(buttonBoard, 2);//add wait until arm position
+    dumpButton = new JoystickButton(buttonBoard, 1);
+    algaeIntakeButton = new JoystickButton(buttonBoard, 3);//add waint until arm position
 
 
-    climbPositionDownButton = new JoystickButton(buttonBoard, 11);//done
-    L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//done+linked
-    L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//done+linked
-    shootPositionButton = new JoystickButton(buttonBoard, 5);//done+linked
+    climbPositionDownButton = new JoystickButton(buttonBoard, 11);
+    L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
+    L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
+    shootPositionButton = new JoystickButton(buttonBoard, 5);
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
-    manualUpButton = new JoystickButton(buttonBoard, 7);//done+linked
-    manualDownButton = new JoystickButton(buttonBoard, 6);//done+linked
+    manualUpButton = new JoystickButton(buttonBoard, 7);
+    manualDownButton = new JoystickButton(buttonBoard, 6);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -196,7 +195,7 @@ public class RobotContainer {
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
     depositButton.onTrue(m_algaeProcessorDepositCommand);
-    dumpButton.whileTrue(m_algaeDumpCommand);
+    dumpButton.whileTrue(m_algaeDumpCommand).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
