@@ -60,15 +60,16 @@ public class RobotContainer {
 
   //boolean supplier
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
+  BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
 
   //commands
-  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, ArmConstants.kArmPositionProcessor, ArmConstants.kArmPositionGroundAlgae);
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition, ArmConstants.kArmPositionProcessor, ArmConstants.kArmPositionGroundAlgae);
   private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
   private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
-  private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand();
-  private final Command m_algaeIntakeCommand = algaeCommands.getAlgaeIntakeCommand();
-  private final Command m_L2Command = algaeCommands.getReefIntakeCommand(ArmConstants.kArmPositionLowAlgae);
-  private final Command m_L3Command = algaeCommands.getReefIntakeCommand(ArmConstants.kArmPositionHighAlgae);
+  private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
+  private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
+  private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
+  private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);

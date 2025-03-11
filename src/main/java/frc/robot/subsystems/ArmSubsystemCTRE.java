@@ -38,6 +38,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   //motion magic
   private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
+  private final double position;
 
 
   public ArmSubsystemCTRE(){
@@ -85,7 +86,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
   }
 
   public void setArmPosition(double armPosition){
-    double position = armPosition * ArmConstants.kArmCANCoderConversionFactor;
+    position = armPosition * ArmConstants.kArmCANCoderConversionFactor;
     System.out.println("Processed armPos: " + position);
     m_arm.setControl(motionMagicControl.withPosition(position));
   }
@@ -104,8 +105,15 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public double getPosition(){
 
-    double armAbsolutePosition = cancoder.getAbsolutePosition().getValueAsDouble();
-    return armAbsolutePosition;
+    return cancoder.getAbsolutePosition().getValueAsDouble();;
+  }
+
+  public boolean atArmPosition() {
+
+    if (MathUtil.isNear(position, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
   }
 
   //commands

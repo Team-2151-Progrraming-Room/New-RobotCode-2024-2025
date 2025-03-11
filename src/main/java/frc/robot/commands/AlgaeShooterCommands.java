@@ -32,20 +32,16 @@ AlgaeSubsystemCTRE m_algaeSubsystem;
 ArmSubsystemCTRE m_armSubsystem;
 
 BooleanSupplier m_atSpeedCheck;
-
-int armPositionProcessor;
-int armPositionGround;
+BooleanSupplier m_atArmPosition;
 
 //Shooting Command (maybe not be needed)
 
-public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier speedCheck, int processorPosition, int groundPosition){
+public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier speedCheck, BooleanSupplier armCheck){
 
     m_algaeSubsystem = AlgaeSystem;
     m_armSubsystem = armSubsystem;
     m_atSpeedCheck = speedCheck;
-
-    armPositionProcessor = processorPosition;
-    armPositionGround = groundPosition;
+    m_atArmPosition = armCheck;
 
     addRequirements(AlgaeSystem);
     addRequirements(armSubsystem);
@@ -81,25 +77,28 @@ public Command getDumpCommand(){
 
 }
 
-public Command getDepositCommand(){
+public Command getDepositCommand(int depositPosition){
     return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(armPositionProcessor),
+        m_armSubsystem.setArmPositionCommand(depositPosition),
+        Commands.waitUntil(m_atArmPosition),
         getDumpCommand()
     );
 }
 
-public Command getAlgaeIntakeCommand(){
+/*public Command getAlgaeIntakeCommand(int intakePosition){
     return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(armPositionGround),
+        m_armSubsystem.setArmPositionCommand(intakePosition),
+        Commands.waitUntil(m_atArmPosition),
         m_algaeSubsystem.algaeIntakeCommand(),
         Commands.waitSeconds(5),
         m_algaeSubsystem.allMotorsOFFCommand()
     );
-}
+}*/
 
-public Command getReefIntakeCommand(int armPosition){
+public Command getIntakeCommand(int armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
+        Commands.waitUntil(m_atArmPosition),
         m_algaeSubsystem.algaeIntakeCommand(),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
