@@ -63,7 +63,7 @@ public class RobotContainer {
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
 
   //commands
-  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition, ArmConstants.kArmPositionProcessor, ArmConstants.kArmPositionGroundAlgae);
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
   private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
   private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);

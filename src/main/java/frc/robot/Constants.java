@@ -79,7 +79,7 @@ public final class Constants {
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .5;
+    public static final double kAlgaeKickMotorON = .25;
     public static final double kAlgaeIntake = 0.5;
     public static final double kAlgaeDump = -0.5;
 

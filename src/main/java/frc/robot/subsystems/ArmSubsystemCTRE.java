@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanbusName;
 import frc.robot.util.*;
+import edu.wpi.first.math.MathUtil;
 
 //CTRE Imports
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -38,7 +39,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   //motion magic
   private final MotionMagicVoltage motionMagicControl = new MotionMagicVoltage(0);
-  private final double position;
+  private double position;
 
 
   public ArmSubsystemCTRE(){
@@ -105,7 +106,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   public double getPosition(){
 
-    return cancoder.getAbsolutePosition().getValueAsDouble();;
+    return cancoder.getAbsolutePosition().getValueAsDouble();
   }
 
   public boolean atArmPosition() {
