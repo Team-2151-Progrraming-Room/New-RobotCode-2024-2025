@@ -15,6 +15,7 @@ package frc.robot;
 import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -157,6 +158,7 @@ public class RobotContainer {
         break;
     }
 
+NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
