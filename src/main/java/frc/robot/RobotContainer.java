@@ -150,9 +150,9 @@ public class RobotContainer {
                 () -> -controller.getLeftX(),
                 () -> new Rotation2d()));
 
-    // Switch to X pattern when X button is pressed, 
+    // Switch to X pattern when X button is pressed,
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-    
+
     // Reset gyro to 0° when B button is pressed
     controller
     .b()
@@ -163,7 +163,7 @@ public class RobotContainer {
                 new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                 drive)
                 .ignoringDisable(true));
-                
+
 
     //Coral Button Assignment
     Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());

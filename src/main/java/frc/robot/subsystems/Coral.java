@@ -32,11 +32,11 @@ public class Coral extends SubsystemBase{
 
     public Coral(){
         m_CoralMotor.stopMotor();
-        
+
         //Current Limit Configs
         coralLimitConfigs.withStatorCurrentLimit(CoralConstants.kCoralStatorCurrentLimit);
         coralLimitConfigs.withSupplyCurrentLimit(CoralConstants.kCoralSupplyCurrentLimit);
-        
+
         //Config applications
         //configs.MotorOutput.ConnectedMotorValue = ConnectedMotorValue.Minion_JST;
         configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
