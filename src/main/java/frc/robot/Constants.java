@@ -159,7 +159,4 @@ public static class CoralConstants {
   public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
                                                         //how much current can be drawn from the battery.
 }
-public static class OperatorConstants {
-  public static final int kDriverControllerPort = 0;
-}
 }

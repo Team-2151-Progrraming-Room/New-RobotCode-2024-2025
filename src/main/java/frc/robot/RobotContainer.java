@@ -97,7 +97,6 @@ public class RobotContainer {
   private final JoystickButton manualDownButton;
 
 
-  private final Joystick buttonBoard = new Joystick(1);
   private final JoystickButton Corsola;
 
   // Dashboard inputs
