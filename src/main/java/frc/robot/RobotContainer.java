@@ -35,8 +35,9 @@ import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
 
-//out commands
+//our commands
 import frc.robot.commands.AlgaeShooterCommands;
+import frc.robot.commands.LEDBounceCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 
@@ -53,6 +54,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.LEDSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -66,19 +68,23 @@ public class RobotContainer {
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
    private final Drive drive;
   private final Coral coralSubsystem = new Coral();
+  private final LEDSubsystem leds = new LEDSubsystem();
 
   //boolean supplier
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
 
   //commands
-  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, leds, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
   private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
   private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
+
+  private final Command m_defaultLEDBounce = new LEDSubsystem();
+  private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
@@ -111,7 +117,6 @@ public class RobotContainer {
     dumpButton = new JoystickButton(buttonBoard, 1);
     algaeIntakeButton = new JoystickButton(buttonBoard, 3);//add waint until arm position
 
-
     climbPositionDownButton = new JoystickButton(buttonBoard, 11);
     L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
     L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
@@ -120,8 +125,9 @@ public class RobotContainer {
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
-
     Corsola = new JoystickButton(buttonBoard, 12);
+
+    m_ledSubsystem.setDefaultCommand(m_defaultLEDBounce);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -220,7 +226,7 @@ NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
-    shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    shootPositionButton.onTrue(arm.setArmPositionCommand(m_shootArmPosition));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
   /**

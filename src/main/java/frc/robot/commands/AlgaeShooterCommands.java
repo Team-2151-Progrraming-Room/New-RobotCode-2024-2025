@@ -19,6 +19,7 @@ import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
 import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.subsystems.LEDSubsystem;
 
 
 import frc.robot.Constants.*;
@@ -30,21 +31,25 @@ public class AlgaeShooterCommands extends Command{
 
 AlgaeSubsystemCTRE m_algaeSubsystem;
 ArmSubsystemCTRE m_armSubsystem;
+LEDSubsystem m_ledSubsystem;
 
 BooleanSupplier m_atSpeedCheck;
 BooleanSupplier m_atArmPosition;
 
 //Shooting Command (maybe not be needed)
 
-public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier speedCheck, BooleanSupplier armCheck){
+public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, LEDSubsystem leds, BooleanSupplier speedCheck, BooleanSupplier armCheck){
 
     m_algaeSubsystem = AlgaeSystem;
     m_armSubsystem = armSubsystem;
+    m_ledSubsystem = leds;
+
     m_atSpeedCheck = speedCheck;
     m_atArmPosition = armCheck;
 
     addRequirements(AlgaeSystem);
     addRequirements(armSubsystem);
+    addRequirements(leds);
 }
 
 
@@ -52,12 +57,17 @@ public Command getShootCommand(){
 
     return Commands.sequence(
 
+            m_ledSubsystem.LedPreShootInitCommand(),
+            m_ledSubsystem.LedPreShootCommand(),
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
             Commands.waitUntil(m_atSpeedCheck),
 
             m_algaeSubsystem.KickMotorONCommand(),
+            m_ledSubsystem.LedShootCommand(),
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
-            m_algaeSubsystem.allMotorsOFFCommand()
+
+            m_algaeSubsystem.allMotorsOFFCommand(),
+            m_ledSubsystem.LedPostShootCommand()
     );
 
 }

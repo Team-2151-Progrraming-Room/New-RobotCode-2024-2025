@@ -193,7 +193,7 @@ public class LEDSubsystem extends SubsystemBase{
 
 
 
-  public Command LedIntakeLoadedCommand() {
+  public Command LedIntakeRunningCommand() {
     /**
      * Set the pattern indicating the intake has loaded a note
      */

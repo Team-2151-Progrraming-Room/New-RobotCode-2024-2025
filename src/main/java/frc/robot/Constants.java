@@ -175,9 +175,9 @@ public static class LEDConstants{
 
    // public static final Measure<Time> kLedPostShootTime = Seconds.of(1.5);   // give it a while to finish randomly turning the LEDs off after shooting
 
-    public static final int kLedGeneralBackgroundH  = 20;
+    public static final int kLedGeneralBackgroundH  = 145;
     public static final int kLedGeneralBackgroundS  = 255;
-    public static final int kLedGeneralBackgroundV  = 20;
+    public static final int kLedGeneralBackgroundV  = 255;
 
     public static final int kLedBouncePrimaryH      = 145;
     public static final int kLedBouncePrimaryS      = 255;
