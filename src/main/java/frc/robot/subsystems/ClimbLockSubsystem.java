@@ -2,7 +2,7 @@
 //
 // Controls the latching used to grab onto the cage for a low climb
 //
-// setup to use a SparkMAX controller
+// Setup using a DC Motor via a Talon FXS.
 
 package frc.robot.subsystems;
 
@@ -22,38 +22,84 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 // our robot constants
 
-import frc.robot.Constants.ClimbLockConstants;
+//CTRE Imports
 
+import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.BrushedMotorWiringValue;
+import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
+import com.ctre.phoenix6.signals.MotorArrangementValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.configs.TalonFXSConfiguration;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.configs.ExternalFeedbackConfigs;
+
+import frc.robot.Constants.ClimbLockConstants;
 
 
 public class ClimbLockSubsystem extends SubsystemBase {
 
-  private SparkMax m_climbLockMotor;
-
-  private SparkMaxConfig m_controllerConfig = new SparkMaxConfig();
-
-  private RelativeEncoder m_climbLockEncoder;
-
-
+  private TalonFXS m_climbLock;
+  private TalonFXSConfiguration m_climbLockConfiguration;
+  private CurrentLimitsConfigs m_climbLockCurrentLimitsConfigs;
+  
+  private ExternalFeedbackConfigs m_climbLockEncoderConfig;
+  
+  private RelativeEncoder m_oldEncoder;
+  private SparkMaxConfig m_oldConfig = new SparkMaxConfig();
+  private SparkMax m_oldMotor;
+  
 
   public ClimbLockSubsystem() {
 
     System.out.print("Initializing ClimbLockSubsystem...  ");
-    System.out.print("BRUSHLESS...  ");
+    System.out.print("Using a DC Motor and a TalonFXS!");
 
-    m_climbLockMotor = new SparkMax(ClimbLockConstants.kClimbLockCanRioId, MotorType.kBrushless);   // CHANGE WHEN GOING BRUSHED!!
+    m_climbLock = new TalonFXS(ClimbLockConstants.kClimbLockCanRioId);
+    m_climbLockEncoderConfig = new ExternalFeedbackConfigs();
+    
+    //Talon FXS Configuration
+    m_climbLockConfiguration = new TalonFXSConfiguration();
 
-    m_controllerConfig
-      .smartCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentLimit)
-      .idleMode(IdleMode.kBrake);                  // use brake mode to help keep us secure as much as we can
+    m_climbLockConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Brushed_DC;
+    m_climbLockConfiguration.Commutation.BrushedMotorWiring = BrushedMotorWiringValue.Leads_A_and_B;
+    //Not using Advanced Hall Support, seems like a minor upgrade, but it is something worth noting
+    
 
-    m_climbLockMotor.configure(m_controllerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
-    m_climbLockEncoder = m_climbLockMotor.getEncoder();
+    //Initial Current Limit Configuration
+    //This current config changes later when the lock moves.
+    m_climbLockCurrentLimitsConfigs = new CurrentLimitsConfigs();
 
-    m_climbLockEncoder.setPosition(0);    // we assume we're in the start position with the locks positioned to be fully open
+    m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentStatorLimit);//Closed values
+    m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentSupplyLimit);
 
+    
+    //Encoder configuration
+
+    m_climbLockEncoderConfig.withExternalFeedbackSensorSource(ExternalFeedbackSensorSourceValue.Quadrature);
+
+    //Config application
+    m_climbLockConfiguration.withCurrentLimits(m_climbLockCurrentLimitsConfigs);
+    m_climbLock.getConfigurator().apply(m_climbLockConfiguration);
+    m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
+    
+    m_climbLock.setNeutralMode(NeutralModeValue.Brake);
+    
+    m_oldEncoder.setPosition(0);    // we assume we're in the start position with the locks positioned to be fully open
+
+    
     System.out.println("Done.");
+    
+    
+    
+    m_oldMotor.configure(m_oldConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+    m_oldMotor = new SparkMax(ClimbLockConstants.kClimbLockCanRioId, MotorType.kBrushless);   // CHANGE WHEN GOING BRUSHED!!
+    m_oldConfig
+    //.smartCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentLimit)
+    .idleMode(IdleMode.kBrake);                  // use brake mode to help keep us secure as much as we can
   }
 
 
@@ -69,7 +115,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
     System.out.println("Locking cage...");
 
-    m_climbLockMotor.set(ClimbLockConstants.kClimbLockPowerClose);     // start the closing action
+    m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
 
     return run(() -> climbLockEngaged());                              // returns true when closed - leaves the motor stalled
   }
@@ -77,22 +123,34 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
 
   private boolean climbLockEngaged() {
-
-    System.out.print("Current cage lock position is ");
-    System.out.println(m_climbLockEncoder.getPosition());
+    //Debug
+    System.out.println("Current cage lock position is " + m_oldEncoder.getPosition());
+    System.out.println("Current stator current value is " + m_climbLock.getStatorCurrent());
+    System.out.println("Current supply current value is " + m_climbLock.getSupplyCurrent());
 
     // check the encoder position to see if we've reached out limit
 
-    if (m_climbLockEncoder.getPosition() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
+    if (m_oldEncoder.getPosition() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
 
       System.out.println("LOCKED!!!");
 
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
 
-      m_controllerConfig.smartCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentLimit);
-      m_climbLockMotor.configure(m_controllerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+      //m_oldConfig.smartCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentLimit);
+      m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(null);
+      m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(null);
+      
+      m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
+      m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
 
-      m_climbLockMotor.set(ClimbLockConstants.kClimbLockPowerStall);
+      m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
+
+
+      m_oldMotor.configure(m_oldConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+
+      m_oldMotor.set(ClimbLockConstants.kClimbLockPowerStall);
+
+
 
       return true;
     }
