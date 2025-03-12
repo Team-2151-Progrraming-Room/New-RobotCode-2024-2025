@@ -48,7 +48,7 @@ public final class Constants {
     public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
     public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
 
-    public static final int kClimbLockCloseCurrentStatorLimit  = 10; // Stator am ps - while moving 
+    public static final int kClimbLockCloseCurrentStatorLimit  = 10; // Stator amps - while moving 
     public static final int kClimbLockCloseCurrentSupplyLimit  = 10; // Supply amps - while moving
 
     public static final int kClimbLockStallCurrentStatorLimit = 5; // Stator amps - when we've closed and trying to stay locked
