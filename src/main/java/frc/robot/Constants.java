@@ -13,6 +13,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.*;
+import static edu.wpi.first.units.Units.*;
+
+
+import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.measure.Time;
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -158,5 +164,54 @@ public static class CoralConstants {
   public static final int kCoralStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
   public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
                                                         //how much current can be drawn from the battery.
+}
+
+public static class LEDConstants{
+
+  public static final int kNumLEDs  = 15;
+
+    public static final int kLedPwmPort = 9;
+
+
+   // public static final Measure<Time> kLedPostShootTime = Seconds.of(1.5);   // give it a while to finish randomly turning the LEDs off after shooting
+
+    public static final int kLedGeneralBackgroundH  = 20;
+    public static final int kLedGeneralBackgroundS  = 255;
+    public static final int kLedGeneralBackgroundV  = 20;
+
+    public static final int kLedBouncePrimaryH      = 145;
+    public static final int kLedBouncePrimaryS      = 255;
+    public static final int kLedBouncePrimaryV      = 255;
+
+    public static final int kLedBounceShadowH       = 145;
+    public static final int kLedBounceShadowS       = 255;
+    public static final int kLedBounceShadowV       = 50;
+
+    public static final int kLedIntakePrimaryH      = 20;
+    public static final int kLedIntakePrimaryS      = 255;
+    public static final int kLedIntakePrimaryV      = 255;
+
+    public static final int kLedIntakeShadowH       = 20;
+    public static final int kLedIntakeShadowS       = 255;
+    public static final int kLedIntakeShadowV       = 150;
+
+    public static final int kLedIntakeBackgroundH   = kLedGeneralBackgroundH;
+    public static final int kLedIntakeBackgroundS   = kLedGeneralBackgroundS;
+    public static final int kLedIntakeBackgroundV   = kLedGeneralBackgroundV;
+   
+    public static final int kLedShooterSpinupStartH  = 30;     // starts at this hue for shooter spinup
+    public static final int kLedShooterSpinupEndH    = 5;      // ends at this hue for shooter spinup and holds here until shot
+    public static final int kLedShooterSpinupS       = 255;
+    public static final int kLedShooterSpinupV       = 255;
+
+    public static final int kLedShooterShotH         = 0;      // color for when the shot happens
+    public static final int kLedShooterShotS         = 255;
+    public static final int kLedShooterShotV         = 255;
+
+    public static final int kLedShooterBackgroundH   = kLedGeneralBackgroundH;
+    public static final int kLedShooterBackgroundS   = kLedGeneralBackgroundS;
+    public static final int kLedShooterBackgroundV   = kLedGeneralBackgroundV;
+
+
 }
 }
