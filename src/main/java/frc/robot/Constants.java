@@ -159,4 +159,24 @@ public static class CoralConstants {
   public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
                                                         //how much current can be drawn from the battery.
 }
+
+  public static class ClimbLockConstants {
+    public static final int kClimbLockCanRioId      = 50;
+
+    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
+    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
+    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
+    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
+                                                                        (double) kClimbLockGearRatio *
+                                                                        (double) kClimbLockEncoderPpr);
+
+    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
+    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
+
+    public static final int kClimbLockCloseCurrentStatorLimit  = 10; // Stator amps - while moving 
+    public static final int kClimbLockCloseCurrentSupplyLimit  = 10; // Supply amps - while moving
+
+    public static final int kClimbLockStallCurrentStatorLimit = 5; // Stator amps - when we've closed and trying to stay locked
+    public static final int kClimbLockStallCurrentSupplyLimit = 5;// Supply amps - when we've closed.
+  }
 }
