@@ -34,27 +34,23 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.LEDSubsystem;
 
 //our commands
 import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.LEDBounceCommand;
+import frc.robot.commands.ShootArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.Coral;
-import frc.robot.subsystems.LEDSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -83,7 +79,7 @@ public class RobotContainer {
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
 
-  private final Command m_defaultLEDBounce = new LEDSubsystem();
+  private final Command m_defaultLEDBounce = new LEDBounceCommand(leds);
   private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -127,7 +123,7 @@ public class RobotContainer {
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
-    m_ledSubsystem.setDefaultCommand(m_defaultLEDBounce);
+    leds.setDefaultCommand(m_defaultLEDBounce);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -226,7 +222,7 @@ NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
-    shootPositionButton.onTrue(arm.setArmPositionCommand(m_shootArmPosition));
+    shootPositionButton.onTrue(m_shootArmPosition);
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
   /**
