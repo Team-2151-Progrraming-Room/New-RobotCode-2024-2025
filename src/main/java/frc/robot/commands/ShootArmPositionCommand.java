@@ -12,25 +12,26 @@ import frc.robot.Constants.*;
 
 import static edu.wpi.first.units.Units.*;
 
-public class shootArmPositionCommand extends Command{
+public class 
+ShootArmPositionCommand extends Command{
     ArmSubsystemCTRE m_arm;
     LEDSubsystem m_led;
     BooleanSupplier m_armPositionCheck;
 
-    public shootArmPositionCommand(ArmSubsystemCTRE arm, LEDSubsystem led, BooleanSupplier armCheck){
+    public ShootArmPositionCommand(ArmSubsystemCTRE arm, LEDSubsystem led, BooleanSupplier armCheck){
 
         m_arm = arm;
         m_led = led;
         m_armPositionCheck = armCheck;
 
-        addRequirments(arm);
+        addRequirements(arm);
         addRequirements(led);
     }
 
     public Command getShootPositionCommand(double shootPosition){
         return Commands.sequence(
-            m_arm.setArmPosition(shootPosition),
-            waitUntil(m_armPositionCheck),
+            m_arm.setArmPositionCommand(shootPosition),
+            Commands.waitUntil(m_armPositionCheck),
             m_led.LedShootCommand()
             );
     }
