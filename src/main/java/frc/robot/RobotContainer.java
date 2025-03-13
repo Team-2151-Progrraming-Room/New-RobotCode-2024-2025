@@ -39,8 +39,8 @@ import frc.robot.subsystems.ClimbLockSubsystem;
 //out commands
 import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.climbLockSecureCageCommand;
 import frc.robot.generated.TunerConstants;
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 
@@ -48,8 +48,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
@@ -80,6 +78,8 @@ public class RobotContainer {
   private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
+
+  private final Command m_lockCommand = new climbLockSecureCageCommand(lockSubsystem);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -233,7 +233,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
-    climbPositionUpButton.onTrue(lockSubsystem.climbLockSecureCageCommand());
+    climbPositionUpButton.onTrue(m_lockCommand);
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
