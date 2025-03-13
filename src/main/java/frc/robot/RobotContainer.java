@@ -165,7 +165,7 @@ public class RobotContainer {
 
 NamedCommands.registerCommand("processorDeposit", m_algaeProcessorDepositCommand);
 NamedCommands.registerCommand("groundIntake", m_algaeIntakeCommand);
-NamedCommands.registerCommand("shootPosition", arm.setArmPosition(ArmConstants.kArmPositionShoot));
+NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
 NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 NamedCommands.registerCommand("L2", m_L2Command);
 NamedCommands.registerCommand("L3", m_L3Command);

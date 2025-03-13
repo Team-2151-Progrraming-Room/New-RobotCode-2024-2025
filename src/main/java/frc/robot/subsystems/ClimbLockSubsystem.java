@@ -62,7 +62,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //Talon FXS Configuration
     m_climbLockConfiguration = new TalonFXSConfiguration();
     m_climbLockConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Brushed_DC;
-    m_climbLockConfiguration.Commutation.BrushedMotorWiring = BrushedMotorWiringValue.Leads_A_and_B;
+    m_climbLockConfiguration.Commutation.BrushedMotorWiring = BrushedMotorWiringValue.Leads_A_and_C;
     //Not using Advanced Hall Support, seems like a minor upgrade, but it is something worth noting
 
 
@@ -92,6 +92,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //which should (hopefully) not matter since it's a relative encoder either way.
 
     System.out.println("Done.");
+    System.out.println(m_climbLock.getPosition().getValueAsDouble());
 
 
     /*Old code, will delete later
