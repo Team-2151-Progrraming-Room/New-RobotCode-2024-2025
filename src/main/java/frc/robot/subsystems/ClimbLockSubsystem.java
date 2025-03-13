@@ -104,76 +104,50 @@ public class ClimbLockSubsystem extends SubsystemBase {
     */
   }
 
-
-
-  public Command climbLockSecureCageCommand() {
-
-    // lock the cage to the arm in preparation for climbing
-
+  public void climbLockStartUp(){
+     // lock the cage to the arm in preparation for climbing
+  
     // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
     // we just let it move while checking
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
-
+  
     System.out.println("Locking cage...");
-
+  
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
-
-    return run(() -> climbLockEngaged());                     // returns true when closed - leaves the motor stalled
+  }
+  
+  public boolean climbLockEngageCheck() {
+    
+    if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
-
-
-  private boolean climbLockEngaged() {
+  public void climbLocking(){
     //Debug
     System.out.println("Current cage lock position is " + m_climbLock.getPosition().getValueAsDouble());
     System.out.println("Current stator current value is " + m_climbLock.getStatorCurrent().getValueAsDouble());
     System.out.println("Current supply current value is " + m_climbLock.getSupplyCurrent().getValueAsDouble());
 
-    // check the encoder position to see if we've reached out limit
-
-    if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
-
+    //check the encoder position to see if we've reached out limit
+    if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
-
+  
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
-
-      //m_oldConfig.smartCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentLimit);
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
       
       m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
       m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
-
+  
       m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
-
-
-      /* 
-      m_oldMotor.configure(m_oldConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      m_oldMotor.set(ClimbLockConstants.kClimbLockPowerStall);
-      */
-
-      return true;
     }
-
     // keep it going until we've closed - even if we don't fully close, we'll keep trying
     //
     // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
-
-    return false;
   }
-
-
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
+  
 }
