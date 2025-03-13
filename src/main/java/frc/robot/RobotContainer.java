@@ -37,6 +37,7 @@ import frc.robot.subsystems.AlgaeSubsystemCTRE;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ClimbLockSubsystem;
 
 //our commands
 import frc.robot.commands.AlgaeShooterCommands;
@@ -62,9 +63,10 @@ public class RobotContainer {
   // Subsystems
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
-   private final Drive drive;
   private final Coral coralSubsystem = new Coral();
   private final LEDSubsystem leds = new LEDSubsystem();
+  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
+  private final Drive drive;
 
   //boolean supplier
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
@@ -121,6 +123,9 @@ public class RobotContainer {
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
+
+
+
     Corsola = new JoystickButton(buttonBoard, 12);
 
     leds.setDefaultCommand(m_defaultLEDBounce);
@@ -160,7 +165,14 @@ public class RobotContainer {
         break;
     }
 
+
+NamedCommands.registerCommand("processorDeposit", m_algaeProcessorDepositCommand);
+NamedCommands.registerCommand("groundIntake", m_algaeIntakeCommand);
+NamedCommands.registerCommand("shootPosition", arm.setArmPosition(ArmConstants.kArmPositionShoot));
 NamedCommands.registerCommand("shoot", m_algaeShootCommand);
+NamedCommands.registerCommand("L2", m_L2Command);
+NamedCommands.registerCommand("L3", m_L3Command);
+NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -224,6 +236,7 @@ NamedCommands.registerCommand("shoot", m_algaeShootCommand);
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(m_shootArmPosition);
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
+    climbPositionUpButton.onTrue(lockSubsystem.climbLockSecureCageCommand());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
