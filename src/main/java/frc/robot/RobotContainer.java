@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
 
 //our subsystems
-import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
@@ -61,7 +61,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
  */
 public class RobotContainer {
   // Subsystems
-  private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
+  private final ArmSubsystem arm = new ArmSubsystem();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
   private final Coral coralSubsystem = new Coral();
   private final LEDSubsystem leds = new LEDSubsystem();
@@ -168,7 +168,7 @@ public class RobotContainer {
 
 NamedCommands.registerCommand("processorDeposit", m_algaeProcessorDepositCommand);
 NamedCommands.registerCommand("groundIntake", m_algaeIntakeCommand);
-NamedCommands.registerCommand("shootPosition", arm.setArmPosition(ArmConstants.kArmPositionShoot));
+NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
 NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 NamedCommands.registerCommand("L2", m_L2Command);
 NamedCommands.registerCommand("L3", m_L3Command);

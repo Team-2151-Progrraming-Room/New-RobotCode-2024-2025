@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.subsystems.ArmSubsystem;
 
 
 import frc.robot.Constants.*;
@@ -14,11 +14,11 @@ import static edu.wpi.first.units.Units.*;
 
 public class 
 ShootArmPositionCommand extends Command{
-    ArmSubsystemCTRE m_arm;
+    ArmSubsystem m_arm;
     LEDSubsystem m_led;
     BooleanSupplier m_armPositionCheck;
 
-    public ShootArmPositionCommand(ArmSubsystemCTRE arm, LEDSubsystem led, BooleanSupplier armCheck){
+    public ShootArmPositionCommand(ArmSubsystem arm, LEDSubsystem led, BooleanSupplier armCheck){
 
         m_arm = arm;
         m_led = led;

@@ -21,7 +21,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
-public class ArmSubsystemCTRE extends SubsystemBase{
+public class ArmSubsystem extends SubsystemBase{
   //physical devices
   private final TalonFX m_arm = new TalonFX(ArmConstants.kArmMotor);
   private final TalonFX m_armFollower = new TalonFX(ArmConstants.kFollowerMotor);
@@ -42,7 +42,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
   private double position;
 
 
-  public ArmSubsystemCTRE(){
+  public ArmSubsystem(){
 
     m_arm.stopMotor();
 

@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
-import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 
 
@@ -30,7 +30,7 @@ import static edu.wpi.first.units.Units.*;
 public class AlgaeShooterCommands extends Command{
 
 AlgaeSubsystemCTRE m_algaeSubsystem;
-ArmSubsystemCTRE m_armSubsystem;
+ArmSubsystem m_armSubsystem;
 LEDSubsystem m_ledSubsystem;
 
 BooleanSupplier m_atSpeedCheck;
@@ -38,7 +38,7 @@ BooleanSupplier m_atArmPosition;
 
 //Shooting Command (maybe not be needed)
 
-public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, LEDSubsystem leds, BooleanSupplier speedCheck, BooleanSupplier armCheck){
+public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystem armSubsystem, LEDSubsystem leds, BooleanSupplier speedCheck, BooleanSupplier armCheck){
 
     m_algaeSubsystem = AlgaeSystem;
     m_armSubsystem = armSubsystem;
