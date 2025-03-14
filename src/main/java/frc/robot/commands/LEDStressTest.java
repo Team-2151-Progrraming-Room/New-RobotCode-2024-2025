@@ -52,10 +52,10 @@ public class LEDStressTest extends Command {
 
         // we just bounce a color back and forth from one end to the other
 
-        // reset from what we're showing now
-        rVal = (int)Math.random()*256;
-        gVal = (int)Math.random()*256;
-        bVal = (int)Math.random()*256;
+        // set r, g, and b to random numbers between 0 and 255
+        rVal = ((int)Math.random())*256;
+        gVal = ((int)Math.random())*256;
+        bVal = ((int)Math.random())*256;
 
         m_ledSubsystem.setAllLedsRGB(rVal, gVal, bVal);
 
