@@ -9,7 +9,6 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
 //commands
-import frc.robot.commands.LEDFlashRedCommand;
 
 
 import frc.robot.Constants.*;
@@ -41,7 +40,7 @@ ShootArmPositionCommand extends Command{
             m_arm.setArmPositionCommand(shootPosition),
             Commands.waitUntil(m_armPositionCheck),
             flashRedCommand,
-            Commands.wait(10)
+            Commands.waitSeconds(10)
             );
     }
 

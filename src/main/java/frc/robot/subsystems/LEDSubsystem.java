@@ -148,7 +148,7 @@ public class LEDSubsystem extends SubsystemBase{
     /**
      * turns off one random LED each time through as part of the post shootiung LED sequence
      */
-
+        System.out.println("Post shoot command started");
         int offLed = (int)(Math.random() * LEDConstants.kNumLEDs);       // pick a random LED to turn off (0 to kNumOfLeds - 1)
 
         setLedHSV(offLed, LEDConstants.kLedGeneralBackgroundH, LEDConstants.kLedGeneralBackgroundS, LEDConstants.kLedGeneralBackgroundV);
@@ -158,6 +158,7 @@ public class LEDSubsystem extends SubsystemBase{
 
     private void initLedShootSequence() {
 
+        System.out.println("pre-shoot init command started");
         m_shootSpinupCurrentHue  = LEDConstants.kLedShooterSpinupStartH;
 
         m_shootSpinupLedCount = 1;
@@ -169,6 +170,7 @@ public class LEDSubsystem extends SubsystemBase{
 
     public void ledPreShootSequence() {
 
+        System.out.println("led pre-shoot sequence started");
         // we use the previously set range and hue
         setRangeLedsHSV(0, m_shootSpinupLedCount, m_shootSpinupCurrentHue, 255, 255);
 

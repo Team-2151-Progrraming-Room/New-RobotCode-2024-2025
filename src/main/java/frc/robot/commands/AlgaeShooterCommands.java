@@ -52,15 +52,16 @@ public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystem armSubs
     addRequirements(leds);
 }
 
-
 public Command getShootCommand(){
 
     return Commands.sequence(
 
-            m_ledSubsystem.LedPreShootInitCommand(),
-            m_ledSubsystem.LedPreShootCommand(),
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
-            Commands.waitUntil(m_atSpeedCheck),
+            Commands.deadline(
+                Commands.waitUntil(m_atSpeedCheck),
+                Commands.sequence(m_ledSubsystem.LedPreShootInitCommand(),
+                m_ledSubsystem.LedPreShootCommand())
+                ),
 
             m_algaeSubsystem.KickMotorONCommand(),
             m_ledSubsystem.LedShootCommand(),
@@ -71,7 +72,6 @@ public Command getShootCommand(){
     );
 
 }
-
 // Dumping Command
 
 public Command getDumpCommand(){

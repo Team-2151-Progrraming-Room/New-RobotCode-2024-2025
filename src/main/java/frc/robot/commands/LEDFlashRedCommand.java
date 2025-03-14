@@ -12,9 +12,9 @@ public class LEDFlashRedCommand extends Command {
 
   private static final int m_paceFactor              = 15;
   private static int m_paceCount;
-  private int rVal;
-  private int gVal;
-  private int bVal;
+  private int hVal;
+  private int sVal;
+  private int vVal;
 
   LEDSubsystem m_LEDSubsystem;
   /** Creates a new LEDFlashRed. */
@@ -28,10 +28,10 @@ public class LEDFlashRedCommand extends Command {
   @Override
   public void initialize() {
     m_paceCount = m_paceFactor;
-    rVal = 0;
-    gVal = 0;
-    bVal = 0;
-    m_LEDSubsystem.setAllLedsRGBCommand(rVal, gVal, bVal);
+    hVal = 255;
+    sVal = 250;
+    vVal = 0;
+    m_LEDSubsystem.setAllLedsHSV(hVal, sVal, vVal);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,13 +46,14 @@ public class LEDFlashRedCommand extends Command {
         m_paceCount = m_paceFactor;     // reset counter and do our thing
 
         //change r value 0 to 255, flashing the LEDs on and off
-        if(rVal == 0){
-          rVal = 255;
-        } else if(rVal == 255){
-          rVal = 0;
+        if(vVal == 0){
+          vVal = 255;
+        } else if(vVal == 255){
+          vVal = 0;
         }
 
-        m_LEDSubsystem.setAllLedsRGB(rVal, gVal, bVal);
+
+        m_LEDSubsystem.setAllLedsHSV(hVal, sVal, vVal);
   }
 
   // Called once the command ends or is interrupted.

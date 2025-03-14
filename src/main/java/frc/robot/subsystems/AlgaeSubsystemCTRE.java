@@ -148,6 +148,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     }
 
     public Command RevMotorsSHOOTCommand(){
+        System.out.println("rev motors on command running");
         return runOnce(
             () -> {RevMotorsSHOOT();}
         );
