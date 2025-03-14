@@ -6,7 +6,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.util.sendable.SendableBuilder;
 
@@ -107,19 +106,19 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
   public void climbLockStartUp(){
      // lock the cage to the arm in preparation for climbing
-  
+
     // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
     // we just let it move while checking
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
-  
+
     System.out.println("Locking cage...");
-  
+
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
   }
-  
+
   public boolean climbLockEngageCheck() {
-    
+
     if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
       return true;
     } else {
@@ -136,19 +135,19 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //check the encoder position to see if we've reached out limit
     if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
-  
+
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
 
       m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
       m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
-  
+
       m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
     }
     // keep it going until we've closed - even if we don't fully close, we'll keep trying
     //
     // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
   }
-  
+
 }
