@@ -68,7 +68,7 @@ public final class Constants {
 
 
     //PID and FF Constants
-    public static final double kAlgaePIDControllerP = .5;
+    public static final double kAlgaePIDControllerP = .45;
     public static final double kAlgaePIDControllerI = 0;
     public static final double kAlgaePIDControllerD = 0;
     public static final int kAlgaePIDControllerS = 0;
@@ -78,7 +78,7 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 60;
+    public static final int kAlgaeRevVelocity = 30;
     //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
