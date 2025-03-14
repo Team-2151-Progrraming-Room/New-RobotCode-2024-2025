@@ -44,6 +44,7 @@ import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.LEDBounceCommand;
 import frc.robot.commands.ShootArmPositionCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.climbLockSecureCageCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.commands.LEDStressTest;
 
@@ -53,6 +54,10 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -82,9 +87,12 @@ public class RobotContainer {
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
 
+  private final Command m_lockCommand = new climbLockSecureCageCommand(lockSubsystem);
+
   private final Command m_defaultLEDBounce = new LEDBounceCommand(leds);
   private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
   private final Command m_ledStress = new LEDStressTest(leds);
+
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
@@ -239,7 +247,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(m_shootArmPosition);
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
-    climbPositionUpButton.onTrue(lockSubsystem.climbLockSecureCageCommand());
+    climbPositionUpButton.onTrue(m_lockCommand);
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

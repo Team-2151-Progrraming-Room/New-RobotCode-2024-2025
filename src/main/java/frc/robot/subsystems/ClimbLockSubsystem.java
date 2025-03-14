@@ -6,7 +6,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.util.sendable.SendableBuilder;
 
@@ -62,7 +61,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //Talon FXS Configuration
     m_climbLockConfiguration = new TalonFXSConfiguration();
     m_climbLockConfiguration.Commutation.MotorArrangement = MotorArrangementValue.Brushed_DC;
-    m_climbLockConfiguration.Commutation.BrushedMotorWiring = BrushedMotorWiringValue.Leads_A_and_B;
+    m_climbLockConfiguration.Commutation.BrushedMotorWiring = BrushedMotorWiringValue.Leads_A_and_C;
     //Not using Advanced Hall Support, seems like a minor upgrade, but it is something worth noting
 
 
@@ -92,6 +91,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //which should (hopefully) not matter since it's a relative encoder either way.
 
     System.out.println("Done.");
+    System.out.println(m_climbLock.getPosition().getValueAsDouble());
 
 
     /*Old code, will delete later
@@ -104,11 +104,8 @@ public class ClimbLockSubsystem extends SubsystemBase {
     */
   }
 
-
-
-  public Command climbLockSecureCageCommand() {
-    return runOnce(() -> {
-    // lock the cage to the arm in preparation for climbing
+  public void climbLockStartUp(){
+     // lock the cage to the arm in preparation for climbing
 
     // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
     // we just let it move while checking
@@ -118,29 +115,28 @@ public class ClimbLockSubsystem extends SubsystemBase {
     System.out.println("Locking cage...");
 
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
-
-    run(() -> climbLockEngaged());
-    });
-                    // returns true when closed - leaves the motor stalled
   }
 
+  public boolean climbLockEngageCheck() {
 
+    if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
-  private boolean climbLockEngaged() {
+  public void climbLocking(){
     //Debug
     System.out.println("Current cage lock position is " + m_climbLock.getPosition().getValueAsDouble());
     System.out.println("Current stator current value is " + m_climbLock.getStatorCurrent().getValueAsDouble());
     System.out.println("Current supply current value is " + m_climbLock.getSupplyCurrent().getValueAsDouble());
 
-    // check the encoder position to see if we've reached out limit
-
-    if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
-
+    //check the encoder position to see if we've reached out limit
+    if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
 
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
-
-      //m_oldConfig.smartCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentLimit);
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
 
@@ -148,21 +144,10 @@ public class ClimbLockSubsystem extends SubsystemBase {
       m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
 
       m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
-
-
-      /*
-      m_oldMotor.configure(m_oldConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-      m_oldMotor.set(ClimbLockConstants.kClimbLockPowerStall);
-      */
-
-      return true;
     }
-
     // keep it going until we've closed - even if we don't fully close, we'll keep trying
     //
     // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
-
-    return false;
   }
 
 }
