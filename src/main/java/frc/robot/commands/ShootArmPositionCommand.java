@@ -4,8 +4,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import java.util.function.BooleanSupplier;
 
+//subsystems
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+
+//commands
+import frc.robot.commands.LEDFlashRedCommand;
 
 
 import frc.robot.Constants.*;
@@ -18,11 +22,15 @@ ShootArmPositionCommand extends Command{
     LEDSubsystem m_led;
     BooleanSupplier m_armPositionCheck;
 
+    Command flashRedCommand;
+
     public ShootArmPositionCommand(ArmSubsystem arm, LEDSubsystem led, BooleanSupplier armCheck){
 
         m_arm = arm;
         m_led = led;
         m_armPositionCheck = armCheck;
+
+        flashRedCommand = new LEDFlashRedCommand(m_led);
 
         addRequirements(arm);
         addRequirements(led);
@@ -32,7 +40,8 @@ ShootArmPositionCommand extends Command{
         return Commands.sequence(
             m_arm.setArmPositionCommand(shootPosition),
             Commands.waitUntil(m_armPositionCheck),
-            m_led.LedShootCommand()
+            flashRedCommand,
+            Commands.wait(10)
             );
     }
 

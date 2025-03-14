@@ -257,7 +257,7 @@ public class LEDSubsystem extends SubsystemBase{
   }
 
   public Command setAllLedsRGBCommand(int rVal, int gVal, int bVal){
-    return run(
+    return runOnce(
         () -> {
             setAllLedsRGB(rVal, gVal, bVal);
         }

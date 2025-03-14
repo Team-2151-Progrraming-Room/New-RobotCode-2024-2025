@@ -67,8 +67,7 @@ public Command getShootCommand(){
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
 
             m_algaeSubsystem.allMotorsOFFCommand(),
-            m_ledSubsystem.LedPostShootCommand(), 
-            Commands.wait(10)
+            m_ledSubsystem.LedPostShootCommand()
     );
 
 }
