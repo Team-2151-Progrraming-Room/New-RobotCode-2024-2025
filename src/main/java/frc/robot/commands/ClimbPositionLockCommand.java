@@ -1,8 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import java.util.function.BooleanSupplier;
 
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
@@ -22,5 +20,5 @@ ClimbLockSubsystem m_climbSubsystem;
 public ClimbPositionLockCommand(ArmSubsystem arm, LEDSubsystem led){
 
 }
-    
+
 }

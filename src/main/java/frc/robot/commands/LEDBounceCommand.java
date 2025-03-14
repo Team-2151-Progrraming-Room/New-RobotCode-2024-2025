@@ -39,11 +39,11 @@ public class LEDBounceCommand extends Command {
         m_ledSubsystem.setLedHSV(0, LEDConstants.kLedBounceShadowH,
                                           LEDConstants.kLedBounceShadowS,
                                           LEDConstants.kLedBounceShadowV);
-                                
+
         m_ledSubsystem.setLedHSV(1, LEDConstants.kLedBouncePrimaryH,
                                           LEDConstants.kLedBouncePrimaryS,
                                           LEDConstants.kLedBouncePrimaryV);
-                                
+
         m_ledSubsystem.setLedHSV(2, LEDConstants.kLedBounceShadowH,
                                           LEDConstants.kLedBounceShadowS,
                                           LEDConstants.kLedBounceShadowV);
@@ -83,11 +83,11 @@ public class LEDBounceCommand extends Command {
 
         if (m_bounceIndex > (m_ledSubsystem.getNumLEDs() - 3)) {
             m_bounceIndex     = m_ledSubsystem.getNumLEDs() - 3 - 1;
-            m_bounceDirection = -1; 
+            m_bounceDirection = -1;
         }
-        
+
         // set bounce colors
-        
+
         m_ledSubsystem.setLedHSV(m_bounceIndex,
                                  LEDConstants.kLedBounceShadowH,
                                  LEDConstants.kLedBounceShadowS,

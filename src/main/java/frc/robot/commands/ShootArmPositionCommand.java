@@ -12,7 +12,7 @@ import frc.robot.Constants.*;
 
 import static edu.wpi.first.units.Units.*;
 
-public class 
+public class
 ShootArmPositionCommand extends Command{
     ArmSubsystem m_arm;
     LEDSubsystem m_led;

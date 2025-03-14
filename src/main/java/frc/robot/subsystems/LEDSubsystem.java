@@ -3,13 +3,13 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase; 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //our imports
 import frc.robot.Constants.LEDConstants;
 
 public class LEDSubsystem extends SubsystemBase{
-    
+
     private AddressableLED m_led;
     private AddressableLEDBuffer m_ledBuffer;
 
@@ -27,7 +27,7 @@ public class LEDSubsystem extends SubsystemBase{
         m_led.setLength(LEDConstants.kNumLEDs);
 
         // setLedsMaroon();
-   
+
         m_led.start();
     }
 
@@ -38,7 +38,7 @@ public class LEDSubsystem extends SubsystemBase{
     public void setLedsOff() {
 
         for (int i = 0 ; i < m_ledBuffer.getLength() ; i++) {
-   
+
             m_ledBuffer.setRGB(i, 0, 0, 0);
         }
     }
@@ -48,7 +48,7 @@ public class LEDSubsystem extends SubsystemBase{
     public void setLedsWhite() {
 
         for (int i = 0 ; i < m_ledBuffer.getLength() ; i++) {
-   
+
             m_ledBuffer.setRGB(i, 180, 180, 180);
         }
     }
@@ -58,7 +58,7 @@ public class LEDSubsystem extends SubsystemBase{
     public void setLedsMaroon() {
 
         for (int i = 0 ; i < m_ledBuffer.getLength() ; i++) {
-   
+
             m_ledBuffer.setHSV(i, 2, 64, 22);       // determined with google colo picker at https://www.google.com/search?q=color+picker
         }
     }
@@ -69,10 +69,10 @@ public class LEDSubsystem extends SubsystemBase{
 
 /**
  * sets all of the LEDs in the string to the same passed RGB colors
- */ 
+ */
 
         for (int i = 0 ; i < m_ledBuffer.getLength() ; i++) {
-   
+
             m_ledBuffer.setRGB(i, red, green, blue);
         }
     }
@@ -83,10 +83,10 @@ public class LEDSubsystem extends SubsystemBase{
 
 /**
  * sets a subset of the LEDs in the string to the same passed RGB colors starting at the 0-based index and setting count number of LEDs
- */ 
- 
+ */
+
         for (int i = 0 ; i < count ; i++) {
-   
+
             m_ledBuffer.setRGB(index + i, red, green, blue);
         }
     }
@@ -97,8 +97,8 @@ public class LEDSubsystem extends SubsystemBase{
 
 /**
  * sets a specific LED in the string based on the 0-based index to the same passed RGB colors
- */ 
- 
+ */
+
         m_ledBuffer.setRGB(index, red, green, blue);
     }
 
@@ -108,10 +108,10 @@ public class LEDSubsystem extends SubsystemBase{
 
 /**
  * sets all of the LEDs in the string to the same passed HSV colors
- */ 
+ */
 
         for (int i = 0 ; i < m_ledBuffer.getLength() ; i++) {
-   
+
             m_ledBuffer.setHSV(i, hue, sat, value);
         }
     }
@@ -122,10 +122,10 @@ public class LEDSubsystem extends SubsystemBase{
 
 /**
  * sets a subset of the LEDs in the string to the same passed HSV colors starting at the 0-based index and setting count number of LEDs
- */ 
- 
+ */
+
         for (int i = 0 ; i < count ; i++) {
-   
+
             m_ledBuffer.setHSV(index + i, hue, sat, value);
         }
     }
@@ -136,8 +136,8 @@ public class LEDSubsystem extends SubsystemBase{
 
     /**
      * sets a specific LED in the string based on the 0-based index to the same passed HSV colors
-     */ 
- 
+     */
+
         m_ledBuffer.setHSV(index, hue, sat, value);
     }
 
@@ -256,7 +256,15 @@ public class LEDSubsystem extends SubsystemBase{
         });
   }
 
-  
+  public Command setAllLedsRGBCommand(int rVal, int gVal, int bVal){
+    return run(
+        () -> {
+            setAllLedsRGB(rVal, gVal, bVal);
+        }
+    );
+  }
+
+
 
 /* Periodics ************************************************************************************
  ************************************************************************************************/

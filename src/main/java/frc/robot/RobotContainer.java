@@ -45,6 +45,7 @@ import frc.robot.commands.LEDBounceCommand;
 import frc.robot.commands.ShootArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.commands.LEDStressTest;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -83,6 +84,7 @@ public class RobotContainer {
 
   private final Command m_defaultLEDBounce = new LEDBounceCommand(leds);
   private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
+  private final Command m_ledStress = new LEDStressTest(leds);
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
   private final Joystick buttonBoard = new Joystick(1);
@@ -225,7 +227,8 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
 
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
-    manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
+   // manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
+   manualDownButton.whileTrue(m_ledStress).whileFalse(leds.setAllLedsRGBCommand(0, 0, 0));
 
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
