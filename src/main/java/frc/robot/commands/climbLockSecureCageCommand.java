@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimbLockSubsystem;
 
 public class climbLockSecureCageCommand extends Command{
-    
+
     ClimbLockSubsystem lockSubsystem;
 
     public climbLockSecureCageCommand(ClimbLockSubsystem lockSubsytem){

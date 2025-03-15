@@ -59,14 +59,14 @@ public class Coral extends SubsystemBase{
 
     //Commands
     public Command coralMotorDepositCommand(){
-        return runOnce(
+        return run(
             () -> {
                 coralMotorOn();
             });
     }
 
     public Command coralMotorIntakeCommand(){
-        return runOnce(
+        return run(
             () -> {
                 m_CoralMotor.set(CoralConstants.kCorlaMotorIntakeSpeed);
             });

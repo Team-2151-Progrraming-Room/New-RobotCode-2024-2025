@@ -62,18 +62,18 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
   //Method that is the first step of the climbLockSecureCageCommand, gets the motor to start moving.
   public void climbLockStartUp(){
-  
+
     // we start the lock motor moving and we just let it move at the same speed the entire time.
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
     //This is done by lowering the current, which will cause the motor to move slower.
-  
+
     System.out.println("Locking cage...");
-  
+
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
   }
-  
-  //Method that checks to see if the climbLock has engaged onto the bars of the cage. 
+
+  //Method that checks to see if the climbLock has engaged onto the bars of the cage.
   //Checks to see if the current of the motor has rised above a certain current, which means that it the motor is acting
   //against the bars of the cage.
   public boolean climbLockEngageCheck() {
@@ -96,7 +96,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //check to see if the cage lock has locked onto the bars of the cage by seeing if the current jumps up.
     if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
-  
+
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
@@ -107,5 +107,5 @@ public class ClimbLockSubsystem extends SubsystemBase {
     }
     // keep it motor going at the same speed -- the current limit lowering will slow it down.
   }
-  
+
 }

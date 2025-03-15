@@ -218,7 +218,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand()
 
     controller
     .leftTrigger()
-    .onTrue(coralSubsystem.coralMotorIntakeCommand());
+    .whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
     //Coral Button Assignment
     Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
