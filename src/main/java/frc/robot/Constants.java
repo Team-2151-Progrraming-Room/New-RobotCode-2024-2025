@@ -147,47 +147,5 @@ public final class Constants {
     public static final int kFollowerMotorCurrentSupplyLimit = 40;
 
   }
-
-public static class CoralConstants {
-  public static final int kCoralMotor = 35;
-
-  public static final double kCoralMotorSpeed = 0.5;
-
-  public static final String canbusName = "rio";
-
-  public static final int kCoralStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
-  public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
-                                                        //how much current can be drawn from the battery.
-}
-
-  public static class ClimbLockConstants {
-    public static final int kClimbLockCanRioId      = 50;
-
-    /* Unused, encoder was not used.
-    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
-    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
-    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
-    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
-                                                                        (double) kClimbLockGearRatio *
-                                                                        (double) kClimbLockEncoderPpr);
-    */
-
-    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
-    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
-
-    public static final int kClimbLockCloseCurrentStatorLimit  = 20; // Stator amps - while moving
-    public static final int kClimbLockCloseCurrentSupplyLimit  = 20; // Supply amps - while moving
-
-    public static final int kClimbLockStallCurrentStatorLimit = 20; // Stator amps - when we've closed and trying to stay locked
-    public static final int kClimbLockStallCurrentSupplyLimit = 20;// Supply amps - when we've closed.
-    //For the  am-2765 DC Motor, stall current should be 15-20 amps
-
-
-    public static final int kClimbLockCurrentStallPoint = 20;//Constant used to determine that the lock has engaged the cage.
-    //If the current of the motor goes over this point, then current has jumped up because the motor is trying to move through the cage.
-    //Therefore, we can conclude that the climb lock has engaged the case, and the current limit should decrease.
-
-    //Everything is set to 20 amps for now after testing this on the test board, it seems like it snap shut correctly at values under 20
-    //so everything is set to 20 for now.
-  }
+  
 }
