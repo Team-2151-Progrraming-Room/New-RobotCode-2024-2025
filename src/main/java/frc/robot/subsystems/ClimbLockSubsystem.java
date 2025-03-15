@@ -6,7 +6,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.util.sendable.SendableBuilder;
 
@@ -25,12 +24,10 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.BrushedMotorWiringValue;
-import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.ExternalFeedbackConfigs;
 /*
 import com.ctre.phoenix6.configs.Slot0Configs;    Unused, will delete later
 import com.ctre.phoenix6.controls.VelocityVoltage;
@@ -44,7 +41,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
   private TalonFXS m_climbLock;
   private TalonFXSConfiguration m_climbLockConfiguration;
   private CurrentLimitsConfigs m_climbLockCurrentLimitsConfigs;
-  private ExternalFeedbackConfigs m_climbLockEncoderConfig;
+  //private ExternalFeedbackConfigs m_climbLockEncoderConfig;
 
   /* Old Rev Imports, will delete later
   private RelativeEncoder m_oldEncoder;
@@ -74,14 +71,15 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
 
     //Encoder configuration
+    /* Unused, will be deleted later
     m_climbLockEncoderConfig = new ExternalFeedbackConfigs();
     m_climbLockEncoderConfig.withExternalFeedbackSensorSource(ExternalFeedbackSensorSourceValue.Quadrature);
-    m_climbLockEncoderConfig.withRotorToSensorRatio(ClimbLockConstants.kClimbLockEncoderPpr);
+    m_climbLockEncoderConfig.withRotorToSensorRatio(ClimbLockConstants.kClimbLockEncoderPpr);*/
 
 
     //Config application
     m_climbLockConfiguration.withCurrentLimits(m_climbLockCurrentLimitsConfigs);
-    m_climbLockConfiguration.withExternalFeedback(m_climbLockEncoderConfig);
+    //m_climbLockConfiguration.withExternalFeedback(m_climbLockEncoderConfig);
     m_climbLock.getConfigurator().apply(m_climbLockConfiguration);
 
     m_climbLock.setNeutralMode(NeutralModeValue.Brake);//Set the motor to brake mode, will resist movement when the motor
@@ -92,7 +90,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //which should (hopefully) not matter since it's a relative encoder either way.
 
     System.out.println("Done.");
-    System.out.println(m_climbLock.getPosition().getValueAsDouble());
+    //System.out.println(m_climbLock.getPosition().getValueAsDouble());
 
 
     /*Old code, will delete later
@@ -107,48 +105,50 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
   public void climbLockStartUp(){
      // lock the cage to the arm in preparation for climbing
-  
+
     // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
     // we just let it move while checking
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
-  
+
     System.out.println("Locking cage...");
-  
+
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
   }
-  
+
   public boolean climbLockEngageCheck() {
-    
-    if (m_climbLock.getPosition().getValueAsDouble() > ClimbLockConstants.kClimbLockFullyClosedEncoderCount) {
+
+    if (m_climbLock.getStatorCurrent().getValueAsDouble() > ClimbLockConstants.kClimbLockCurrentStallPoint) {
+      System.out.println("Check Ran True");
       return true;
     } else {
+      System.out.println("Check Ran False");
       return false;
     }
   }
 
   public void climbLocking(){
     //Debug
-    System.out.println("Current cage lock position is " + m_climbLock.getPosition().getValueAsDouble());
+    //System.out.println("Current cage lock position is " + m_climbLock.getPosition().getValueAsDouble());
     System.out.println("Current stator current value is " + m_climbLock.getStatorCurrent().getValueAsDouble());
     System.out.println("Current supply current value is " + m_climbLock.getSupplyCurrent().getValueAsDouble());
 
     //check the encoder position to see if we've reached out limit
     if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
-  
+
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
 
       m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
       m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
-  
-      m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
+
+      //m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
     }
     // keep it going until we've closed - even if we don't fully close, we'll keep trying
     //
     // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
   }
-  
+
 }
