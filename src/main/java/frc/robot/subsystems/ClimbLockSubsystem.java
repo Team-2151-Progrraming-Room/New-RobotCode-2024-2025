@@ -105,17 +105,17 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
   public void climbLockStartUp(){
      // lock the cage to the arm in preparation for climbing
-
+  
     // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
     // we just let it move while checking
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
-
+  
     System.out.println("Locking cage...");
-
+  
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
   }
-
+  
   public boolean climbLockEngageCheck() {
 
     if (m_climbLock.getStatorCurrent().getValueAsDouble() > ClimbLockConstants.kClimbLockCurrentStallPoint) {
@@ -136,7 +136,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //check the encoder position to see if we've reached out limit
     if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
-
+  
       // we're closed so we'll set our new current limit, let the motor stall at our stall power level and return true
       m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentStatorLimit);
       m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockStallCurrentSupplyLimit);
@@ -150,5 +150,5 @@ public class ClimbLockSubsystem extends SubsystemBase {
     //
     // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
   }
-
+  
 }
