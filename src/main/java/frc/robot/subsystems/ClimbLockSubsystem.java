@@ -9,17 +9,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import edu.wpi.first.util.sendable.SendableBuilder;
 
-// SparkMax imports - these come from REV Robotics
-/*Old imports, will delete later
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-*/
-
 //CTRE Imports
 
 import com.ctre.phoenix6.hardware.TalonFXS;
@@ -28,10 +17,6 @@ import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-/*
-import com.ctre.phoenix6.configs.Slot0Configs;    Unused, will delete later
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.Follower;*/
 
 //Climb Lock Constants
 import frc.robot.Constants.ClimbLockConstants;
@@ -41,13 +26,6 @@ public class ClimbLockSubsystem extends SubsystemBase {
   private TalonFXS m_climbLock;
   private TalonFXSConfiguration m_climbLockConfiguration;
   private CurrentLimitsConfigs m_climbLockCurrentLimitsConfigs;
-  //private ExternalFeedbackConfigs m_climbLockEncoderConfig;
-
-  /* Old Rev Imports, will delete later
-  private RelativeEncoder m_oldEncoder;
-  private SparkMaxConfig m_oldConfig = new SparkMaxConfig();
-  private SparkMax m_oldMotor;
-  */
 
   public ClimbLockSubsystem() {
 
@@ -69,53 +47,35 @@ public class ClimbLockSubsystem extends SubsystemBase {
     m_climbLockCurrentLimitsConfigs.withStatorCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentStatorLimit);//Closed values
     m_climbLockCurrentLimitsConfigs.withSupplyCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentSupplyLimit);
 
-
-    //Encoder configuration
-    /* Unused, will be deleted later
-    m_climbLockEncoderConfig = new ExternalFeedbackConfigs();
-    m_climbLockEncoderConfig.withExternalFeedbackSensorSource(ExternalFeedbackSensorSourceValue.Quadrature);
-    m_climbLockEncoderConfig.withRotorToSensorRatio(ClimbLockConstants.kClimbLockEncoderPpr);*/
-
-
     //Config application
     m_climbLockConfiguration.withCurrentLimits(m_climbLockCurrentLimitsConfigs);
-    //m_climbLockConfiguration.withExternalFeedback(m_climbLockEncoderConfig);
     m_climbLock.getConfigurator().apply(m_climbLockConfiguration);
 
     m_climbLock.setNeutralMode(NeutralModeValue.Brake);//Set the motor to brake mode, will resist movement when the motor
                                                       //isn't running.
 
-
-    //There does not appear to be a method to zero a remote quadiature encoder,
-    //which should (hopefully) not matter since it's a relative encoder either way.
+    m_climbLock.setSafetyEnabled(true);//Sets safety.
 
     System.out.println("Done.");
-    //System.out.println(m_climbLock.getPosition().getValueAsDouble());
-
-
-    /*Old code, will delete later
-    m_oldEncoder.setPosition(0);    // we assume we're in the start position with the locks positioned to be fully open
-    m_oldMotor.configure(m_oldConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-    m_oldMotor = new SparkMax(ClimbLockConstants.kClimbLockCanRioId, MotorType.kBrushless);   // CHANGE WHEN GOING BRUSHED!!
-    m_oldConfig
-    //.smartCurrentLimit(ClimbLockConstants.kClimbLockCloseCurrentLimit)
-    .idleMode(IdleMode.kBrake);                  // use brake mode to help keep us secure as much as we can
-    */
   }
 
+
+  //Method that is the first step of the climbLockSecureCageCommand, gets the motor to start moving.
   public void climbLockStartUp(){
-     // lock the cage to the arm in preparation for climbing
   
-    // we start the lock motor moving and since know how far to rotate the cage hooks we continue until they reach their target,
-    // we just let it move while checking
+    // we start the lock motor moving and we just let it move at the same speed the entire time.
     //
     // once locked, we maintain a stall force to prevent the cage locks from coming loose as long as we can
+    //This is done by lowering the current, which will cause the motor to move slower.
   
     System.out.println("Locking cage...");
   
     m_climbLock.set(ClimbLockConstants.kClimbLockPowerClose); // start the closing action
   }
   
+  //Method that checks to see if the climbLock has engaged onto the bars of the cage. 
+  //Checks to see if the current of the motor has rised above a certain current, which means that it the motor is acting
+  //against the bars of the cage.
   public boolean climbLockEngageCheck() {
 
     if (m_climbLock.getStatorCurrent().getValueAsDouble() > ClimbLockConstants.kClimbLockCurrentStallPoint) {
@@ -127,13 +87,13 @@ public class ClimbLockSubsystem extends SubsystemBase {
     }
   }
 
+  // Method that is used to lower the current limits when the climbLock is engaged against the bars of the cage.
   public void climbLocking(){
     //Debug
-    //System.out.println("Current cage lock position is " + m_climbLock.getPosition().getValueAsDouble());
     System.out.println("Current stator current value is " + m_climbLock.getStatorCurrent().getValueAsDouble());
     System.out.println("Current supply current value is " + m_climbLock.getSupplyCurrent().getValueAsDouble());
 
-    //check the encoder position to see if we've reached out limit
+    //check to see if the cage lock has locked onto the bars of the cage by seeing if the current jumps up.
     if(climbLockEngageCheck() == true){
       System.out.println("LOCKED!!!");
   
@@ -144,11 +104,8 @@ public class ClimbLockSubsystem extends SubsystemBase {
       m_climbLock.getConfigurator().apply(m_climbLockCurrentLimitsConfigs);
       m_climbLock.getConfigurator().refresh(m_climbLockCurrentLimitsConfigs);
 
-      //m_climbLock.set(ClimbLockConstants.kClimbLockPowerStall);
     }
-    // keep it going until we've closed - even if we don't fully close, we'll keep trying
-    //
-    // if we get some sort of partial close and don't reach our encoder target, we'll get saved by the current limit
+    // keep it motor going at the same speed -- the current limit lowering will slow it down.
   }
   
 }

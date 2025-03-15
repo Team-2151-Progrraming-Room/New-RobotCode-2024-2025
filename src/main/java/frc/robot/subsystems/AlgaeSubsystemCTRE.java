@@ -3,7 +3,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 
-import static edu.wpi.first.units.Units.*;
+//import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -68,10 +68,13 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         //configs.withCurrentLimits(revCurrentLimitConfigs);
         m_Rev.getConfigurator().apply(configs);
         m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
+        m_Rev.setSafetyEnabled(true);//Enabling safety
+        m_Rev2.setSafetyEnabled(true);
 
         //kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs); Current Limit application, commented out for now.
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         m_Kick.getConfigurator().apply(kickConfigs);
+        m_Kick.setSafetyEnabled(true);
 
     }
 

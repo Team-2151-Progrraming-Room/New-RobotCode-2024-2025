@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 //our imports
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.CanbusName;
-import frc.robot.util.*;
+//import frc.robot.util.*;
 import edu.wpi.first.math.MathUtil;
 
 //CTRE Imports
@@ -80,10 +80,12 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     armConfig.withFeedback(feedback);
     //armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);
+    m_arm.setSafetyEnabled(true);//Turns on safety.
 
     //followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
     //m_armFollower.getConfigurator().apply(followerConfig);
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
+    m_armFollower.setSafetyEnabled(true);
   }
 
   public void setArmPosition(double armPosition){
