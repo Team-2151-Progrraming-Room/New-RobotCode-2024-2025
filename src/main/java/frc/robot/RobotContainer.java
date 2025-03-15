@@ -231,8 +231,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
 
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
-   // manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-   manualDownButton.whileTrue(m_ledStress).whileFalse(leds.setAllLedsRGBCommand(0, 0, 0));
+    manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);

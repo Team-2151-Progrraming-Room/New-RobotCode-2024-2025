@@ -78,7 +78,7 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 30;
+    public static final int kAlgaeRevVelocity = 60;
     //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
@@ -90,7 +90,7 @@ public final class Constants {
 
     public static final int kAlgaeVoltage = 0;
 
-    public static final double kShortShooterWaitTime = 0.25;
+    public static final double kShortShooterWaitTime = 1;
     public static final double kLongShooterWaitTime = 1;
 
     //Current Limits
@@ -141,7 +141,7 @@ public final class Constants {
     public static final int kArmPositionGroundAlgae = 0;
     public static final int kArmPositionLowAlgae = 60;
     public static final int kArmPositionProcessor = 25;
-    public static final int kArmPositionHighAlgae= 45;
+    public static final int kArmPositionHighAlgae= 135;
     public static final int kArmPositionShoot = 90;
     public static final int kArmPositionClimb = 45;
 
@@ -185,15 +185,15 @@ public static class LEDConstants{
 
     public static final int kLedBounceShadowH       = 145;
     public static final int kLedBounceShadowS       = 255;
-    public static final int kLedBounceShadowV       = 50;
+    public static final int kLedBounceShadowV       = 20;
 
-    public static final int kLedIntakePrimaryH      = 20;
+    public static final int kLedIntakePrimaryH      = 60;
     public static final int kLedIntakePrimaryS      = 255;
     public static final int kLedIntakePrimaryV      = 255;
 
-    public static final int kLedIntakeShadowH       = 20;
+    public static final int kLedIntakeShadowH       = 60;
     public static final int kLedIntakeShadowS       = 255;
-    public static final int kLedIntakeShadowV       = 150;
+    public static final int kLedIntakeShadowV       = 20;
 
     public static final int kLedIntakeBackgroundH   = kLedGeneralBackgroundH;
     public static final int kLedIntakeBackgroundS   = kLedGeneralBackgroundS;
@@ -211,6 +211,14 @@ public static class LEDConstants{
     public static final int kLedShooterBackgroundH   = kLedGeneralBackgroundH;
     public static final int kLedShooterBackgroundS   = kLedGeneralBackgroundS;
     public static final int kLedShooterBackgroundV   = kLedGeneralBackgroundV;
+
+    public static final int kLedReefH = 100;
+    public static final int kLedReefS = 255;
+    public static final int kLedReefV = 255;
+
+    public static final int kLedReefShadowH = 110;
+    public static final int kLedReefShadowS = 255;
+    public static final int kLedReefShadowV = 20;
 
 
 }

@@ -57,18 +57,24 @@ public Command getShootCommand(){
     return Commands.sequence(
 
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
-            Commands.deadline(
-                Commands.waitUntil(m_atSpeedCheck),
-                Commands.sequence(m_ledSubsystem.LedPreShootInitCommand(),
-                m_ledSubsystem.LedPreShootCommand())
-                ),
+                Commands.deadline(
+
+                        Commands.waitUntil(m_atSpeedCheck),
+
+                    Commands.sequence(
+                        m_ledSubsystem.LedPreShootInitCommand(),
+                        m_ledSubsystem.LedPreShootCommand()
+                    )
+            ),
 
             m_algaeSubsystem.KickMotorONCommand(),
             m_ledSubsystem.LedShootCommand(),
             Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
 
-            m_algaeSubsystem.allMotorsOFFCommand(),
-            m_ledSubsystem.LedPostShootCommand()
+            Commands.parallel(
+                m_ledSubsystem.LedPostShootCommand().withTimeout(LEDConstants.kLedPostShootTime),
+                m_algaeSubsystem.allMotorsOFFCommand()
+            )
     );
 
 }
@@ -107,11 +113,16 @@ public Command getDepositCommand(int depositPosition){
 
 public Command getIntakeCommand(int armPosition){
     return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(armPosition),
-        Commands.waitUntil(m_atArmPosition),
-        m_algaeSubsystem.algaeIntakeCommand(),
-        Commands.waitSeconds(2.5),
-        m_algaeSubsystem.allMotorsOFFCommand()
+            m_armSubsystem.setArmPositionCommand(armPosition),
+            Commands.waitUntil(m_atArmPosition),
+            Commands.parallel(
+                m_ledSubsystem.setLedReefColorCommand(armPosition),
+                Commands.sequence(
+                    m_algaeSubsystem.algaeIntakeCommand(),
+                    Commands.waitSeconds(2.5),
+                    m_algaeSubsystem.allMotorsOFFCommand()
+        )
+    )
     );
 }
 }
