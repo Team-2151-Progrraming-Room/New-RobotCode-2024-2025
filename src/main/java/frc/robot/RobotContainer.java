@@ -169,7 +169,7 @@ NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmCons
 NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 NamedCommands.registerCommand("L2", m_L2Command);
 NamedCommands.registerCommand("L3", m_L3Command);
-NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
+NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -216,9 +216,12 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
                 drive)
                 .ignoringDisable(true));
 
+    controller
+    .leftTrigger()
+    .onTrue(coralSubsystem.coralMotorIntakeCommand());
 
     //Coral Button Assignment
-    Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
