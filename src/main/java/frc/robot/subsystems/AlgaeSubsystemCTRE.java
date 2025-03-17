@@ -24,9 +24,9 @@ import frc.robot.Constants.CanbusName;
 
 public class AlgaeSubsystemCTRE extends SubsystemBase{
     //Physical Devices
-    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
-    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
-    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
+    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.rioCANBus);
+    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.rioCANBus);
+    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.rioCANBus);
 
     //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();

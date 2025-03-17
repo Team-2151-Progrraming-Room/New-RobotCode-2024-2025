@@ -29,7 +29,6 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   //configurations
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
-  private final TalonFXConfiguration followerConfig = new TalonFXConfiguration();
 
   private final FeedbackConfigs feedback = new FeedbackConfigs();
 
@@ -46,7 +45,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     m_arm.stopMotor();
 
-    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
+    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.rioCANBus);
 
     //PID values for the motors
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;

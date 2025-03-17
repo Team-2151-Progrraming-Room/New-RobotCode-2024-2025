@@ -20,6 +20,7 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 //Climb Lock Constants
 import frc.robot.Constants.ClimbLockConstants;
+import frc.robot.Constants.CanbusName;
 
 public class ClimbLockSubsystem extends SubsystemBase {
   //Hardware and configurations for them.
@@ -32,7 +33,7 @@ public class ClimbLockSubsystem extends SubsystemBase {
     System.out.print("Initializing ClimbLockSubsystem...  ");
     System.out.print("Using a DC Motor and a TalonFXS!");
 
-    m_climbLock = new TalonFXS(ClimbLockConstants.kClimbLockCanRioId, "rio");
+    m_climbLock = new TalonFXS(ClimbLockConstants.kClimbLockCanRioId, CanbusName.rioCANBus);
 
     //Talon FXS Configuration
     m_climbLockConfiguration = new TalonFXSConfiguration();

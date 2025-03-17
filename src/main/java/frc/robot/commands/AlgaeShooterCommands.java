@@ -23,9 +23,6 @@ import frc.robot.subsystems.ArmSubsystemCTRE;
 
 import frc.robot.Constants.*;
 
-import static edu.wpi.first.units.Units.*;
-
-
 public class AlgaeShooterCommands extends Command{
 
 AlgaeSubsystemCTRE m_algaeSubsystem;
