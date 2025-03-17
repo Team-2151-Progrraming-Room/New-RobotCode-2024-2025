@@ -140,7 +140,7 @@ public class RobotContainer {
     }
 
 
-  NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
+  NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
