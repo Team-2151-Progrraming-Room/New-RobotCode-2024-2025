@@ -242,4 +242,14 @@ public static class LEDConstants{
     public static final int kClimbLockStallCurrentStatorLimit = 5; // Stator amps - when we've closed and trying to stay locked
     public static final int kClimbLockStallCurrentSupplyLimit = 5;// Supply amps - when we've closed.
   }
+
+  public static class VisionConstants{
+    public static final double kMinShootRange = 5;
+    public static final double kMaxShootRange = 10;
+
+    public static final double klimelightMountAngleDegrees = 25;
+    public static final double klimelightLensHeightInches = 20;
+    public static final double kgoalHeightInches = 60;
+
+  }
 }
