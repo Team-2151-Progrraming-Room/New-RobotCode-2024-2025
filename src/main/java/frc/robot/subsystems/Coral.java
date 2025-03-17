@@ -21,12 +21,13 @@ import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 //import frc.robot.Robot;
 import frc.robot.Constants.CoralConstants;
+import frc.robot.Constants.CanbusName;
 //import frc.robot.util.*;
 
 
 public class Coral extends SubsystemBase{
 
-    private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor, CoralConstants.canbusName);
+    private final TalonFXS m_CoralMotor = new TalonFXS(CoralConstants.kCoralMotor, CanbusName.rioCANBus);
     private final TalonFXSConfiguration configs = new TalonFXSConfiguration();
     private final CurrentLimitsConfigs coralLimitConfigs = new CurrentLimitsConfigs();
 

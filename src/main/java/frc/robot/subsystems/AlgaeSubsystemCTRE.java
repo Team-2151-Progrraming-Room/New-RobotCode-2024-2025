@@ -3,8 +3,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.MathUtil;
 
-import static edu.wpi.first.units.Units.*;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -24,9 +22,9 @@ import frc.robot.Constants.CanbusName;
 
 public class AlgaeSubsystemCTRE extends SubsystemBase{
     //Physical Devices
-    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
-    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
-    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
+    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.rioCANBus);
+    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.rioCANBus);
+    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.rioCANBus);
 
     //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();

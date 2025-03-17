@@ -46,7 +46,7 @@ public class ArmSubsystem extends SubsystemBase{
 
     m_arm.stopMotor();
 
-    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
+    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.rioCANBus);
 
     //PID values for the motors
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
