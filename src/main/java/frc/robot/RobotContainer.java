@@ -12,20 +12,30 @@
 // GNU General Public License for more details.
 
 package frc.robot;
+import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DriveCommands;
-import frc.robot.generated.TunerConstants;
+import edu.wpi.first.wpilibj.Joystick;
+
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import java.util.function.BooleanSupplier;
+
+//our subsystems
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+
+//out commands
+import frc.robot.commands.DriveCommands;
+import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 
@@ -33,8 +43,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
@@ -47,23 +55,52 @@ import frc.robot.subsystems.Coral;
  */
 public class RobotContainer {
   // Subsystems
-  private final Drive drive;
   private final Coral coralSubsystem = new Coral();
+  private final Drive drive;
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
-
   private final Joystick buttonBoard = new Joystick(1);
+
+
+  public final JoystickButton shootButton;
+  public final JoystickButton depositButton;
+  public final JoystickButton algaeIntakeButton;
+  private final JoystickButton dumpButton;
+
+  private final JoystickButton climbPositionDownButton;
+  private final JoystickButton L2AlgaePositionButton;
+  private final JoystickButton L3AlgaePositionButton;
+  private final JoystickButton shootPositionButton;
+  private final JoystickButton climbPositionUpButton;
+  private final JoystickButton manualUpButton;
+  private final JoystickButton manualDownButton;
+
+
   private final JoystickButton Corsola;
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
-  //Commands
-  //private final Command coralMotorOnCommand = new Command(coral.coralMotorOnCommand());
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    shootButton = new JoystickButton(buttonBoard, 4);
+    depositButton = new JoystickButton(buttonBoard, 2);//add wait until arm position
+    dumpButton = new JoystickButton(buttonBoard, 1);
+    algaeIntakeButton = new JoystickButton(buttonBoard, 3);//add waint until arm position
+
+
+    climbPositionDownButton = new JoystickButton(buttonBoard, 11);
+    L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
+    L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
+    shootPositionButton = new JoystickButton(buttonBoard, 5);
+    climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
+    manualUpButton = new JoystickButton(buttonBoard, 7);
+    manualDownButton = new JoystickButton(buttonBoard, 6);
+
+
+
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
@@ -102,24 +139,11 @@ public class RobotContainer {
         break;
     }
 
+
+  NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
-
-    // Set up SysId routines
-    autoChooser.addOption(
-        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-    autoChooser.addOption(
-        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Forward)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Quasistatic Reverse)",
-        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    autoChooser.addOption(
-        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -132,7 +156,6 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // Default command, normal field-relative drive
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
@@ -171,7 +194,6 @@ public class RobotContainer {
     Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
