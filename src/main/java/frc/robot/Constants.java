@@ -249,7 +249,7 @@ public static class LEDConstants{
 
     public static final double klimelightMountAngleDegrees = 25;
     public static final double klimelightLensHeightInches = 20;
-    public static final double kgoalHeightInches = 60;
+    public static final double kBargeHeight = 60;
 
   }
 }

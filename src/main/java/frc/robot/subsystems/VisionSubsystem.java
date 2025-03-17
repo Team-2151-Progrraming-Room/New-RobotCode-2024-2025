@@ -37,7 +37,7 @@ public class VisionSubsystem extends SubsystemBase{
         limelightLensHeightInches = VisionConstants.klimelightLensHeightInches; 
 
         // distance from the target to the floor
-        goalHeightInches = VisionConstants.kgoalHeightInches; 
+        goalHeightInches = VisionConstants.kBargeHeight; 
     }
 
     public double getDistanceFromTarget(){
