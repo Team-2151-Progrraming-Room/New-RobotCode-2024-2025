@@ -49,7 +49,11 @@ public class LEDBounceCommand extends Command {
                                           LEDConstants.kLedBounceShadowV);
     }
 
-
+    @Override
+    public boolean runsWhenDisabled()
+    {
+        return true;
+    }
 
     // Called every time the scheduler runs while the command is scheduled.
     @Override

@@ -56,7 +56,7 @@ public Command getShootCommand(){
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
                 Commands.deadline(
 
-                        Commands.waitUntil(m_atSpeedCheck),
+                    Commands.waitUntil(m_atSpeedCheck),
 
                     Commands.sequence(
                         m_ledSubsystem.LedPreShootInitCommand(),
