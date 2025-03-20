@@ -55,51 +55,6 @@ public final class Constants {
 
   }
 
-  public static final class AlgaeConstants {
-    //Id Values
-    public static final int kAlgaeRevMotorID = 31;
-    public static final int kAlgaeRev2MotorID = 32;
-    public static final int kAlgaeKickMotorID = 33;
-
-
-    //PID and FF Constants
-    public static final double kAlgaePIDControllerP = .5;
-    public static final double kAlgaePIDControllerI = 0;
-    public static final double kAlgaePIDControllerD = 0;
-    public static final int kAlgaePIDControllerS = 0;
-    public static final int kAlgaePIDControllerV = 0;
-    public static final int kAlgaeFeed = 0;//force to overcome gravity
-
-
-    public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
-
-    public static final int kAlgaeRevVelocity = 60;
-    //public static final int kAlgaeRev2Velocity = 10;
-
-    public static final int kAlgaeSpeedTolerance = 2;
-
-    //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .25;
-    public static final double kAlgaeIntake = 0.5;
-    public static final double kAlgaeDump = -0.5;
-
-    public static final int kAlgaeVoltage = 0;
-
-    public static final double kShortShooterWaitTime = 0.25;
-    public static final double kLongShooterWaitTime = 1;
-
-    //Current Limits
-    public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
-    public static final int kAlgaeRevMotorSupplyCurrentLimit = 35;//so setting it to 35 seems to be a good temporary value.
-
-    public static final int kAlgaeRev2MotorStatorCurrentLimit = 35;
-    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
-                                                                  //as supply determines how many amps can be drawn from the battery.
-
-    public static final int kAlgaeKickMotorStatorCurrentLimit = 10;//10 should be a good value for a minion.
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 10;
-
-  }
 
   public static class CanbusName{
     public static final String rioCANBus = "rio";
@@ -148,45 +103,5 @@ public final class Constants {
 
   }
 
-public static class CoralConstants {
-  public static final int kCoralMotor = 35;
 
-  public static final double kCoralMotorSpeed = 0.5;
-  public static final double kCorlaMotorIntakeSpeed = -0.5;
-
-  public static final int kCoralStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
-  public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
-                                                        //how much current can be drawn from the battery.
-}
-
-  public static class ClimbLockConstants {
-    public static final int kClimbLockCanRioId      = 50;
-
-    /* Unused, encoder was not used.
-    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
-    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
-    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
-    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
-                                                                        (double) kClimbLockGearRatio *
-                                                                        (double) kClimbLockEncoderPpr);
-    */
-
-    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
-    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
-
-    public static final int kClimbLockCloseCurrentStatorLimit  = 20; // Stator amps - while moving
-    public static final int kClimbLockCloseCurrentSupplyLimit  = 20; // Supply amps - while moving
-
-    public static final int kClimbLockStallCurrentStatorLimit = 20; // Stator amps - when we've closed and trying to stay locked
-    public static final int kClimbLockStallCurrentSupplyLimit = 20;// Supply amps - when we've closed.
-    //For the  am-2765 DC Motor, stall current should be 15-20 amps
-
-
-    public static final int kClimbLockCurrentStallPoint = 20;//Constant used to determine that the lock has engaged the cage.
-    //If the current of the motor goes over this point, then current has jumped up because the motor is trying to move through the cage.
-    //Therefore, we can conclude that the climb lock has engaged the case, and the current limit should decrease.
-
-    //Everything is set to 20 amps for now after testing this on the test board, it seems like it snap shut correctly at values under 20
-    //so everything is set to 20 for now.
-  }
 }
