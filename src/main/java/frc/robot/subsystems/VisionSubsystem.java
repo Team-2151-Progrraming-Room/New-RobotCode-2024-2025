@@ -1,18 +1,18 @@
 package frc.robot.subsystems;
 
-import java.util.concurrent.atomic.DoubleAccumulator;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Command;
 
 //our constants
 import frc.robot.Constants.VisionConstants;
 
 
 public class VisionSubsystem extends SubsystemBase{
-    
+
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
     NetworkTableEntry ty = table.getEntry("ty");
 
@@ -27,17 +27,17 @@ public class VisionSubsystem extends SubsystemBase{
     double distanceFromLimelightToGoalInches;
 
     public VisionSubsystem(){
-      
+
         targetOffsetAngle_Vertical = ty.getDouble(0.0);
 
         // how many degrees back is your limelight rotated from perfectly vertical?
-        limelightMountAngleDegrees = VisionConstants.klimelightMountAngleDegrees; 
+        limelightMountAngleDegrees = VisionConstants.klimelightMountAngleDegrees;
 
         // distance from the center of the Limelight lens to the floor
-        limelightLensHeightInches = VisionConstants.klimelightLensHeightInches; 
+        limelightLensHeightInches = VisionConstants.klimelightLensHeightInches;
 
         // distance from the target to the floor
-        goalHeightInches = VisionConstants.kBargeHeight; 
+        goalHeightInches = VisionConstants.kBargeHeightInches;
     }
 
     public double getDistanceFromTarget(){
@@ -59,12 +59,18 @@ public class VisionSubsystem extends SubsystemBase{
     public boolean isTargetWithinRange() {
 
         double range = getDistanceFromTarget();
-        
+
         if (range >= VisionConstants.kMinShootRange && range <= VisionConstants.kMaxShootRange) {
             return true;
         }
 
         return false;              // out of range
+    }
+
+    public Command printDistance(){
+        return run(
+            ()->{System.out.println(getDistanceFromTarget());}
+        );
     }
 
 }

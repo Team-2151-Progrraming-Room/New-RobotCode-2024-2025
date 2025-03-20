@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
 
 //our subsystems
 import frc.robot.subsystems.ArmSubsystem;
@@ -38,6 +39,8 @@ import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ClimbLockSubsystem;
+
+import frc.robot.subsystems.VisionSubsystem;
 
 //our commands
 import frc.robot.commands.AlgaeShooterCommands;
@@ -70,9 +73,13 @@ public class RobotContainer {
   private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
+  private final VisionSubsystem vision = new VisionSubsystem();
+
   //boolean supplier
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
+
+  DoubleSupplier m_dynamicRange = () -> vision.getDistanceFromTarget();
 
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, leds, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
@@ -236,7 +243,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
     depositButton.onTrue(m_algaeProcessorDepositCommand);
-    dumpButton.whileTrue(m_algaeDumpCommand).whileFalse(algae.allMotorsOFFCommand());
+    dumpButton.whileTrue(vision.printDistance());//.whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);

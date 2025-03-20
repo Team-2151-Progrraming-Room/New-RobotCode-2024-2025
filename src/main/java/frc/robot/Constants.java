@@ -247,9 +247,9 @@ public static class LEDConstants{
     public static final double kMinShootRange = 5;
     public static final double kMaxShootRange = 10;
 
-    public static final double klimelightMountAngleDegrees = 25;
-    public static final double klimelightLensHeightInches = 20;
-    public static final double kBargeHeight = 60;
+    public static final double klimelightMountAngleDegrees = 0;
+    public static final double klimelightLensHeightInches = 30.75;
+    public static final double kBargeHeightInches = 70.75;
 
   }
 }
