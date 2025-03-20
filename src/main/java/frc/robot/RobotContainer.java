@@ -24,7 +24,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import java.util.function.BooleanSupplier;
 
 //our subsystems
 import frc.robot.subsystems.drive.GyroIO;
@@ -98,9 +97,6 @@ public class RobotContainer {
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
-
-
-
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
