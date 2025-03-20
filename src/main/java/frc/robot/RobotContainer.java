@@ -87,7 +87,6 @@ public class RobotContainer {
 
   private final Command m_defaultLEDBounce = new LEDBounceCommand(leds);
   private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
-  private final Command m_ledStress = new LEDStressTest(leds);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -106,7 +105,6 @@ public class RobotContainer {
   private final JoystickButton climbPositionUpButton;
   private final JoystickButton manualUpButton;
   private final JoystickButton manualDownButton;
-
 
   private final JoystickButton Corsola;
 
@@ -128,10 +126,6 @@ public class RobotContainer {
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
-
-
-
-
     Corsola = new JoystickButton(buttonBoard, 12);
 
     leds.setDefaultCommand(m_defaultLEDBounce);
@@ -234,7 +228,7 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorOnCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
     shootButton.onTrue(m_algaeShootCommand);
-    algaeIntakeButton.onTrue(m_algaeIntakeCommand);
+    algaeIntakeButton.whileTrue(m_algaeIntakeCommand).whileFalse(algae.allMotorsOFFCommand());
     depositButton.onTrue(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(m_algaeDumpCommand).whileFalse(algae.allMotorsOFFCommand());
 

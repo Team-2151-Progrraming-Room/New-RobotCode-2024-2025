@@ -73,9 +73,9 @@ public class ClimbLockSubsystem extends SubsystemBase {
 
 
     //Encoder configuration
-    m_climbLockEncoderConfig = new ExternalFeedbackConfigs();
-    m_climbLockEncoderConfig.withExternalFeedbackSensorSource(ExternalFeedbackSensorSourceValue.Quadrature);
-    m_climbLockEncoderConfig.withRotorToSensorRatio(ClimbLockConstants.kClimbLockEncoderPpr);
+    //m_climbLockEncoderConfig = new ExternalFeedbackConfigs();
+    //m_climbLockEncoderConfig.withExternalFeedbackSensorSource(ExternalFeedbackSensorSourceValue.Quadrature);
+    //m_climbLockEncoderConfig.withRotorToSensorRatio(ClimbLockConstants.kClimbLockEncoderPpr);
 
 
     //Config application
