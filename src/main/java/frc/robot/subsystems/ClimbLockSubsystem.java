@@ -24,7 +24,6 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 
 import com.ctre.phoenix6.hardware.TalonFXS;
 import com.ctre.phoenix6.signals.BrushedMotorWiringValue;
-import com.ctre.phoenix6.signals.ExternalFeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
