@@ -85,6 +85,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void algaeDump(){
         m_Rev.set(AlgaeConstants.kAlgaeDump);
+        m_Kick.set(AlgaeConstants.kAlgaeKickMotorON);
+
     }
 
     // For the Motors to turn OFF!
@@ -169,7 +171,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     }
 
     public Command algaeDumpCommand(){
-        return runOnce(
+        return run(
             () -> {algaeDump();}
         );
     }

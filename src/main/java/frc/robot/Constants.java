@@ -79,14 +79,14 @@ public final class Constants {
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .25;
-    public static final double kAlgaeIntake = 0.5;
+    public static final double kAlgaeKickMotorON = .25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeIntake = 0.5;//top algae motor is main, bottom is follower
     public static final double kAlgaeDump = -0.5;
 
     public static final int kAlgaeVoltage = 0;
 
-    public static final double kShortShooterWaitTime = 0.25;
-    public static final double kLongShooterWaitTime = 1;
+    public static final double kDepositShooterWaitTime = 2;
+    public static final double kShooterWaitTime = 1;
 
     //Current Limits
     public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
