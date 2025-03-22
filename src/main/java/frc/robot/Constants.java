@@ -34,27 +34,7 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-  public static final class DriveTrainConstants{
-    public static final int Pigeon = 10;
-
-    public static final int FRMotor1 = 1;
-    public static final int FRMotor2 = 2;
-    public static final int FRCanCoder = 3;
-
-    public static final int FLMotor1 = 4;
-    public static final int FLMotor2 = 5;
-    public static final int FLCanCoder = 6;
-
-    public static final int BRMotor1 = 11;
-    public static final int BRMotor2 = 12;
-    public static final int BRCanCoder = 13;
-
-    public static final int BLMotor1 = 14;
-    public static final int BLMotor2 = 15;
-    public static final int BLCanCoder = 16;
-
-  }
-
+  
   public static final class AlgaeConstants {
     //Id Values
     public static final int kAlgaeRevMotorID = 31;
@@ -79,14 +59,14 @@ public final class Constants {
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .25;
-    public static final double kAlgaeIntake = 0.5;
+    public static final double kAlgaeKickMotorON = .25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeIntake = 0.5;//top algae motor is main, bottom is follower
     public static final double kAlgaeDump = -0.5;
 
     public static final int kAlgaeVoltage = 0;
 
-    public static final double kShortShooterWaitTime = 0.25;
-    public static final double kLongShooterWaitTime = 1;
+    public static final double kDepositShooterWaitTime = 2;
+    public static final double kShooterWaitTime = 1;
 
     //Current Limits
     public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
@@ -102,7 +82,7 @@ public final class Constants {
   }
 
   public static class CanbusName{
-    public static final String armCANBus = "rio";
+    public static final String rioCANBus = "rio";
   }
 
   public static class OperatorConstants {

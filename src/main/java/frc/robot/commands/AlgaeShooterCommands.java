@@ -23,9 +23,6 @@ import frc.robot.subsystems.ArmSubsystemCTRE;
 
 import frc.robot.Constants.*;
 
-import static edu.wpi.first.units.Units.*;
-
-
 public class AlgaeShooterCommands extends Command{
 
 AlgaeSubsystemCTRE m_algaeSubsystem;
@@ -56,7 +53,7 @@ public Command getShootCommand(){
             Commands.waitUntil(m_atSpeedCheck),
 
             m_algaeSubsystem.KickMotorONCommand(),
-            Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
+            Commands.waitSeconds(AlgaeConstants.kShooterWaitTime),
             m_algaeSubsystem.allMotorsOFFCommand()
     );
 
@@ -64,24 +61,25 @@ public Command getShootCommand(){
 
 // Dumping Command
 
-public Command getDumpCommand(){
+/*public Command getDumpCommand(){
 
     return Commands.sequence(
 
             m_algaeSubsystem.algaeDumpCommand(),
             m_algaeSubsystem.KickMotorONCommand(),
-            Commands.waitSeconds(AlgaeConstants.kLongShooterWaitTime),
+            Commands.waitSeconds(AlgaeConstants.kShooterWaitTime),
 
             m_algaeSubsystem.allMotorsOFFCommand()
     );
 
-}
+}*/
 
 public Command getDepositCommand(int depositPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(depositPosition),
         Commands.waitUntil(m_atArmPosition),
-        getDumpCommand()
+        m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime), 
+        m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
 

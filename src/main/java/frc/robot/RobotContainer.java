@@ -17,6 +17,7 @@ import frc.robot.Constants.*;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -68,7 +69,6 @@ public class RobotContainer {
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
   private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
-  private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
@@ -166,6 +166,22 @@ NamedCommands.registerCommand("L3", m_L3Command);
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
+    // Set up SysId routines
+    autoChooser.addOption(
+        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    autoChooser.addOption(
+        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Forward)",
+        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Reverse)",
+        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
     // Configure the button bindings
     configureButtonBindings();
   }
@@ -215,7 +231,7 @@ NamedCommands.registerCommand("L3", m_L3Command);
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
     depositButton.onTrue(m_algaeProcessorDepositCommand);
-    dumpButton.whileTrue(m_algaeDumpCommand).whileFalse(algae.allMotorsOFFCommand());
+    dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);

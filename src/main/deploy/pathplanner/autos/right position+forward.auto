@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "shoot"
+            "pathName": "Translating Upward"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Forward!!!"
           }
         }
       ]

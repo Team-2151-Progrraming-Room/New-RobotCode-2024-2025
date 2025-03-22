@@ -17,7 +17,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
-
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 
 
@@ -29,7 +29,6 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   //configurations
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
-  private final TalonFXConfiguration followerConfig = new TalonFXConfiguration();
 
   private final FeedbackConfigs feedback = new FeedbackConfigs();
 
@@ -46,7 +45,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     m_arm.stopMotor();
 
-    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.armCANBus);
+    cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.rioCANBus);
 
     //PID values for the motors
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
@@ -81,11 +80,13 @@ public class ArmSubsystemCTRE extends SubsystemBase{
     //armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);
     m_arm.setSafetyEnabled(true);//Turns on safety.
+    m_arm.setNeutralMode(NeutralModeValue.Brake);
 
     //followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
     //m_armFollower.getConfigurator().apply(followerConfig);
     m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
     m_armFollower.setSafetyEnabled(true);
+    m_armFollower.setNeutralMode(NeutralModeValue.Brake);
   }
 
   public void setArmPosition(double armPosition){

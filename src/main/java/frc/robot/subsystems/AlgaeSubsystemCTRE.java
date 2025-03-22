@@ -24,9 +24,9 @@ import frc.robot.Constants.CanbusName;
 
 public class AlgaeSubsystemCTRE extends SubsystemBase{
     //Physical Devices
-    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
-    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
-    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
+    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.rioCANBus);
+    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.rioCANBus);
+    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.rioCANBus);
 
     //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
@@ -85,6 +85,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void algaeDump(){
         m_Rev.set(AlgaeConstants.kAlgaeDump);
+        m_Kick.set(AlgaeConstants.kAlgaeKickMotorON);
+
     }
 
     // For the Motors to turn OFF!
@@ -169,7 +171,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     }
 
     public Command algaeDumpCommand(){
-        return runOnce(
+        return run(
             () -> {algaeDump();}
         );
     }
