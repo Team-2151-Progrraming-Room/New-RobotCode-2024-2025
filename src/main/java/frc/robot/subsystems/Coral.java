@@ -38,9 +38,8 @@ public class Coral extends SubsystemBase{
         coralLimitConfigs.withSupplyCurrentLimit(CoralConstants.kCoralSupplyCurrentLimit);
 
         //Config applications
-        //configs.MotorOutput.ConnectedMotorValue = ConnectedMotorValue.Minion_JST;
         configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
-        //configs.withCurrentLimits(coralLimitConfigs); //Current have this commented out so that the temp current limits don't get applied
+        configs.withCurrentLimits(coralLimitConfigs); //Current have this commented out so that the temp current limits don't get applied
 
         m_CoralMotor.getConfigurator().apply(configs);
         m_CoralMotor.setSafetyEnabled(true);

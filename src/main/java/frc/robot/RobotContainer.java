@@ -98,9 +98,6 @@ public class RobotContainer {
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
-
-
-
     Corsola = new JoystickButton(buttonBoard, 12);
 
     switch (Constants.currentMode) {
