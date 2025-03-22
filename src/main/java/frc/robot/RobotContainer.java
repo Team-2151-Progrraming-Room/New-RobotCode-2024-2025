@@ -165,7 +165,7 @@ public class RobotContainer {
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
-
+    //Temporary Precision Mode, causes the robot to slow its speed by half while RT is held.
     controller.rightTrigger()
         .whileTrue(
           DriveCommands.joystickDrive(
