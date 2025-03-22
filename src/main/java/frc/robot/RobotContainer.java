@@ -34,12 +34,10 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
-import frc.robot.subsystems.ClimbLockSubsystem;
 
 //out commands
 import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.climbLockSecureCageCommand;
 import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -50,7 +48,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.Coral;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,8 +59,6 @@ public class RobotContainer {
   // Subsystems
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
-  private final Coral coralSubsystem = new Coral();
-  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
   //boolean supplier
@@ -75,11 +70,10 @@ public class RobotContainer {
   private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
   private final Command m_algaeDumpCommand = algaeCommands.getDumpCommand();
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
-  private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
-  private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
-  private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
+  private final Command m_algaeIntakeCommand = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionGroundAlgae, true);
+  private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae, false);
+  private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae, false);
 
-  private final Command m_lockCommand = new climbLockSecureCageCommand(lockSubsystem);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -169,7 +163,6 @@ NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmCons
 NamedCommands.registerCommand("shoot", m_algaeShootCommand);
 NamedCommands.registerCommand("L2", m_L2Command);
 NamedCommands.registerCommand("L3", m_L3Command);
-NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -216,13 +209,6 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand()
                 drive)
                 .ignoringDisable(true));
 
-    controller
-    .leftTrigger()
-    .whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-
-    //Coral Button Assignment
-    Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
@@ -236,7 +222,6 @@ NamedCommands.registerCommand("coral", coralSubsystem.coralMotorDepositCommand()
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
-    climbPositionUpButton.onTrue(m_lockCommand);
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

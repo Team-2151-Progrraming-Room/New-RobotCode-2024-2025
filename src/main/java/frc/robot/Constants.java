@@ -81,6 +81,7 @@ public final class Constants {
     //actions that don't require pid control
     public static final double kAlgaeKickMotorON = .25;
     public static final double kAlgaeIntake = 0.5;
+    public static final double kAlgae2Intake = 0.75;
     public static final double kAlgaeDump = -0.5;
 
     public static final int kAlgaeVoltage = 0;

@@ -92,13 +92,23 @@ public Command getDepositCommand(int depositPosition){
     );
 }*/
 
-public Command getIntakeCommand(int armPosition){
-    return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(armPosition),
-        Commands.waitUntil(m_atArmPosition),
-        m_algaeSubsystem.algaeIntakeCommand(),
-        Commands.waitSeconds(2.5),
-        m_algaeSubsystem.allMotorsOFFCommand()
-    );
-}
+    public Command getIntakeCommand(int armPosition, boolean isGround){
+        if(isGround == false){
+            return Commands.sequence(
+                m_armSubsystem.setArmPositionCommand(armPosition),
+                Commands.waitUntil(m_atArmPosition),
+                m_algaeSubsystem.algaeIntakeCommand(),
+                Commands.waitSeconds(2.5),
+                m_algaeSubsystem.allMotorsOFFCommand()
+            ); 
+        } else {
+            return Commands.sequence(
+                m_armSubsystem.setArmPositionCommand(armPosition),
+                Commands.waitUntil(m_atArmPosition),
+                m_algaeSubsystem.algaeGroundIntakeCommand(),
+                Commands.waitSeconds(2.5),
+                m_algaeSubsystem.allMotorsOFFCommand()
+            );
+        }
+    }
 }
