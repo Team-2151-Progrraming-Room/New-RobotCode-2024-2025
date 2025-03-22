@@ -55,18 +55,59 @@ public final class Constants {
 
   }
 
+
   public static class CanbusName{
-    public static final String armCANBus = "rio";
+    public static final String rioCANBus = "rio";
   }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static final class ArmConstants{
+    public static final int kArmMotor = 20;
+    public static final int kFollowerMotor = 21;
+    public static final int kArmCANcoder = 23;
+
+    public static final double kArmSpeedUp = 0.5;
+    public static final double kArmSpeedDown = -0.5;
+
+    //pid configurations
+    public static final double kArmPIDControllerP = 10;
+    public static final double kArmPIDControllerI = 0;
+    public static final double kArmPIDControllerD = 0;
+    public static final int kArmPIDControllerS = 0;
+    public static final int kArmPIDControllerA = 0;
+    public static final int kArmPIDControllerV = 0;
+
+    public static final double kArmCANCoderConversionFactor = 1.0/360;//cancoder absolute position uses a range of -0.5 to 0.5
+    public static final double kArmPositionTolerance = .015;//in rotations of arm motor
+
+    public static final double kMotionMagicCruiseVelocity = 80; // Units: rotations/sec
+    public static final double kMotionMagicAcceleration = 160; // Units: rotations/sec^2
+    public static final double kMotionMagicJerk = 1600;
+
+    //arm positions in degrees
+    public static final int kArmPositionGroundAlgae = 0;
+    public static final int kArmPositionLowAlgae = 60;
+    public static final int kArmPositionProcessor = 25;
+    public static final int kArmPositionHighAlgae= 45;
+    public static final int kArmPositionShoot = 90;
+    public static final int kArmPositionClimb = 45;
+
+    //Current Limits
+    public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
+    public static final int kArmMotorCurrentSupplyLimit = 40;//Temp value, but supply limit should be atleast the value of the stator.
+    public static final int kFollowerMotorCurrentStatorLimit = 40;
+    public static final int kFollowerMotorCurrentSupplyLimit = 40;
+
+  }
+
+
 public static class CoralConstants {
   public static final int kCoralMotor = 35;
 
-  public static final double kCoralMotorSpeed = 0.5;
+  public static final double kCoralMotorSpeed = 0.7;
 
   public static final double kCorlaMotorIntakeSpeed = -.25;
 

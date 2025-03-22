@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
-
 //our subsystems
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -45,7 +44,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.Coral;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -56,7 +54,13 @@ import frc.robot.subsystems.Coral;
 public class RobotContainer {
   // Subsystems
   private final Coral coralSubsystem = new Coral();
+  private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final Drive drive;
+
+  //boolean supplier
+  BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
+
+  //commands
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -98,9 +102,6 @@ public class RobotContainer {
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
-
-
-
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
@@ -187,11 +188,10 @@ public class RobotContainer {
                 drive)
                 .ignoringDisable(true));
 
-    controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-
-
     //Coral Button Assignment
-    Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    //Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    dumpButton.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    //controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
   }
   /**
