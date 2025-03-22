@@ -88,10 +88,10 @@ public final class Constants {
     public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
-    public static final int kArmPositionGroundAlgae = 0;
-    public static final int kArmPositionLowAlgae = 60;
-    public static final int kArmPositionProcessor = 25;
-    public static final int kArmPositionHighAlgae= 45;
+    public static final double kArmPositionGroundAlgae = 0.1;
+    public static final double kArmPositionLowAlgae = 21.96;
+    public static final double kArmPositionProcessor = 7.92;
+    public static final double kArmPositionHighAlgae = 86.4;
     public static final int kArmPositionShoot = 90;
     public static final int kArmPositionClimb = 45;
 
