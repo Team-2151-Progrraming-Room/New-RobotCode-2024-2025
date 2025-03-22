@@ -34,27 +34,7 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-  public static final class DriveTrainConstants{
-    public static final int Pigeon = 10;
-
-    public static final int FRMotor1 = 1;
-    public static final int FRMotor2 = 2;
-    public static final int FRCanCoder = 3;
-
-    public static final int FLMotor1 = 4;
-    public static final int FLMotor2 = 5;
-    public static final int FLCanCoder = 6;
-
-    public static final int BRMotor1 = 11;
-    public static final int BRMotor2 = 12;
-    public static final int BRCanCoder = 13;
-
-    public static final int BLMotor1 = 14;
-    public static final int BLMotor2 = 15;
-    public static final int BLCanCoder = 16;
-
-  }
-
+  
   public static final class AlgaeConstants {
     //Id Values
     public static final int kAlgaeRevMotorID = 31;
