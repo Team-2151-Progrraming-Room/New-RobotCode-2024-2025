@@ -104,4 +104,18 @@ public final class Constants {
   }
 
 
+public static class CoralConstants {
+  public static final int kCoralMotor = 35;
+
+  public static final double kCoralMotorSpeed = 0.3;
+
+  public static final double kCorlaMotorIntakeSpeed = -.3;
+
+  public static final String canbusName = "rio";
+
+  public static final int kCoralStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
+  public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
+                                                        //how much current can be drawn from the battery.
+}
+
 }

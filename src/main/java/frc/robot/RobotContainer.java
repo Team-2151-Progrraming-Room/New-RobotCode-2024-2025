@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
-
 //our subsystems
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
@@ -46,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.ArmSubsystemCTRE;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -55,6 +55,7 @@ import frc.robot.subsystems.drive.Drive;
  */
 public class RobotContainer {
   // Subsystems
+  private final Coral coralSubsystem = new Coral();
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final Drive drive;
 
@@ -103,9 +104,6 @@ public class RobotContainer {
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
-
-
-
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
@@ -165,6 +163,14 @@ public class RobotContainer {
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
+    //Temporary Precision Mode, causes the robot to slow its speed by half while RT is held.
+    controller.rightTrigger()
+        .whileTrue(
+          DriveCommands.joystickDrive(
+            drive,
+            () -> -(controller.getLeftY())/2,
+            () -> -(controller.getLeftX())/2,
+            () -> -(controller.getRightX())/2));
 
     // Lock to 0° when A button is held
     controller
