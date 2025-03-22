@@ -44,7 +44,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.ArmSubsystemCTRE;
 
 /**
@@ -55,7 +54,6 @@ import frc.robot.subsystems.ArmSubsystemCTRE;
  */
 public class RobotContainer {
   // Subsystems
-  private final Coral coralSubsystem = new Coral();
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final Drive drive;
 

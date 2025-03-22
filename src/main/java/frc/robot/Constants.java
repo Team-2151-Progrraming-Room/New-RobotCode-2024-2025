@@ -67,7 +67,7 @@ public final class Constants {
   public static final class ArmConstants{
     public static final int kArmMotor = 20;
     public static final int kFollowerMotor = 21;
-    public static final int kArmCANcoder = 23;
+    public static final int kArmCANcoder = 22;
 
     public static final double kArmSpeedUp = 0.5;
     public static final double kArmSpeedDown = -0.5;
@@ -89,8 +89,8 @@ public final class Constants {
 
     //arm positions in degrees
     public static final int kArmPositionGroundAlgae = 0;
-    public static final int kArmPositionLowAlgae = 60;
-    public static final int kArmPositionProcessor = 25;
+  
+    public static final int kArmPositionProcessor = 8;
     public static final int kArmPositionHighAlgae= 45;
     public static final int kArmPositionShoot = 90;
     public static final int kArmPositionClimb = 45;
