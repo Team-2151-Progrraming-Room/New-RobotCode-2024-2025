@@ -44,6 +44,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.ArmSubsystemCTRE;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -164,6 +166,14 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
+    controller.rightTrigger()
+        .whileTrue(
+          DriveCommands.joystickDrive(
+            drive,
+            () -> -(controller.getLeftY())/2,
+            () -> -(controller.getLeftX())/2,
+            () -> -(controller.getRightX())/2));
+
     // Lock to 0° when A button is held
     controller
         .a()
@@ -189,10 +199,11 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
     //Coral Button Assignment
-    //Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-    dumpButton.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-    //controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    Corsola.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
+    //For solo testing with only button board
+    //dumpButton.whileTrue(coralSubsystem.coralMotorDepositCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
