@@ -88,12 +88,12 @@ public final class Constants {
     public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
-    public static final double kArmPositionGroundAlgae = 0.1;
+    public static final double kArmPositionGroundAlgae = 1.08;
     public static final double kArmPositionLowAlgae = 21.96;
-    public static final double kArmPositionProcessor = 7.92;
+    public static final double kArmPositionProcessor = 13.68;
     public static final double kArmPositionHighAlgae = 86.4;
-    public static final int kArmPositionShoot = 90;
-    public static final int kArmPositionClimb = 45;
+    public static final double kArmPositionShoot = 86.4;
+    public static final int kArmPositionClimb = 45;//Temp Value, probably won't use climb subsystem.
 
     //Current Limits
     public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
