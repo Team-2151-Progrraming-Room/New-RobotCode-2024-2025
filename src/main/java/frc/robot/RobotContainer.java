@@ -26,18 +26,16 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
-
 //our subsystems
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
+import frc.robot.subsystems.ClimbLockSubsystem;
 
 //out commands
-import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -49,6 +47,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.ArmSubsystemCTRE;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -60,10 +59,11 @@ public class RobotContainer {
   // Subsystems
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
+  private final Coral coralSubsystem = new Coral();
+  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
   //boolean supplier
-  BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
 
   //commands
@@ -113,9 +113,6 @@ public class RobotContainer {
     climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
-
-
-
 
     Corsola = new JoystickButton(buttonBoard, 12);
 
@@ -195,6 +192,14 @@ public class RobotContainer {
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
+    //Temporary Precision Mode, causes the robot to slow its speed by half while RT is held.
+    controller.rightTrigger()
+        .whileTrue(
+          DriveCommands.joystickDrive(
+            drive,
+            () -> -(controller.getLeftY())/2,
+            () -> -(controller.getLeftX())/2,
+            () -> -(controller.getRightX())/2));
 
     // Lock to 0° when A button is held
     controller
