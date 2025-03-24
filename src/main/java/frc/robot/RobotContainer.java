@@ -68,8 +68,8 @@ public class RobotContainer {
 
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
-  
- 
+
+
   private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
 
@@ -224,7 +224,7 @@ public class RobotContainer {
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
-    dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
+    //dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);

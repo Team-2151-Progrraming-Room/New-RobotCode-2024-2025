@@ -78,7 +78,7 @@ public Command getDepositCommand(int depositPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(depositPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime), 
+        m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime),
         m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
