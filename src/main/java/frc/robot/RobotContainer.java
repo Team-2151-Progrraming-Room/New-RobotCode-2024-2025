@@ -33,7 +33,6 @@ import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
-import frc.robot.subsystems.ClimbLockSubsystem;
 
 //out commands
 import frc.robot.commands.DriveCommands;
@@ -48,6 +47,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.commands.AlgaeShooterCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -59,12 +59,11 @@ public class RobotContainer {
   // Subsystems
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
-  private final Coral coralSubsystem = new Coral();
-  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
   //boolean supplier
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
+  BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
 
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
