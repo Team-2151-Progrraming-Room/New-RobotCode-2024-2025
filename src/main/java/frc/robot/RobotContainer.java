@@ -155,9 +155,9 @@ public class RobotContainer {
     }
 
 
-NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
-NamedCommands.registerCommand("L2", m_L2Command);
-NamedCommands.registerCommand("L3", m_L3Command);
+    NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    NamedCommands.registerCommand("L2", m_L2Command);
+    NamedCommands.registerCommand("L3", m_L3Command);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
