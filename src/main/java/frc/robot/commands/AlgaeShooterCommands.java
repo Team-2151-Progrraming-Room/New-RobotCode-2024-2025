@@ -28,16 +28,17 @@ public class AlgaeShooterCommands extends Command{
 AlgaeSubsystemCTRE m_algaeSubsystem;
 ArmSubsystemCTRE m_armSubsystem;
 
-BooleanSupplier m_atSpeedCheck;
+BooleanSupplier m_atShootSpeedCheck;
+BooleanSupplier m_atL3IntakeSpeedCheck;
 BooleanSupplier m_atArmPosition;
 
 //Shooting Command (maybe not be needed)
 
-public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier speedCheck, BooleanSupplier armCheck){
+public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystemCTRE armSubsystem, BooleanSupplier shootSpeedCheck, BooleanSupplier l3IntakeSpeedCheck, BooleanSupplier armCheck){
 
     m_algaeSubsystem = AlgaeSystem;
     m_armSubsystem = armSubsystem;
-    m_atSpeedCheck = speedCheck;
+    m_atShootSpeedCheck = l3IntakeSpeedCheck;
     m_atArmPosition = armCheck;
 
     addRequirements(AlgaeSystem);
@@ -50,7 +51,7 @@ public Command getShootCommand(){
     return Commands.sequence(
 
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
-            Commands.waitUntil(m_atSpeedCheck),
+            Commands.waitUntil(m_atShootSpeedCheck),
 
             m_algaeSubsystem.KickMotorONCommand(),
             Commands.waitSeconds(AlgaeConstants.kShooterWaitTime),
@@ -93,11 +94,30 @@ public Command getDepositCommand(int depositPosition){
     );
 }*/
 
-public Command getIntakeCommand(double armPosition){
+public Command getGroundIntakeCommand(int armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_algaeSubsystem.algaeIntakeCommand(),
+        m_algaeSubsystem.algaeGroundIntakeCommand(),
+        Commands.waitSeconds(2.5),
+        m_algaeSubsystem.allMotorsOFFCommand()
+    );
+}
+public Command getL2IntakeCommand(int armPosition){
+    return Commands.sequence(
+        m_armSubsystem.setArmPositionCommand(armPosition),
+        Commands.waitUntil(m_atArmPosition),
+        m_algaeSubsystem.algaeL2IntakeCommand(),
+        Commands.waitSeconds(2.5),
+        m_algaeSubsystem.allMotorsOFFCommand()
+    );
+}
+public Command getL3IntakeCommand(int armPosition){
+    return Commands.sequence(
+        m_armSubsystem.setArmPositionCommand(armPosition),
+        Commands.waitUntil(m_atArmPosition),
+        m_algaeSubsystem.algaeL3IntakeCommand(),
+        Commands.waitUntil(m_atShootSpeedCheck),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
     );

@@ -66,11 +66,12 @@ public class RobotContainer {
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
 
   //commands
-  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtArmPosition);
-
-
-  private final Command m_L2Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionLowAlgae);
-  private final Command m_L3Command = algaeCommands.getIntakeCommand(ArmConstants.kArmPositionHighAlgae);
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
+  private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
+  private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
+  private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
+  private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
+  private final Command m_L3Command = algaeCommands.getL3IntakeCommand(ArmConstants.kArmPositionHighAlgae);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -228,7 +229,9 @@ public class RobotContainer {
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
-    //dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
+    algaeIntakeButton.onTrue(m_algaeIntakeCommand);
+    depositButton.onTrue(m_algaeProcessorDepositCommand);
+    dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
