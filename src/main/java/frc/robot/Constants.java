@@ -34,27 +34,54 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-  public static final class DriveTrainConstants{
-    public static final int Pigeon = 10;
 
-    public static final int FRMotor1 = 1;
-    public static final int FRMotor2 = 2;
-    public static final int FRCanCoder = 3;
+  public static final class AlgaeConstants {
+    //Id Values
+    public static final int kAlgaeRevMotorID = 31;
+    public static final int kAlgaeRev2MotorID = 32;
+    public static final int kAlgaeKickMotorID = 33;
 
-    public static final int FLMotor1 = 4;
-    public static final int FLMotor2 = 5;
-    public static final int FLCanCoder = 6;
 
-    public static final int BRMotor1 = 11;
-    public static final int BRMotor2 = 12;
-    public static final int BRCanCoder = 13;
+    //PID and FF Constants
+    public static final double kAlgaePIDControllerP = .5;
+    public static final double kAlgaePIDControllerI = 0;
+    public static final double kAlgaePIDControllerD = 0;
+    public static final int kAlgaePIDControllerS = 0;
+    public static final int kAlgaePIDControllerV = 0;
+    public static final int kAlgaeFeed = 0;//force to overcome gravity
 
-    public static final int BLMotor1 = 14;
-    public static final int BLMotor2 = 15;
-    public static final int BLCanCoder = 16;
+
+    public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
+
+    public static final int kAlgaeRevVelocity = 60;
+    public static final double kAlgaeL3Velocity = 30;
+    //public static final int kAlgaeRev2Velocity = 10;
+
+    public static final int kAlgaeSpeedTolerance = 2;
+
+    //actions that don't require pid control
+    public static final double kAlgaeKickMotorON = .25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeGroundIntake = 0.5;//top algae motor is main, bottom is follower
+    public static final double kAlgaeL2Intake = 0.5;//Temp Values
+    public static final double kAlgaeDump = -0.5;
+
+    public static final int kAlgaeVoltage = 0;
+
+    public static final double kDepositShooterWaitTime = 2;
+    public static final double kShooterWaitTime = 1;
+
+    //Current Limits
+    public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
+    public static final int kAlgaeRevMotorSupplyCurrentLimit = 35;//so setting it to 35 seems to be a good temporary value.
+
+    public static final int kAlgaeRev2MotorStatorCurrentLimit = 35;
+    public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
+                                                                  //as supply determines how many amps can be drawn from the battery.
+
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 10;//10 should be a good value for a minion.
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 10;
 
   }
-
 
   public static class CanbusName{
     public static final String rioCANBus = "rio";

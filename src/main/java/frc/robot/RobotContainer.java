@@ -15,7 +15,9 @@ package frc.robot;
 import frc.robot.Constants.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +32,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.AlgaeSubsystemCTRE;
 
 //out commands
 import frc.robot.commands.DriveCommands;
@@ -40,6 +43,7 @@ import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
@@ -55,12 +59,22 @@ import frc.robot.subsystems.ArmSubsystemCTRE;
 public class RobotContainer {
   // Subsystems
   private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
+  private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
   private final Drive drive;
 
   //boolean supplier
+  BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
+  BooleanSupplier m_dynamicAtL3IntakeSpeed = () -> algae.atL3Speed();
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
 
+
   //commands
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
+  private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
+  private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
+  private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
+  private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
+  private final Command m_L3Command = algaeCommands.getL3IntakeCommand(ArmConstants.kArmPositionHighAlgae);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -142,9 +156,40 @@ public class RobotContainer {
     }
 
 
+NamedCommands.registerCommand("processorDeposit", m_algaeProcessorDepositCommand);
+NamedCommands.registerCommand("groundIntake", m_algaeIntakeCommand);
+NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+NamedCommands.registerCommand("shoot", m_algaeShootCommand);
+NamedCommands.registerCommand("L2", m_L2Command);
+NamedCommands.registerCommand("L3", m_L3Command);
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
     waitInput = new LoggedNetworkNumber("Wait Time");
+
+    // Set up SysId routines
+    autoChooser.addOption(
+        "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    autoChooser.addOption(
+        "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Forward)",
+        drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Quasistatic Reverse)",
+        drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    autoChooser.addOption(
+        "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    SmartDashboard.putBoolean(" At Shoot Speed", algae.atShooterSpeed());
+
+    SmartDashboard.putBoolean(" At L3 Position", arm.atL3Position());
+    SmartDashboard.putBoolean(" At L2 Postion", arm.atL2Position());
+    SmartDashboard.putBoolean(" At Shoot Position", arm.atShootPosition());
+    SmartDashboard.putBoolean(" At Processor Position", arm.atProcessorPosition());
+    SmartDashboard.putBoolean(" At Ground Position", arm.atGroundPosition());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -202,9 +247,17 @@ public class RobotContainer {
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
+    shootButton.onTrue(m_algaeShootCommand);
+    algaeIntakeButton.onTrue(m_algaeIntakeCommand);
+    depositButton.onTrue(m_algaeProcessorDepositCommand);
+    dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
+
+    L2AlgaePositionButton.onTrue(m_L2Command);
+    L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
