@@ -35,6 +35,7 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -84,6 +85,7 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+  private final LoggedNetworkNumber waitInput;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -142,6 +144,7 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    waitInput = new LoggedNetworkNumber("Wait Time");
 
     // Configure the button bindings
     configureButtonBindings();
@@ -209,5 +212,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public double getWaitTime(){
+    return waitInput.get();
   }
 }

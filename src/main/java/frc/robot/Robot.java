@@ -134,7 +134,8 @@ public class Robot extends LoggedRobot {
 
   @Override
   public void autonomousInit() {
-  Timer.delay(2.0);
+    double waitTime = robotContainer.getWaitTime();
+    Timer.delay(waitTime);
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
