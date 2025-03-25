@@ -93,7 +93,7 @@ public Command getDepositCommand(int depositPosition){
     );
 }*/
 
-public Command getIntakeCommand(Double armPosition){
+public Command getIntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
