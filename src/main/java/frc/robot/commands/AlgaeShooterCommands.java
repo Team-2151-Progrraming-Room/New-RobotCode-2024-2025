@@ -75,7 +75,7 @@ public Command getShootCommand(){
 
 }*/
 
-public Command getDepositCommand(int depositPosition){
+public Command getDepositCommand(double depositPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(depositPosition),
         Commands.waitUntil(m_atArmPosition),
@@ -94,7 +94,7 @@ public Command getDepositCommand(int depositPosition){
     );
 }*/
 
-public Command getGroundIntakeCommand(int armPosition){
+public Command getGroundIntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
@@ -103,7 +103,7 @@ public Command getGroundIntakeCommand(int armPosition){
         m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
-public Command getL2IntakeCommand(int armPosition){
+public Command getL2IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
@@ -112,7 +112,7 @@ public Command getL2IntakeCommand(int armPosition){
         m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
-public Command getL3IntakeCommand(int armPosition){
+public Command getL3IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),

@@ -36,6 +36,7 @@ import frc.robot.subsystems.AlgaeSubsystemCTRE;
 
 //out commands
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
