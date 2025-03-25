@@ -26,6 +26,7 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -128,8 +129,12 @@ public class Robot extends LoggedRobot {
   public void disabledPeriodic() {}
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
+
+
+
   @Override
   public void autonomousInit() {
+  Timer.delay(2.0);
     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
@@ -140,7 +145,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+  }
 
   /** This function is called once when teleop is enabled. */
   @Override
@@ -156,7 +163,9 @@ public class Robot extends LoggedRobot {
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+
+  }
 
   /** This function is called once when test mode is enabled. */
   @Override
