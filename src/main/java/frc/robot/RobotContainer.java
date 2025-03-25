@@ -45,6 +45,7 @@ import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
@@ -66,7 +67,7 @@ public class RobotContainer {
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
   BooleanSupplier m_dynamicAtL3IntakeSpeed = () -> algae.atL3Speed();
   BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
-  
+
 
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
@@ -183,6 +184,14 @@ NamedCommands.registerCommand("L3", m_L3Command);
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    SmartDashboard.putBoolean(" At Shoot Speed", algae.atShooterSpeed());
+
+    SmartDashboard.putBoolean(" At L3 Position", arm.atL3Position());
+    SmartDashboard.putBoolean(" At L2 Postion", arm.atL2Position());
+    SmartDashboard.putBoolean(" At Shoot Position", arm.atShootPosition());
+    SmartDashboard.putBoolean(" At Processor Position", arm.atProcessorPosition());
+    SmartDashboard.putBoolean(" At Ground Position", arm.atGroundPosition());
 
     // Configure the button bindings
     configureButtonBindings();

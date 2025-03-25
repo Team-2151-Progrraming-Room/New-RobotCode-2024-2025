@@ -34,7 +34,7 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-  
+
   public static final class AlgaeConstants {
     //Id Values
     public static final int kAlgaeRevMotorID = 31;
@@ -129,5 +129,5 @@ public final class Constants {
     public static final int kFollowerMotorCurrentSupplyLimit = 40;
 
   }
-  
+
 }
