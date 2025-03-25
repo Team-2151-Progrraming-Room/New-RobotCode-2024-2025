@@ -232,7 +232,7 @@ NamedCommands.registerCommand("L3", m_L3Command);
 
     shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
-    depositButton.onTrue(m_algaeProcessorDepositCommand);
+    depositButton.whileTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionProcessor)).whileFalse(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
