@@ -79,14 +79,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     }
 
 
-    public void algaeGroundIntake(){
-        m_Rev.set(AlgaeConstants.kAlgaeGroundIntake);
-    }
-    public void algaeL2Intake(){
-        m_Rev.set(AlgaeConstants.kAlgaeL2Intake);
-    }
-    public void algaeL3Intake(){
-        m_Rev.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeL3Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
+    public void algaeIntake(){
+        m_Rev.set(AlgaeConstants.kAlgaeIntake);
     }
 
     public void algaeDump(){
@@ -132,18 +126,12 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public boolean atShooterSpeed() {
 
-        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance /*&& MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance))*/)) {
+        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) /*&& MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)*/) {
           return true;
         }
         return false;
       }
 
-    public boolean atL3Speed(){
-        if (MathUtil.isNear(AlgaeConstants.kAlgaeL3Velocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance /*&& MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)*/)) {
-            return true;
-          }
-        return false;
-    }
     //Commands
 
     public Command RevMotorOFFCommand(){
@@ -176,20 +164,9 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         );
     }
 
-    public Command algaeGroundIntakeCommand(){
+    public Command algaeIntakeCommand(){
         return runOnce(
-            () -> {algaeGroundIntake();}
-        );
-    }
-
-    public Command algaeL2IntakeCommand(){
-        return runOnce(
-            () -> {algaeL2Intake();}
-        );
-    }
-    public Command algaeL3IntakeCommand(){
-        return runOnce(
-            () -> {algaeL3Intake();}
+            () -> {algaeIntake();}
         );
     }
 
