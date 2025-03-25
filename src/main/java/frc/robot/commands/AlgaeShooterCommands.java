@@ -112,12 +112,11 @@ public Command getL2IntakeCommand(int armPosition){
         m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
-public Command getL3IntakeCommand(int armPosition){
+//modified to not include set arm position command
+public Command getL3IntakeCommand(){
     return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(armPosition),
-        Commands.waitUntil(m_atArmPosition),
         m_algaeSubsystem.algaeL3IntakeCommand(),
-        Commands.waitUntil(m_atShootSpeedCheck),
+        Commands.waitUntil(m_atL3IntakeSpeedCheck),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
     );

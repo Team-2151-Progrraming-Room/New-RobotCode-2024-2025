@@ -74,7 +74,7 @@ public class RobotContainer {
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
-  private final Command m_L3Command = algaeCommands.getL3IntakeCommand(ArmConstants.kArmPositionHighAlgae);
+  private final Command m_L3Command = algaeCommands.getL3IntakeCommand();
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -236,7 +236,8 @@ NamedCommands.registerCommand("L3", m_L3Command);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);
-    L3AlgaePositionButton.onTrue(m_L3Command);
+    //while the button is held, the arm position is set. When it is released, the L3 command runs for a set amount of time
+    L3AlgaePositionButton.whileTrue(arm.setArmPosition(ArmConstants.kArmPositionHighAlgae)).whileFalse(m_L3Command);
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
