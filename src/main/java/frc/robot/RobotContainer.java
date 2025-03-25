@@ -237,7 +237,7 @@ NamedCommands.registerCommand("L3", m_L3Command);
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     //while the button is held, the arm position is set. When it is released, the L3 command runs for a set amount of time
-    L3AlgaePositionButton.whileTrue(arm.setArmPosition(ArmConstants.kArmPositionHighAlgae)).whileFalse(m_L3Command);
+    L3AlgaePositionButton.whileTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionHighAlgae)).whileFalse(m_L3Command);
     shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
