@@ -53,14 +53,14 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 60;
+    public static final int kAlgaeRevVelocity = 30;
     public static final double kAlgaeL3Velocity = 30;
     //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = -.25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeKickMotorON = -.35;//spins clockwise to kick algae into rev motors
     public static final double kAlgaeGroundIntake = -1;//top algae motor is main, bottom is follower
     public static final double kAlgaeL2Intake = 0.5;//Temp Values
     public static final double kAlgaeDump = 0.5;

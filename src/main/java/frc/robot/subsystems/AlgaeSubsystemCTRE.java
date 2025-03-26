@@ -30,6 +30,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
+    TalonFXSConfiguration configs2 = new TalonFXSConfiguration();
     TalonFXSConfiguration kickConfigs = new TalonFXSConfiguration();
 
     CurrentLimitsConfigs revCurrentLimitConfigs = new CurrentLimitsConfigs();
@@ -42,8 +43,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     public AlgaeSubsystemCTRE (){
         //PID Values
         slot0 = configs.Slot0;
-        slot0.kS = AlgaeConstants.kAlgaePIDControllerS;
-        slot0.kV = AlgaeConstants.kAlgaePIDControllerV;
+        //slot0.kS = AlgaeConstants.kAlgaePIDControllerS;
+        //slot0.kV = AlgaeConstants.kAlgaePIDControllerV;
         slot0.kP = AlgaeConstants.kAlgaePIDControllerP;
         slot0.kI = AlgaeConstants.kAlgaePIDControllerI;
         slot0.kD = AlgaeConstants.kAlgaePIDControllerD;
@@ -65,13 +66,14 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         kickCurrentLimitsConfigs.withSupplyCurrentLimit(AlgaeConstants.kAlgaeKickMotorSupplyCurrentLimit);
 
         //Not applying currentLimits yet as the constants are random
-        //configs.withCurrentLimits(revCurrentLimitConfigs);
+        configs.withCurrentLimits(revCurrentLimitConfigs);
         m_Rev.getConfigurator().apply(configs);
-        m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
         //m_Rev.setSafetyEnabled(true);//Enabling safety
         //m_Rev2.setSafetyEnabled(true);
+        configs2.withCurrentLimits(rev2CurrentLimitConfigs);
+        m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
 
-        //kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs); Current Limit application, commented out for now.
+        kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs);
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
         m_Kick.getConfigurator().apply(kickConfigs);
         //m_Kick.setSafetyEnabled(true);
