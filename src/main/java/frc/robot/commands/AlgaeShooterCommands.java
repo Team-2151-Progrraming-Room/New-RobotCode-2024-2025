@@ -32,8 +32,6 @@ LEDSubsystem m_ledSubsystem;
 
 BooleanSupplier m_atShootSpeedCheck;
 BooleanSupplier m_atL3IntakeSpeedCheck;
-BooleanSupplier m_atShootSpeedCheck;
-BooleanSupplier m_atL3IntakeSpeedCheck;
 BooleanSupplier m_atArmPosition;
 
 //Shooting Command (maybe not be needed)
