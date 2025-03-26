@@ -188,7 +188,7 @@ public class LEDSubsystem extends SubsystemBase{
         }
     }
 
-    public void setLedReefColor(int armDegree){
+    public void setLedReefColor(double armDegree){
         if(armDegree < 85){
             if(armDegree>20){
              int halfLeds = (int)(LEDConstants.kNumLEDs/2);
@@ -197,7 +197,7 @@ public class LEDSubsystem extends SubsystemBase{
             } else if(armDegree< 5){
                 setAllLedsHSV(LEDConstants.kLedIntakePrimaryH, LEDConstants.kLedIntakePrimaryS, LEDConstants.kLedIntakePrimaryV);
             } else{
-                setALLLedsHSV(LEDConstants.kProcessorColorH, LEDConstants.kProcessorColorS, LEDConstants.kProcessorColorV);
+                setAllLedsHSV(LEDConstants.kProcessorColorH, LEDConstants.kProcessorColorS, LEDConstants.kProcessorColorV);
             }
         } else{
             setAllLedsHSV(LEDConstants.kLedReefH, LEDConstants.kLedReefS, LEDConstants.kLedReefV);
@@ -282,8 +282,8 @@ public class LEDSubsystem extends SubsystemBase{
     );
   }
 
-  public Command setLedReefColorCommand(int armDegree){
-    return run(
+  public Command setLedReefColorCommand(double armDegree){
+    return runOnce(
         () -> {setLedReefColor(armDegree);}
     );
   }

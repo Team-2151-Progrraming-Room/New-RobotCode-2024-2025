@@ -125,7 +125,7 @@ public final class Constants {
     public static final double kArmPositionProcessor = 13.68;
     public static final double kArmPositionHighAlgae = 86.4;
     public static final double kArmPositionShoot = 86.4;
-    public static final int kArmPositionClimb = 45;//Temp Value, probably won't use climb subsystem.
+    public static final double kArmPositionStartConfig = 35.28;//Temp Value, probably won't use climb subsystem.
 
     //Current Limits
     public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
@@ -139,6 +139,7 @@ public static class CoralConstants {
   public static final int kCoralMotor = 35;
 
   public static final double kCoralMotorSpeed = 0.5;
+  public static final double kCoralIntakeSpeed = -0.5;
 
   public static final String canbusName = "rio";
 

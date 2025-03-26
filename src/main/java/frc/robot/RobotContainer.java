@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
 //our subsystems
-import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
@@ -37,7 +37,6 @@ import frc.robot.subsystems.AlgaeSubsystemCTRE;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.Coral;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.ClimbLockSubsystem;
 
 //our commands
 import frc.robot.commands.LEDBounceCommand;
@@ -52,9 +51,6 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-
-import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.commands.AlgaeShooterCommands;
 
 /**
@@ -69,7 +65,6 @@ public class RobotContainer {
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
   private final Coral coralSubsystem = new Coral();
   private final LEDSubsystem leds = new LEDSubsystem();
-  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
   //boolean supplier
@@ -102,7 +97,7 @@ public class RobotContainer {
   private final JoystickButton L2AlgaePositionButton;
   private final JoystickButton L3AlgaePositionButton;
   private final JoystickButton shootPositionButton;
-  private final JoystickButton climbPositionUpButton;
+  private final JoystickButton startConfigButton;
   private final JoystickButton manualUpButton;
   private final JoystickButton manualDownButton;
 
@@ -123,7 +118,7 @@ public class RobotContainer {
     L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
     L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
     shootPositionButton = new JoystickButton(buttonBoard, 5);
-    climbPositionUpButton = new JoystickButton(buttonBoard, 10);//combine with lock
+    startConfigButton = new JoystickButton(buttonBoard, 10);//combine with lock
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
@@ -243,7 +238,8 @@ public class RobotContainer {
 
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-
+    Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
+    controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
     depositButton.onTrue(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
@@ -252,6 +248,7 @@ public class RobotContainer {
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(m_shootArmPosition);
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
+    startConfigButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionStartConfig));
   }
 
   /**

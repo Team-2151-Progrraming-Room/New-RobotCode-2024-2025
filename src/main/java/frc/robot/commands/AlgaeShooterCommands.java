@@ -57,7 +57,7 @@ public Command getShootCommand(){
             m_algaeSubsystem.RevMotorsSHOOTCommand(),
                 Commands.deadline(
 
-                    Commands.waitUntil(m_atSpeedCheck),
+                    Commands.waitUntil(m_atShootSpeedCheck),
 
                     Commands.sequence(
                         m_ledSubsystem.LedPreShootInitCommand(),
@@ -80,7 +80,7 @@ public Command getDepositCommand(double depositPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(depositPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setReefColorCommand(depositPosition),
+        m_ledSubsystem.setLedReefColorCommand(depositPosition),
 
         m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime),
         m_algaeSubsystem.allMotorsOFFCommand()
@@ -92,7 +92,7 @@ public Command getGroundIntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setReefColorCommand(armPosition),
+        m_ledSubsystem.setLedReefColorCommand(armPosition),
 
         m_algaeSubsystem.algaeGroundIntakeCommand(),
         Commands.waitSeconds(2.5),
@@ -104,7 +104,7 @@ public Command getL2IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setReefColorCommand(armPosition)
+        m_ledSubsystem.setLedReefColorCommand(armPosition)
         /*
         m_algaeSubsystem.algaeL2IntakeCommand(),
         Commands.waitSeconds(2.5),
@@ -116,7 +116,7 @@ public Command getL3IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setReefColorCommand(armPosition)
+        m_ledSubsystem.setLedReefColorCommand(armPosition)
         /*
         m_algaeSubsystem.algaeL3IntakeCommand(),
         Commands.waitUntil(m_atShootSpeedCheck),

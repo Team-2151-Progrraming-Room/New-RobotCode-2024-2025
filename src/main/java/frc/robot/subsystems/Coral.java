@@ -40,7 +40,7 @@ public class Coral extends SubsystemBase{
 
         //Config applications
         configs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
-        //configs.withCurrentLimits(coralLimitConfigs); //Current have this commented out so that the temp current limits don't get applied
+        configs.withCurrentLimits(coralLimitConfigs); //Current have this commented out so that the temp current limits don't get applied
 
         m_CoralMotor.getConfigurator().apply(configs);
     }
@@ -74,7 +74,7 @@ public class Coral extends SubsystemBase{
     public Command coralMotorIntakeCommand(){
         return run(
             () -> {
-                m_CoralMotor.set(-.5);
+                m_CoralMotor.set(CoralConstants.kCoralIntakeSpeed);
             }
         );
     }
