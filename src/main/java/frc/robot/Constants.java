@@ -34,7 +34,7 @@ public final class Constants {
     /** Replaying from a log file. */
     REPLAY
   }
-  
+
   public static final class AlgaeConstants {
     //Id Values
     public static final int kAlgaeRevMotorID = 31;
@@ -60,10 +60,10 @@ public final class Constants {
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .25;//spins clockwise to kick algae into rev motors
-    public static final double kAlgaeGroundIntake = 0.5;//top algae motor is main, bottom is follower
+    public static final double kAlgaeKickMotorON = -.25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeGroundIntake = -1;//top algae motor is main, bottom is follower
     public static final double kAlgaeL2Intake = 0.5;//Temp Values
-    public static final double kAlgaeDump = -0.5;
+    public static final double kAlgaeDump = 0.5;
 
     public static final int kAlgaeVoltage = 0;
 
@@ -94,13 +94,13 @@ public final class Constants {
   public static final class ArmConstants{
     public static final int kArmMotor = 20;
     public static final int kFollowerMotor = 21;
-    public static final int kArmCANcoder = 23;
+    public static final int kArmCANcoder = 22;
 
-    public static final double kArmSpeedUp = 0.5;
-    public static final double kArmSpeedDown = -0.5;
+    public static final double kArmSpeedUp = 0.2;
+    public static final double kArmSpeedDown = -0.2;
 
     //pid configurations
-    public static final double kArmPIDControllerP = 10;
+    public static final double kArmPIDControllerP = 120;
     public static final double kArmPIDControllerI = 0;
     public static final double kArmPIDControllerD = 0;
     public static final int kArmPIDControllerS = 0;
@@ -115,12 +115,12 @@ public final class Constants {
     public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
-    public static final int kArmPositionGroundAlgae = 0;
-    public static final int kArmPositionLowAlgae = 60;
-    public static final int kArmPositionProcessor = 25;
-    public static final int kArmPositionHighAlgae= 45;
-    public static final int kArmPositionShoot = 90;
-    public static final int kArmPositionClimb = 45;
+    public static final double kArmPositionGroundAlgae = 3;
+    public static final double kArmPositionLowAlgae = 21.96;
+    public static final double kArmPositionProcessor = 13.68;
+    public static final double kArmPositionHighAlgae = 86.4;
+    public static final double kArmPositionShoot = 86.4;
+    public static final int kArmPositionClimb = 45;//Temp Value, probably won't use climb subsystem.
 
     //Current Limits
     public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
@@ -129,5 +129,5 @@ public final class Constants {
     public static final int kFollowerMotorCurrentSupplyLimit = 40;
 
   }
-  
+
 }

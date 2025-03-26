@@ -29,6 +29,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
   //configurations
   private final TalonFXConfiguration armConfig = new TalonFXConfiguration();
+  private final TalonFXConfiguration followerConfig = new TalonFXConfiguration();
 
   private final FeedbackConfigs feedback = new FeedbackConfigs();
 
@@ -44,6 +45,7 @@ public class ArmSubsystemCTRE extends SubsystemBase{
   public ArmSubsystemCTRE(){
 
     m_arm.stopMotor();
+    m_armFollower.stopMotor();
 
     cancoder = new CANcoder(ArmConstants.kArmCANcoder, CanbusName.rioCANBus);
 
@@ -51,9 +53,9 @@ public class ArmSubsystemCTRE extends SubsystemBase{
         armConfig.Slot0.kP = ArmConstants.kArmPIDControllerP;
         armConfig.Slot0.kI = ArmConstants.kArmPIDControllerI;
         armConfig.Slot0.kD = ArmConstants.kArmPIDControllerD;
-        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerV;
-        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerA;
-        armConfig.Slot0.kD = ArmConstants.kArmPIDControllerS;
+        //armConfig.Slot0.kV = ArmConstants.kArmPIDControllerV;
+        //armConfig.Slot0.kA = ArmConstants.kArmPIDControllerA;
+        //armConfig.Slot0.kS = ArmConstants.kArmPIDControllerS;
 
     //Motion Magic Config
     armConfig.MotionMagic.MotionMagicCruiseVelocity = ArmConstants.kMotionMagicCruiseVelocity;
@@ -74,19 +76,17 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     //Config Application
 
-    //Commented out current configuration for now, since the constants are random values.
-
     armConfig.withFeedback(feedback);
-    //armConfig.withCurrentLimits(m_armCurrentConfig);
+    armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);
-    m_arm.setSafetyEnabled(true);//Turns on safety.
+    //m_arm.setSafetyEnabled(true);//Turns on safety.
     m_arm.setNeutralMode(NeutralModeValue.Brake);
 
-    //followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
-    //m_armFollower.getConfigurator().apply(followerConfig);
-    m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
-    m_armFollower.setSafetyEnabled(true);
+    followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
+    m_armFollower.getConfigurator().apply(followerConfig);
+    //m_armFollower.setSafetyEnabled(true);
     m_armFollower.setNeutralMode(NeutralModeValue.Brake);
+    m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
 
   public void setArmPosition(double armPosition){

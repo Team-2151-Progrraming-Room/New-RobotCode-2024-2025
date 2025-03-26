@@ -26,9 +26,7 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
-
 //our subsystems
-import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
@@ -37,7 +35,6 @@ import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
 
 //out commands
-import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
@@ -49,6 +46,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 
 import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.ArmSubsystemCTRE;
+import frc.robot.commands.AlgaeShooterCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -63,14 +62,12 @@ public class RobotContainer {
   private final Drive drive;
 
   //boolean supplier
+  BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
   BooleanSupplier m_dynamicAtShootSpeed = () -> algae.atShooterSpeed();
   BooleanSupplier m_dynamicAtL3IntakeSpeed = () -> algae.atL3Speed();
-  BooleanSupplier m_dynamicAtArmPosition = () -> arm.atArmPosition();
-  
 
   //commands
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
-  private final Command m_algaeShootCommand = algaeCommands.getShootCommand();
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
@@ -117,9 +114,6 @@ public class RobotContainer {
     manualUpButton = new JoystickButton(buttonBoard, 7);
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
-
-
-
     Corsola = new JoystickButton(buttonBoard, 12);
 
     switch (Constants.currentMode) {
@@ -158,12 +152,9 @@ public class RobotContainer {
     }
 
 
-NamedCommands.registerCommand("processorDeposit", m_algaeProcessorDepositCommand);
-NamedCommands.registerCommand("groundIntake", m_algaeIntakeCommand);
-NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
-NamedCommands.registerCommand("shoot", m_algaeShootCommand);
-NamedCommands.registerCommand("L2", m_L2Command);
-NamedCommands.registerCommand("L3", m_L3Command);
+    NamedCommands.registerCommand("shootPosition", arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    NamedCommands.registerCommand("L2", m_L2Command);
+    NamedCommands.registerCommand("L3", m_L3Command);
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -201,6 +192,14 @@ NamedCommands.registerCommand("L3", m_L3Command);
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
+    //Temporary Precision Mode, causes the robot to slow its speed by half while RT is held.
+    controller.rightTrigger()
+        .whileTrue(
+          DriveCommands.joystickDrive(
+            drive,
+            () -> -(controller.getLeftY())/2,
+            () -> -(controller.getLeftX())/2,
+            () -> -(controller.getRightX())/2));
 
     // Lock to 0° when A button is held
     controller
@@ -230,7 +229,6 @@ NamedCommands.registerCommand("L3", m_L3Command);
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
-    shootButton.onTrue(m_algaeShootCommand);
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
     depositButton.onTrue(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
