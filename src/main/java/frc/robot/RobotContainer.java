@@ -230,7 +230,7 @@ public class RobotContainer {
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
 
     algaeIntakeButton.onTrue(m_algaeIntakeCommand);
-    depositButton.onTrue(m_algaeProcessorDepositCommand);
+    depositButton.whileTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionProcessor)).whileFalse(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
 
     L2AlgaePositionButton.onTrue(m_L2Command);

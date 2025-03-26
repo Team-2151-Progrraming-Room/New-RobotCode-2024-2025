@@ -62,7 +62,6 @@ public Command getShootCommand(){
 
 public Command getDepositCommand(double depositPosition){
     return Commands.sequence(
-        m_armSubsystem.setArmPositionCommand(depositPosition),
         Commands.waitUntil(m_atArmPosition),
 
         m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime),
@@ -96,6 +95,7 @@ public Command getL2IntakeCommand(double armPosition){
 //modified to not include set arm position command
 public Command getL3IntakeCommand(){
     return Commands.sequence(
+        Commands.waitUntil(m_atArmPosition),
         m_algaeSubsystem.algaeL3IntakeCommand(),
         Commands.waitUntil(m_atL3IntakeSpeedCheck),
         Commands.waitSeconds(2.5),
