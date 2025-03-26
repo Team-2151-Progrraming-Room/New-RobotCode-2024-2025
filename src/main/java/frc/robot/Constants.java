@@ -44,7 +44,7 @@ public final class Constants {
 
     //PID and FF Constants
     public static final double kAlgaePIDControllerP = .5;
-    public static final double kAlgaePIDControllerI = 0;
+    public static final double kAlgaePIDControllerI = 1.25;
     public static final double kAlgaePIDControllerD = 0;
     public static final int kAlgaePIDControllerS = 0;
     public static final int kAlgaePIDControllerV = 0;
