@@ -120,6 +120,47 @@ public class ArmSubsystem extends SubsystemBase{
     return false;
   }
 
+  //checks to see if the arm is at each of the positions
+  public boolean atGroundPosition() {
+
+    if (MathUtil.isNear(ArmConstants.kArmPositionGroundAlgae, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean atL2Position() {
+
+    if (MathUtil.isNear(ArmConstants.kArmPositionLowAlgae, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean atL3Position() {
+
+    if (MathUtil.isNear(ArmConstants.kArmPositionHighAlgae, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean atProcessorPosition() {
+
+    if (MathUtil.isNear(ArmConstants.kArmPositionProcessor, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
+  }
+
+  public boolean atShootPosition() {
+
+    if (MathUtil.isNear(ArmConstants.kArmPositionShoot, getPosition(), ArmConstants.kArmPositionTolerance)){
+      return true;
+    }
+    return false;
+  }
+
   //commands
   public Command armManualUpCommand(){
     return runOnce(

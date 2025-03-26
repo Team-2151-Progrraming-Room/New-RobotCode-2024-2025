@@ -42,13 +42,16 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.commands.LEDBounceCommand;
 import frc.robot.commands.ShootArmPositionCommand;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.generated.TunerConstants;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.AlgaeShooterCommands;
@@ -105,6 +108,7 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+  private final LoggedNetworkNumber waitInput;
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -168,6 +172,7 @@ public class RobotContainer {
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    waitInput = new LoggedNetworkNumber("Wait Time");
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -184,6 +189,14 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    SmartDashboard.putBoolean(" At Shoot Speed", algae.atShooterSpeed());
+
+    SmartDashboard.putBoolean(" At L3 Position", arm.atL3Position());
+    SmartDashboard.putBoolean(" At L2 Postion", arm.atL2Position());
+    SmartDashboard.putBoolean(" At Shoot Position", arm.atShootPosition());
+    SmartDashboard.putBoolean(" At Processor Position", arm.atProcessorPosition());
+    SmartDashboard.putBoolean(" At Ground Position", arm.atGroundPosition());
 
     // Configure the button bindings
     configureButtonBindings();
@@ -258,5 +271,9 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public double getWaitTime(){
+    return waitInput.get();
   }
 }
