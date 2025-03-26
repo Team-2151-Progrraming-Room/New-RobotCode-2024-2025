@@ -24,9 +24,9 @@ import frc.robot.Constants.CanbusName;
 
 public class AlgaeSubsystemCTRE extends SubsystemBase{
     //Physical Devices
-    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.rioCANBus);
-    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.rioCANBus);
-    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.rioCANBus);
+    TalonFXS m_Rev = new TalonFXS(AlgaeConstants.kAlgaeRevMotorID, CanbusName.armCANBus);
+    TalonFXS m_Rev2  = new TalonFXS(AlgaeConstants.kAlgaeRev2MotorID, CanbusName.armCANBus);
+    TalonFXS m_Kick = new TalonFXS(AlgaeConstants.kAlgaeKickMotorID, CanbusName.armCANBus);
 
     //Configs
     TalonFXSConfiguration configs = new TalonFXSConfiguration();
@@ -167,6 +167,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     }
 
     public Command RevMotorsSHOOTCommand(){
+        System.out.println("rev motors on command running");
         return runOnce(
             () -> {RevMotorsSHOOT();}
         );
