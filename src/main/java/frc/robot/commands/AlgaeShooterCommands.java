@@ -75,7 +75,7 @@ public Command getGroundIntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition)
-        /* 
+        /*
         m_algaeSubsystem.algaeGroundIntakeCommand(),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
@@ -86,7 +86,7 @@ public Command getL2IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition)
-        /* 
+        /*
         m_algaeSubsystem.algaeL2IntakeCommand(),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()

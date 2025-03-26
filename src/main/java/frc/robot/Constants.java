@@ -96,8 +96,8 @@ public final class Constants {
     public static final int kFollowerMotor = 21;
     public static final int kArmCANcoder = 22;
 
-    public static final double kArmSpeedUp = 0.3;
-    public static final double kArmSpeedDown = -0.3;
+    public static final double kArmSpeedUp = 0.2;
+    public static final double kArmSpeedDown = -0.2;
 
     //pid configurations
     public static final double kArmPIDControllerP = 5;

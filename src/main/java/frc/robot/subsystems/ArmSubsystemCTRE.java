@@ -76,8 +76,6 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     //Config Application
 
-    //Commented out current configuration for now, since the constants are random values.
-
     armConfig.withFeedback(feedback);
     armConfig.withCurrentLimits(m_armCurrentConfig);
     m_arm.getConfigurator().apply(armConfig);
@@ -86,9 +84,9 @@ public class ArmSubsystemCTRE extends SubsystemBase{
 
     followerConfig.withCurrentLimits(m_armFollowerCurrentConfigs);
     m_armFollower.getConfigurator().apply(followerConfig);
-    m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
     m_armFollower.setSafetyEnabled(true);
     m_armFollower.setNeutralMode(NeutralModeValue.Brake);
+    m_armFollower.setControl(new Follower(ArmConstants.kArmMotor, true));
   }
 
   public void setArmPosition(double armPosition){
