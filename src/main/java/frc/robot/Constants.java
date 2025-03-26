@@ -13,6 +13,11 @@
 
 package frc.robot;
 
+import edu.wpi.first.units.*;
+
+import static edu.wpi.first.units.Units.*;
+
+
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**
@@ -43,7 +48,7 @@ public final class Constants {
 
 
     //PID and FF Constants
-    public static final double kAlgaePIDControllerP = .5;
+    public static final double kAlgaePIDControllerP = .45;
     public static final double kAlgaePIDControllerI = 0;
     public static final double kAlgaePIDControllerD = 0;
     public static final int kAlgaePIDControllerS = 0;
@@ -130,4 +135,93 @@ public final class Constants {
 
   }
 
+public static class CoralConstants {
+  public static final int kCoralMotor = 35;
+
+  public static final double kCoralMotorSpeed = 0.5;
+
+  public static final String canbusName = "rio";
+
+  public static final int kCoralStatorCurrentLimit = 10;//10 Amps should be good for stator according to Mr. Zog. Regardless, might be temporary.
+  public static final int kCoralSupplyCurrentLimit = 10;//Supply should at the very least the same value as stator, given that it determines
+                                                        //how much current can be drawn from the battery.
+}
+
+public static class LEDConstants{
+
+  public static final int kNumLEDs  = 50;
+
+    public static final int kLedPwmPort = 9;
+
+
+    //public static final Measure<Time> kLedPostShootTime = Seconds.of(1.5);   // give it a while to finish randomly turning the LEDs off after shooting
+    public static final double kLedPostShootTime = 1.5;
+
+    public static final int kLedGeneralBackgroundH  = 145;
+    public static final int kLedGeneralBackgroundS  = 255;
+    public static final int kLedGeneralBackgroundV  = 20;
+
+    public static final int kLedBouncePrimaryH      = 145;
+    public static final int kLedBouncePrimaryS      = 255;
+    public static final int kLedBouncePrimaryV      = 255;
+
+    public static final int kLedBounceShadowH       = 145;
+    public static final int kLedBounceShadowS       = 255;
+    public static final int kLedBounceShadowV       = 20;
+
+    public static final int kLedIntakePrimaryH      = 60;
+    public static final int kLedIntakePrimaryS      = 255;
+    public static final int kLedIntakePrimaryV      = 255;
+
+    public static final int kLedIntakeShadowH       = 60;
+    public static final int kLedIntakeShadowS       = 255;
+    public static final int kLedIntakeShadowV       = 20;
+
+    public static final int kLedIntakeBackgroundH   = kLedGeneralBackgroundH;
+    public static final int kLedIntakeBackgroundS   = kLedGeneralBackgroundS;
+    public static final int kLedIntakeBackgroundV   = kLedGeneralBackgroundV;
+
+    public static final int kLedShooterSpinupStartH  = 30;     // starts at this hue for shooter spinup
+    public static final int kLedShooterSpinupEndH    = 5;      // ends at this hue for shooter spinup and holds here until shot
+    public static final int kLedShooterSpinupS       = 255;
+    public static final int kLedShooterSpinupV       = 255;
+
+    public static final int kLedShooterShotH         = 0;      // color for when the shot happens
+    public static final int kLedShooterShotS         = 255;
+    public static final int kLedShooterShotV         = 255;
+
+    public static final int kLedShooterBackgroundH   = kLedGeneralBackgroundH;
+    public static final int kLedShooterBackgroundS   = kLedGeneralBackgroundS;
+    public static final int kLedShooterBackgroundV   = kLedGeneralBackgroundV;
+
+    public static final int kLedReefH = 100;
+    public static final int kLedReefS = 255;
+    public static final int kLedReefV = 255;
+
+    public static final int kLedReefShadowH = 110;
+    public static final int kLedReefShadowS = 255;
+    public static final int kLedReefShadowV = 20;
+
+
+}
+
+  public static class ClimbLockConstants {
+    public static final int kClimbLockCanRioId      = 50;
+
+    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
+    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
+    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
+    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
+                                                                        (double) kClimbLockGearRatio *
+                                                                        (double) kClimbLockEncoderPpr);
+
+    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
+    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
+
+    public static final int kClimbLockCloseCurrentStatorLimit  = 10; // Stator amps - while moving
+    public static final int kClimbLockCloseCurrentSupplyLimit  = 10; // Supply amps - while moving
+
+    public static final int kClimbLockStallCurrentStatorLimit = 5; // Stator amps - when we've closed and trying to stay locked
+    public static final int kClimbLockStallCurrentSupplyLimit = 5;// Supply amps - when we've closed.
+  }
 }

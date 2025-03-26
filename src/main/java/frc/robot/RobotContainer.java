@@ -27,16 +27,24 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
 //our subsystems
+import frc.robot.subsystems.ArmSubsystemCTRE;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.subsystems.AlgaeSubsystemCTRE;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ClimbLockSubsystem;
 
-//out commands
+//our commands
+import frc.robot.commands.LEDBounceCommand;
+import frc.robot.commands.ShootArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 
@@ -57,8 +65,11 @@ import frc.robot.commands.AlgaeShooterCommands;
  */
 public class RobotContainer {
   // Subsystems
-  private final ArmSubsystemCTRE arm = new ArmSubsystemCTRE();
+  private final ArmSubsystem arm = new ArmSubsystem();
   private final AlgaeSubsystemCTRE algae = new AlgaeSubsystemCTRE();
+  private final Coral coralSubsystem = new Coral();
+  private final LEDSubsystem leds = new LEDSubsystem();
+  private final ClimbLockSubsystem lockSubsystem = new ClimbLockSubsystem();
   private final Drive drive;
 
   //boolean supplier
@@ -67,11 +78,14 @@ public class RobotContainer {
   BooleanSupplier m_dynamicAtL3IntakeSpeed = () -> algae.atL3Speed();
 
   //commands
-  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
+  private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, leds, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
   private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getL3IntakeCommand(ArmConstants.kArmPositionHighAlgae);
+
+  private final Command m_defaultLEDBounce = new LEDBounceCommand(leds);
+  private final Command m_shootArmPosition = new ShootArmPositionCommand(arm, leds, m_dynamicAtArmPosition).getShootPositionCommand(ArmConstants.kArmPositionShoot);
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
@@ -91,7 +105,6 @@ public class RobotContainer {
   private final JoystickButton manualUpButton;
   private final JoystickButton manualDownButton;
 
-
   private final JoystickButton Corsola;
 
   // Dashboard inputs
@@ -105,7 +118,6 @@ public class RobotContainer {
     dumpButton = new JoystickButton(buttonBoard, 1);
     algaeIntakeButton = new JoystickButton(buttonBoard, 3);//add waint until arm position
 
-
     climbPositionDownButton = new JoystickButton(buttonBoard, 11);
     L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
     L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
@@ -115,6 +127,8 @@ public class RobotContainer {
     manualDownButton = new JoystickButton(buttonBoard, 6);
 
     Corsola = new JoystickButton(buttonBoard, 12);
+
+    leds.setDefaultCommand(m_defaultLEDBounce);
 
     switch (Constants.currentMode) {
       case REAL:
@@ -235,7 +249,7 @@ public class RobotContainer {
 
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
-    shootPositionButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionShoot));
+    shootPositionButton.onTrue(m_shootArmPosition);
     climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
   }
 
