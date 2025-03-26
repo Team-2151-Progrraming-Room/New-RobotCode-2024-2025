@@ -99,7 +99,7 @@ public Command getL3IntakeCommand(){
         m_algaeSubsystem.algaeL3IntakeCommand(),
         Commands.waitUntil(m_atL3IntakeSpeedCheck),
         Commands.waitSeconds(2.5),
-        m_algaeSubsystem.allMotorsOFFCommand()*/
+        m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
 }
