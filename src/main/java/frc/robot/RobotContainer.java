@@ -45,6 +45,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 import edu.wpi.first.wpilibj.GenericHID;
@@ -184,6 +185,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
 
     // Configure the button bindings
     configureButtonBindings();
