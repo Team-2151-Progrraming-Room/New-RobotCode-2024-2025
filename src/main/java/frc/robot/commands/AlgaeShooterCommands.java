@@ -63,23 +63,23 @@ public Command getShootCommand(){
 public Command getDepositCommand(double depositPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(depositPosition),
-        Commands.waitUntil(m_atArmPosition)
-        /* Commented out for arm tuning purposes.
+        Commands.waitUntil(m_atArmPosition),
+
         m_algaeSubsystem.algaeDumpCommand().withTimeout(AlgaeConstants.kDepositShooterWaitTime),
         m_algaeSubsystem.allMotorsOFFCommand()
-        */
+
     );
 }
 
 public Command getGroundIntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
-        Commands.waitUntil(m_atArmPosition)
-        /*
+        Commands.waitUntil(m_atArmPosition),
+
         m_algaeSubsystem.algaeGroundIntakeCommand(),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
-        */
+
     );
 }
 public Command getL2IntakeCommand(double armPosition){

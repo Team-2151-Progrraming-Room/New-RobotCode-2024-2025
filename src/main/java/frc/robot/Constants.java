@@ -60,10 +60,10 @@ public final class Constants {
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
-    public static final double kAlgaeKickMotorON = .25;//spins clockwise to kick algae into rev motors
-    public static final double kAlgaeGroundIntake = 0.5;//top algae motor is main, bottom is follower
+    public static final double kAlgaeKickMotorON = -.25;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeGroundIntake = -1;//top algae motor is main, bottom is follower
     public static final double kAlgaeL2Intake = 0.5;//Temp Values
-    public static final double kAlgaeDump = -0.5;
+    public static final double kAlgaeDump = 0.5;
 
     public static final int kAlgaeVoltage = 0;
 
@@ -100,7 +100,7 @@ public final class Constants {
     public static final double kArmSpeedDown = -0.2;
 
     //pid configurations
-    public static final double kArmPIDControllerP = 5;
+    public static final double kArmPIDControllerP = 120;
     public static final double kArmPIDControllerI = 0;
     public static final double kArmPIDControllerD = 0;
     public static final int kArmPIDControllerS = 0;
@@ -115,7 +115,7 @@ public final class Constants {
     public static final double kMotionMagicJerk = 1600;
 
     //arm positions in degrees
-    public static final double kArmPositionGroundAlgae = 1.08;
+    public static final double kArmPositionGroundAlgae = 3;
     public static final double kArmPositionLowAlgae = 21.96;
     public static final double kArmPositionProcessor = 13.68;
     public static final double kArmPositionHighAlgae = 86.4;
