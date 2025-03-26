@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "name": "/Preferences/Wait Time",
+    "type": "double",
+    "value": 3.0,
+    "properties": {
+      "persistent": true
+    }
+  }
+]
