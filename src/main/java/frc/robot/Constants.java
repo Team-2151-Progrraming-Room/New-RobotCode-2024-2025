@@ -177,6 +177,10 @@ public static class LEDConstants{
     public static final int kLedIntakeShadowS       = 255;
     public static final int kLedIntakeShadowV       = 20;
 
+    public static final int kProcessorColorH        =80;
+    public static final int kProcessorColorS        =255;
+    public static final int kProcessorColorV        =255;
+
     public static final int kLedIntakeBackgroundH   = kLedGeneralBackgroundH;
     public static final int kLedIntakeBackgroundS   = kLedGeneralBackgroundS;
     public static final int kLedIntakeBackgroundV   = kLedGeneralBackgroundV;

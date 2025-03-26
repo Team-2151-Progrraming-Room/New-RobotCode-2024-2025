@@ -189,13 +189,15 @@ public class LEDSubsystem extends SubsystemBase{
     }
 
     public void setLedReefColor(int armDegree){
-        if(armDegree < 90){
+        if(armDegree < 85){
             if(armDegree>20){
              int halfLeds = (int)(LEDConstants.kNumLEDs/2);
               setRangeLedsHSV(0, halfLeds, LEDConstants.kLedReefH, LEDConstants.kLedReefS, LEDConstants.kLedReefV);
              setRangeLedsHSV(halfLeds, halfLeds, LEDConstants.kLedReefShadowH, LEDConstants.kLedReefShadowS, LEDConstants.kLedReefShadowV);
-            } else if(armDegree < 20){
+            } else if(armDegree< 5){
                 setAllLedsHSV(LEDConstants.kLedIntakePrimaryH, LEDConstants.kLedIntakePrimaryS, LEDConstants.kLedIntakePrimaryV);
+            } else{
+                setALLLedsHSV(LEDConstants.kProcessorColorH, LEDConstants.kProcessorColorS, LEDConstants.kProcessorColorV);
             }
         } else{
             setAllLedsHSV(LEDConstants.kLedReefH, LEDConstants.kLedReefS, LEDConstants.kLedReefV);
