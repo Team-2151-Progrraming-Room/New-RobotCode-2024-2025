@@ -167,7 +167,7 @@ public static class CoralConstants {
 
 public static class LEDConstants{
 
-  public static final int kNumLEDs  = 61;
+  public static final int kNumLEDs  = 50;
 
     public static final int kLedPwmPort = 9;
 
