@@ -46,6 +46,7 @@ import frc.robot.commands.AlgaeShooterCommands;
 import frc.robot.generated.TunerConstants;
 
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 
