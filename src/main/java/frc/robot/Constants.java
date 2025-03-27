@@ -97,8 +97,8 @@ public final class Constants {
     public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
                                                                   //as supply determines how many amps can be drawn from the battery.
 
-    public static final int kAlgaeKickMotorStatorCurrentLimit = 10;//10 should be a good value for a minion.
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 10;
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 30;//10 should be a good value for a minion.
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 30;
 
   }
 
