@@ -80,6 +80,7 @@ public class RobotContainer {
   private final AlgaeShooterCommands algaeCommands = new AlgaeShooterCommands(algae, arm, leds, m_dynamicAtShootSpeed, m_dynamicAtL3IntakeSpeed, m_dynamicAtArmPosition);
   private final Command m_algaeProcessorDepositCommand = algaeCommands.getDepositCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_algaeIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionGroundAlgae);
+  private final Command m_popsicleIntakeCommand = algaeCommands.getGroundIntakeCommand(ArmConstants.kArmPositionProcessor);
   private final Command m_L2Command = algaeCommands.getL2IntakeCommand(ArmConstants.kArmPositionLowAlgae);
   private final Command m_L3Command = algaeCommands.getL3IntakeCommand(ArmConstants.kArmPositionHighAlgae);
   private final Command m_ShootCommand = algaeCommands.getShootCommand();
@@ -97,7 +98,7 @@ public class RobotContainer {
   public final JoystickButton algaeIntakeButton;
   private final JoystickButton dumpButton;
 
-  private final JoystickButton climbPositionDownButton;
+  private final JoystickButton popsicleButton;
   private final JoystickButton L2AlgaePositionButton;
   private final JoystickButton L3AlgaePositionButton;
   private final JoystickButton shootPositionButton;
@@ -119,7 +120,7 @@ public class RobotContainer {
     dumpButton = new JoystickButton(buttonBoard, 1);
     algaeIntakeButton = new JoystickButton(buttonBoard, 3);//add waint until arm position
 
-    climbPositionDownButton = new JoystickButton(buttonBoard, 11);
+    popsicleButton = new JoystickButton(buttonBoard, 11);
     L2AlgaePositionButton = new JoystickButton(buttonBoard, 8);//add wait until arm position
     L3AlgaePositionButton = new JoystickButton(buttonBoard, 9);//add wait until arm position
     shootPositionButton = new JoystickButton(buttonBoard, 5);
@@ -254,14 +255,15 @@ public class RobotContainer {
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
     Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
     controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-    algaeIntakeButton.onTrue(m_algaeIntakeCommand);
+
     depositButton.onTrue(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
     shootButton.onTrue(m_ShootCommand);
     L2AlgaePositionButton.onTrue(m_L2Command);
     L3AlgaePositionButton.onTrue(m_L3Command);
     shootPositionButton.onTrue(m_shootArmPosition);
-    climbPositionDownButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionGroundAlgae));
+    algaeIntakeButton.whileTrue(m_algaeIntakeCommand).whileFalse(algae.allMotorsOFFCommand());
+    popsicleButton.whileTrue(m_popsicleIntakeCommand).whileFalse(algae.allMotorsOFFCommand());
     startConfigButton.onTrue(arm.setArmPositionCommand(ArmConstants.kArmPositionStartConfig));
   }
 

@@ -58,14 +58,15 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 30;
-    public static final double kAlgaeL3Velocity = 30;
+    public static final int kAlgaeRevVelocity = 120;
+    public static final double kAlgaeL3Velocity = -30;
     //public static final int kAlgaeRev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
 
     //actions that don't require pid control
     public static final double kAlgaeKickMotorON = -.35;//spins clockwise to kick algae into rev motors
+    public static final double kAlgaeKickShootON = -1;
     public static final double kAlgaeGroundIntake = -1;//top algae motor is main, bottom is follower
     public static final double kAlgaeL2Intake = 0.5;//Temp Values
     public static final double kAlgaeDump = 0.5;
@@ -73,7 +74,7 @@ public final class Constants {
     public static final int kAlgaeVoltage = 0;
 
     public static final double kDepositShooterWaitTime = 2;
-    public static final double kShooterWaitTime = 1;
+    public static final double kShooterWaitTime = 2;
 
     //Current Limits
     public static final int kAlgaeRevMotorStatorCurrentLimit = 35;//Unsure what amps is good for a kraken x44,
@@ -83,8 +84,8 @@ public final class Constants {
     public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
                                                                   //as supply determines how many amps can be drawn from the battery.
 
-    public static final int kAlgaeKickMotorStatorCurrentLimit = 10;//10 should be a good value for a minion.
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 10;
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 30;//10 should be a good value for a minion.
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 30;
 
   }
 
@@ -121,11 +122,11 @@ public final class Constants {
 
     //arm positions in degrees
     public static final double kArmPositionGroundAlgae = 3;
-    public static final double kArmPositionLowAlgae = 21.96;
+    public static final double kArmPositionLowAlgae = 16.96;
     public static final double kArmPositionProcessor = 13.68;
     public static final double kArmPositionHighAlgae = 86.4;
     public static final double kArmPositionShoot = 86.4;
-    public static final double kArmPositionStartConfig = 35.28;//Temp Value, probably won't use climb subsystem.
+    public static final double kArmPositionStartConfig = 35.78;//Temp Value, probably won't use climb subsystem.
 
     //Current Limits
     public static final int kArmMotorCurrentStatorLimit = 40;//40 amps is good for stator current of kraken (x60s)
@@ -178,7 +179,7 @@ public static class LEDConstants{
     public static final int kLedIntakeShadowS       = 255;
     public static final int kLedIntakeShadowV       = 20;
 
-    public static final int kProcessorColorH        =80;
+    public static final int kProcessorColorH        =30;
     public static final int kProcessorColorS        =255;
     public static final int kProcessorColorV        =255;
 
@@ -209,25 +210,5 @@ public static class LEDConstants{
 
 
 }
-
-  public static class ClimbLockConstants {
-    public static final int kClimbLockCanRioId      = 50;
-
-    public static final int kClimbLockEncoderPpr    = 7; // the motor returns 7 pulses per rotation
-    public static final int kClimbLockGearRatio     = 188; // 188:1 gear ratio
-    public static final int kClimbLockDegreesToLock = 80; // how far does the output shaft need to turn to engage the locks
-    public static final int kClimbLockFullyClosedEncoderCount = (int) (((double) kClimbLockDegreesToLock / (double) 360) *
-                                                                        (double) kClimbLockGearRatio *
-                                                                        (double) kClimbLockEncoderPpr);
-
-    public static final double kClimbLockPowerClose = 0.50; // speed we want to close at - this operation is fine to do in open loop
-    public static final double kClimbLockPowerStall = 0.25; // leave the motor at this power level once closed to hold it
-
-    public static final int kClimbLockCloseCurrentStatorLimit  = 10; // Stator amps - while moving
-    public static final int kClimbLockCloseCurrentSupplyLimit  = 10; // Supply amps - while moving
-
-    public static final int kClimbLockStallCurrentStatorLimit = 5; // Stator amps - when we've closed and trying to stay locked
-    public static final int kClimbLockStallCurrentSupplyLimit = 5;// Supply amps - when we've closed.
-  }
 
 }

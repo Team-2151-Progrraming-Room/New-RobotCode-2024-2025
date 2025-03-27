@@ -42,7 +42,8 @@ public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystem armSubs
     m_armSubsystem = armSubsystem;
     m_ledSubsystem = leds;
 
-    m_atShootSpeedCheck = l3IntakeSpeedCheck;
+    m_atShootSpeedCheck = shootSpeedCheck;
+    m_atL3IntakeSpeedCheck = l3IntakeSpeedCheck;
     m_atArmPosition = armCheck;
 
     addRequirements(AlgaeSystem);
@@ -65,7 +66,7 @@ public Command getShootCommand(){
                     )
             ),
 
-            m_algaeSubsystem.KickMotorONCommand(),
+            m_algaeSubsystem.KickMotorShootONCommand(),
             m_ledSubsystem.LedShootCommand(),
             Commands.waitSeconds(AlgaeConstants.kShooterWaitTime),
 
@@ -94,34 +95,33 @@ public Command getGroundIntakeCommand(double armPosition){
         Commands.waitUntil(m_atArmPosition),
         m_ledSubsystem.setLedReefColorCommand(armPosition),
 
-        m_algaeSubsystem.algaeGroundIntakeCommand(),
-        Commands.waitSeconds(2.5),
-        m_algaeSubsystem.allMotorsOFFCommand()
+        m_algaeSubsystem.algaeGroundIntakeCommand()
 
     );
 }
+
 public Command getL2IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setLedReefColorCommand(armPosition)
-        /*
+        m_ledSubsystem.setLedReefColorCommand(armPosition),
+
         m_algaeSubsystem.algaeL2IntakeCommand(),
         Commands.waitSeconds(2.5),
         m_algaeSubsystem.allMotorsOFFCommand()
-        */
+
     );
 }
 public Command getL3IntakeCommand(double armPosition){
     return Commands.sequence(
         m_armSubsystem.setArmPositionCommand(armPosition),
         Commands.waitUntil(m_atArmPosition),
-        m_ledSubsystem.setLedReefColorCommand(armPosition)
-        /*
+        m_ledSubsystem.setLedReefColorCommand(armPosition),
+
         m_algaeSubsystem.algaeL3IntakeCommand(),
-        Commands.waitUntil(m_atShootSpeedCheck),
+        Commands.waitUntil(m_atL3IntakeSpeedCheck),
         Commands.waitSeconds(2.5),
-        m_algaeSubsystem.allMotorsOFFCommand()*/
+        m_algaeSubsystem.allMotorsOFFCommand()
     );
 }
 }

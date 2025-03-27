@@ -84,6 +84,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     public void algaeGroundIntake(){
         m_Rev.set(AlgaeConstants.kAlgaeGroundIntake);
     }
+
     public void algaeL2Intake(){
         m_Rev.set(AlgaeConstants.kAlgaeL2Intake);
     }
@@ -120,6 +121,10 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         m_Kick.set(AlgaeConstants.kAlgaeKickMotorON);
     }
 
+    public void KickMotorShootON(){
+        m_Kick.set(AlgaeConstants.kAlgaeKickShootON);
+    }
+
     public double getRevVelocity(){
         double velocity = m_Rev.getVelocity().getValueAsDouble();
         System.out.println(velocity);
@@ -134,7 +139,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public boolean atShooterSpeed() {
 
-        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance /*&& MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance))*/)) {
+        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) && MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)) {
           return true;
         }
         return false;
@@ -176,6 +181,12 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     public Command KickMotorONCommand(){
         return runOnce(
             () -> {KickMotorON();}
+        );
+    }
+
+    public Command KickMotorShootONCommand(){
+        return runOnce(
+            () -> {KickMotorShootON();}
         );
     }
 
