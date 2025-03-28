@@ -34,8 +34,6 @@ BooleanSupplier m_atShootSpeedCheck;
 BooleanSupplier m_atL3IntakeSpeedCheck;
 BooleanSupplier m_atArmPosition;
 
-//Shooting Command (maybe not be needed)
-
 public AlgaeShooterCommands(AlgaeSubsystemCTRE AlgaeSystem, ArmSubsystem armSubsystem, LEDSubsystem leds, BooleanSupplier shootSpeedCheck, BooleanSupplier l3IntakeSpeedCheck, BooleanSupplier armCheck){
 
     m_algaeSubsystem = AlgaeSystem;

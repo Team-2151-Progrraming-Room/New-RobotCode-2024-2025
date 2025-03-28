@@ -61,7 +61,7 @@ public final class Constants {
     public static final int kAlgaeRevVelocity = 110;
     public static final int kAlgaeRev2Velocity = 120;
     public static final double kAlgaeL3Velocity = -30;
-    //public static final int kAlgaeRev2Velocity = 10;
+    public static final int kAlgaeL3Rev2Velocity = 10;
 
     public static final int kAlgaeSpeedTolerance = 2;
 
@@ -85,8 +85,8 @@ public final class Constants {
     public static final int kAlgaeRev2MotorSupplyCurrentLimit = 35;//Supply should be at the very least the same value as stator
                                                                   //as supply determines how many amps can be drawn from the battery.
 
-    public static final int kAlgaeKickMotorStatorCurrentLimit = 30;//10 should be a good value for a minion.
-    public static final int kAlgaeKickMotorSupplyCurrentLimit = 30;
+    public static final int kAlgaeKickMotorStatorCurrentLimit = 30;//Sets this to 30 instead of 10 at comp, needed more power for
+    public static final int kAlgaeKickMotorSupplyCurrentLimit = 30;//shoot command.
 
   }
 
