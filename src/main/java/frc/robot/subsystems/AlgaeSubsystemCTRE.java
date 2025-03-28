@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //CTRE Imports
 import com.ctre.phoenix6.hardware.TalonFXS;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorArrangementValue;
 import com.ctre.phoenix6.configs.TalonFXSConfiguration;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.Follower;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 
 //Constants imports
 import frc.robot.Constants.AlgaeConstants;
@@ -37,6 +38,8 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     CurrentLimitsConfigs rev2CurrentLimitConfigs = new CurrentLimitsConfigs();
     CurrentLimitsConfigs kickCurrentLimitsConfigs = new CurrentLimitsConfigs();
     Slot0Configs slot0;
+
+    MotorOutputConfigs invertConfig = new MotorOutputConfigs();
 
     final VelocityVoltage m_request;
 
@@ -71,7 +74,11 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         //m_Rev.setSafetyEnabled(true);//Enabling safety
         //m_Rev2.setSafetyEnabled(true);
         configs2.withCurrentLimits(rev2CurrentLimitConfigs);
-        m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));
+
+        invertConfig.Inverted = InvertedValue.Clockwise_Positive;
+        configs.withMotorOutput(invertConfig);
+        m_Rev2.getConfigurator().apply(configs);
+        //   m_Rev2.setControl(new Follower(AlgaeConstants.kAlgaeRevMotorID, true));---------------
 
         kickConfigs.withCurrentLimits(kickCurrentLimitsConfigs);
         kickConfigs.Commutation.MotorArrangement = MotorArrangementValue.Minion_JST;
@@ -83,17 +90,21 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void algaeGroundIntake(){
         m_Rev.set(AlgaeConstants.kAlgaeGroundIntake);
+        m_Rev2.set(AlgaeConstants.kAlgaeGroundIntake);
     }
 
     public void algaeL2Intake(){
         m_Rev.set(AlgaeConstants.kAlgaeL2Intake);
+        m_Rev2.set(AlgaeConstants.kAlgaeL2Intake);
     }
     public void algaeL3Intake(){
         m_Rev.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeL3Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
+        m_Rev2.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeL3Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
     }
 
     public void algaeDump(){
         m_Rev.set(AlgaeConstants.kAlgaeDump);
+        m_Rev2.set(AlgaeConstants.kAlgaeDump);
         m_Kick.set(AlgaeConstants.kAlgaeKickMotorON);
 
     }
@@ -101,6 +112,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
     // For the Motors to turn OFF!
     public void RevMotorsOFF(){
         m_Rev.stopMotor();
+        m_Rev2.stopMotor();
     }
 
     public void KickMotorOFF(){
@@ -109,12 +121,14 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public void allMotorsOFF(){
         m_Rev.stopMotor();
+        m_Rev2.stopMotor();
         m_Kick.stopMotor();
     }
 
     // For the Motors to turn ON!
     public void RevMotorsSHOOT(){
         m_Rev.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRevVelocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
+        m_Rev2.setControl(m_request.withVelocity(AlgaeConstants.kAlgaeRev2Velocity).withFeedForward(AlgaeConstants.kAlgaeFeed));
     }
 
     public void KickMotorON(){
@@ -139,7 +153,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
 
     public boolean atShooterSpeed() {
 
-        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) && MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)) {
+        if (MathUtil.isNear(AlgaeConstants.kAlgaeRevVelocity, getRevVelocity(), AlgaeConstants.kAlgaeSpeedTolerance) && MathUtil.isNear(AlgaeConstants.kAlgaeRev2Velocity, getRev2Velocity(), AlgaeConstants.kAlgaeSpeedTolerance)) {
           return true;
         }
         return false;

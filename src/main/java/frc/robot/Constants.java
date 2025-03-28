@@ -58,7 +58,8 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 120;
+    public static final int kAlgaeRevVelocity = 110;
+    public static final int kAlgaeRev2Velocity = 120;
     public static final double kAlgaeL3Velocity = -30;
     //public static final int kAlgaeRev2Velocity = 10;
 
