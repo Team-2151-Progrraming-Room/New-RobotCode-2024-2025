@@ -4,6 +4,7 @@ package frc.robot.subsystems;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 //our imports
@@ -76,6 +77,30 @@ public class Coral extends SubsystemBase{
             () -> {
                 m_CoralMotor.set(CoralConstants.kCoralIntakeSpeed);
             }
+        );
+    }
+
+    public Command coralDefaultIntakeCommand(){
+        return run(
+            () -> {
+                m_CoralMotor.set(CoralConstants.kCoralDefaultSpeed);
+            }
+        );
+    }
+
+    public Command coralMotorOnSequenceCommand(){
+        return Commands.sequence(
+            coralMotorOnCommand(),
+            Commands.waitSeconds(CoralConstants.kCoralOutputTime),
+            coralMotorOffCommand()
+        );
+    }
+
+    public Command coralIntakeSequenceCommand(){
+        return Commands.sequence(
+            coralMotorIntakeCommand(),
+            Commands.waitSeconds(CoralConstants.kCoralIntakeTime),
+            coralMotorOffCommand()
         );
     }
 }

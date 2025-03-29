@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj.Joystick;
 
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import java.util.function.BooleanSupplier;
 //our subsystems
@@ -61,7 +62,7 @@ import frc.robot.commands.AlgaeShooterCommands;
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and button mappings) should be declared here.
+ * subsystems, commands, and button mappings)   should be declared here.
  */
 public class RobotContainer {
   // Subsystems
@@ -253,11 +254,18 @@ public class RobotContainer {
                 .ignoringDisable(true));
 
 
+
+    coralSubsystem.setDefaultCommand(coralSubsystem.coralDefaultIntakeCommand());
+
+    //Manual Arm
     manualUpButton.whileTrue(arm.armManualUpCommand()).whileFalse(arm.armStopCommand());
     manualDownButton.whileTrue(arm.armManualDownCommand()).whileFalse(arm.armStopCommand());
-    Corsola.whileTrue(coralSubsystem.coralMotorOnCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
-    controller.leftTrigger().whileTrue(coralSubsystem.coralMotorIntakeCommand()).whileFalse(coralSubsystem.coralMotorOffCommand());
 
+    //Coral
+    Corsola.onTrue(coralSubsystem.coralMotorOnSequenceCommand());
+    controller.leftTrigger().onTrue(coralSubsystem.coralIntakeSequenceCommand());
+
+    //Algae + Arm
     depositButton.onTrue(m_algaeProcessorDepositCommand);
     dumpButton.whileTrue(algae.algaeDumpCommand()).whileFalse(algae.allMotorsOFFCommand());
     shootButton.onTrue(m_ShootCommand);

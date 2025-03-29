@@ -70,7 +70,7 @@ public class AlgaeSubsystemCTRE extends SubsystemBase{
         configs.withCurrentLimits(revCurrentLimitConfigs);
         m_Rev.getConfigurator().apply(configs);
         //m_Rev.setSafetyEnabled(true);//Enabling safety
-        
+
         //Applications to rev2 Configs
         configs2.withCurrentLimits(rev2CurrentLimitConfigs);
         invertConfig.Inverted = InvertedValue.Clockwise_Positive;

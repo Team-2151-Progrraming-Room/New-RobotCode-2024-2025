@@ -58,7 +58,7 @@ public final class Constants {
 
     public static final int kAlgaeEncoderConversionFactor = 1000;//used to convert rpm to velocity
 
-    public static final int kAlgaeRevVelocity = 110;
+    public static final int kAlgaeRevVelocity = 100;
     public static final int kAlgaeRev2Velocity = 120;
     public static final double kAlgaeL3Velocity = -30;
     public static final int kAlgaeL3Rev2Velocity = 10;
@@ -70,7 +70,7 @@ public final class Constants {
     public static final double kAlgaeKickShootON = -1;
     public static final double kAlgaeGroundIntake = -1;//top algae motor is main, bottom is follower
     public static final double kAlgaeL2Intake = 0.5;//Temp Values
-    public static final double kAlgaeDump = 0.5;
+    public static final double kAlgaeDump = 0.3;
 
     public static final int kAlgaeVoltage = 0;
 
@@ -142,6 +142,10 @@ public static class CoralConstants {
 
   public static final double kCoralMotorSpeed = 0.5;
   public static final double kCoralIntakeSpeed = -0.5;
+  public static final double kCoralDefaultSpeed = -0.1;
+
+  public static final double kCoralOutputTime = 1.5;
+  public static final double kCoralIntakeTime = 1;
 
   public static final String canbusName = "rio";
 

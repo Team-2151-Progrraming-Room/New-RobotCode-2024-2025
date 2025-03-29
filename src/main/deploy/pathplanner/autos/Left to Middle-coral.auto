@@ -13,13 +13,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Translating From Middle to Up"
+            "pathName": "Translating Down to Middle"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Forward!!!"
+            "pathName": "Middle Start to Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral On"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Coral Off"
           }
         }
       ]
